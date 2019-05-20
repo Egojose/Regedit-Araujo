@@ -1,14 +1,17 @@
 
 
-.m-top {
-    margin-top: 80px;
-}
+/* .m-top {
+    margin-top: 30px;
+} */
 
 .card-header {
     background: url('../../assets/images/bg-head-02.jpg');
     /* background: #1F2547; */
     height: 100px;
 }
+/* .card {
+    opacity: 0.9;
+} */
 
 .top {
     margin-top: 30px;
@@ -16,6 +19,7 @@
 
 #titulo-formulario {
     color: #1F2547;
+    margin-top: 15px;
 }
 
 .form-control {
