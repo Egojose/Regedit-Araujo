@@ -10,6 +10,8 @@ export class VistaInicioComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
+
   }
 
 }
