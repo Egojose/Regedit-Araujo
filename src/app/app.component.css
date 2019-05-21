@@ -2,7 +2,7 @@
 .card {
     margin-top:180px;
     border-radius: 12px;
-    opacity: 0.8;
+    /* opacity: 0.8; */
 }
 
 .inicial {
@@ -13,7 +13,6 @@
 .final {
     margin-bottom: 10px;
 }
-
 
 
 /* .container {

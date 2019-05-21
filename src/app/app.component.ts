@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SPServicio } from'./servicios/sp-servicio';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-root',

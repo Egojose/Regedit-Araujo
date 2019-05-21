@@ -1,3 +1,7 @@
 export const environment = {
-  production: true
+  production: true,
+  urlRaiz: 'https://aribasas.sharepoint.com',
+  urlWeb: 'https://aribasas.sharepoint.com/sites/Intranet/Gestion-humana',
+  urlRelativa: '/sites/Intranet/Gestion-humana',
+  listaEmpleados: 'empleados'
 };
