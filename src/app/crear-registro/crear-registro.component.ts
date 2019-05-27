@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { SPServicio } from '../servicios/sp-servicio';
 
 @Component({
   selector: 'app-crear-registro',
@@ -9,9 +10,30 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 export class CrearRegistroComponent implements OnInit {
 empleadoForm: FormGroup;
 
-  constructor() { }
+  constructor(private formbuilder: FormBuilder, private servicio: SPServicio) { }
 
   ngOnInit() {
+    this.empleadoForm = this.formbuilder.group({
+      usuario: ['', Validators.required],
+      primerNombre: [''],
+      segundoNombre: [''],
+      primerApellido: [''],
+      segundoApellido: [''],
+      numeroDocumento: [''],
+      tipoDocumento: [''],
+      fechaIngreso: [''],
+      tipoContrato: [''],
+      cargo: [''],
+      salario: [''],
+      lugarExpedicion: [''],
+      salarioTexto: [''],
+      area: [''],
+      jefe: [''],
+      direccion: [''],
+      celular: [''],
+      sede: [''],
+      extension: [''],
+    })
   }
 
 }
