@@ -8,7 +8,7 @@ export class Empleado {
         public segundoApellido: string,
         public numeroDocumento: string,
         public tipoDocumento: string,
-        public fechaIngreso: any,
+        public fechaIngreso: Date,
         public tipoContrato: string,
         public cargo: string,
         public salario: string,
