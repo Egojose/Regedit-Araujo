@@ -5,26 +5,29 @@
     </div>
     <div class="card-body">
       <div class="row top">
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Usuario">
+        </div>
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Primer nombre">
         </div>
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Segundo nombre">
         </div>
       </div>
       <div class="row">
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Primer apellido">
         </div>
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Segundo apellido">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Documento">
         </div>
       </div>
       <div class="row">
-        <div class="col-md-4 offset-md-1">
-          <input type="text" class="form-control campo-texto" placeholder="Documento">
-        </div>
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <select class="form-control campo-texto">
             <option value="">Tipo de documento</option>
             <option value="Cédula">Cédula</option>
@@ -32,23 +35,64 @@
             <option value="Pasaporte">Pasaporte</option>
           </select>
         </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Lugar de expedición">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Fecha de ingreso">
+        </div>
       </div>
       <div class="row">
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Cargo">
         </div>
-        <div class="col-md-4 offset-md-1">
-          <input type="text" class="form-control campo-texto" placeholder="Area">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Salario">
         </div>
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4">
           <input type="text" class="form-control campo-texto" placeholder="Salario en letras">
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Area">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Jefe">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Dirección">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Celular">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Sede">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control campo-texto" placeholder="Extensión">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-left">
+          <label for="hoja de vida">Hoja de vida</label>
+          <input type="file" class="form-control campo-texto" placeholder="Hoja de vida">
+        </div>
+        <div class="col-md-4 text-left">
+          <label for="Certificados">Certificados</label>
+          <input type="file" class="form-control campo-texto" placeholder="Certificados">
+        </div>
+        <div class="col-md-4 text-left">
+          <label for="Diplomas">Diplomas</label>
+          <input type="file" class="form-control campo-texto" placeholder="Diplomas">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" id="enviar">Guardar registro</button>
+      <button type="button" class="btn btn-danger" id="cancelar">Cancelar</button>
+      <br>
     </div>
+    <br>
   </div>
 </div>
