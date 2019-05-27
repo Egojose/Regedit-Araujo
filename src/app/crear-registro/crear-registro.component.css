@@ -32,3 +32,11 @@
     border-bottom: solid 1px #1F2547;
     margin-bottom: 30px;
 }
+
+#enviar {
+    margin-right: 5px;
+}
+
+#cancelar {
+    margin-left: 5px;
+}
