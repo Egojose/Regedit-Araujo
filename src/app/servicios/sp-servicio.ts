@@ -60,5 +60,10 @@ export class SPServicio {
         return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update({})
     }
 
+    ObtenerGruposUsuario(usuarioId: number){
+        let respuesta = from(this.ObtenerConfiguracion().web.getUserById(usuarioId).groups.get());
+        return respuesta;
+    }
+
 
 }
