@@ -1,3 +1,4 @@
+<form autocomplete="off" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
 <div class="col-md-8 offset-md-2 text-center m-top">
   <div class="card">
     <div class="card-header">
@@ -8,7 +9,7 @@
         <div class="col-md-4">
           <input type="text" class="form-control campo-texto" formControlName="usuario" placeholder="Usuario">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" [ngClass]="{'has-error' : empleadoForm.get('primerNombre').errors && (empleadoForm.get('primerNombre').touched || empleadoForm.get('primerNombre').dirty)}">
           <input type="text" class="form-control campo-texto" formControlName="primerNombre" placeholder="Primer nombre">
         </div>
         <div class="col-md-4">
@@ -23,7 +24,7 @@
           <input type="text" class="form-control campo-texto" formControlName="segundoApellido" placeholder="Segundo apellido">
         </div>
         <div class="col-md-4">
-          <input type="text" class="form-control campo-texto" formControlName="documento" placeholder="Documento">
+          <input type="text" class="form-control campo-texto" formControlName="numeroDocumento" placeholder="Documento">
         </div>
       </div>
       <div class="row">
@@ -96,3 +97,4 @@
     <br>
   </div>
 </div>
+</form>

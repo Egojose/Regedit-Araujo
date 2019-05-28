@@ -8,7 +8,8 @@ import { CrearRegistroComponent } from './crear-registro/crear-registro.componen
 import { EditarRegistroComponent } from './editar-registro/editar-registro.component';
 import { VistaInicioComponent } from './vista-inicio/vista-inicio.component';
 import { SPServicio } from './servicios/sp-servicio';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [SPServicio],
   bootstrap: [AppComponent]

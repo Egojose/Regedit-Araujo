@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SPServicio } from '../servicios/sp-servicio';
 
 @Component({
@@ -10,18 +10,18 @@ import { SPServicio } from '../servicios/sp-servicio';
 export class CrearRegistroComponent implements OnInit {
 empleadoForm: FormGroup;
 
-  constructor(private formbuilder: FormBuilder, private servicio: SPServicio) { }
+  constructor(private fB: FormBuilder, private servicio: SPServicio) { }
 
   ngOnInit() {
-    this.empleadoForm = this.formbuilder.group({
-      usuario: ['', Validators.required],
-      primerNombre: [''],
+    this.empleadoForm = this.fB.group({
+      usuario: [''],
+      primerNombre: ['', Validators.required],
       segundoNombre: [''],
-      primerApellido: [''],
-      segundoApellido: [''],
+      primerApellido:[''],
+      segundoApellido:[''], 
       numeroDocumento: [''],
       tipoDocumento: [''],
-      fechaIngreso: [''],
+      fechaIngreso:[''],
       tipoContrato: [''],
       cargo: [''],
       salario: [''],
@@ -34,6 +34,10 @@ empleadoForm: FormGroup;
       sede: [''],
       extension: [''],
     })
+  }
+
+  onSubmit() {
+    console.log(this.empleadoForm.get('primerNombre').value)
   }
 
 }
