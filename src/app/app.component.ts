@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { SPServicio } from './servicios/sp-servicio';
-import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { Router } from '@angular/router';
-import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, } from '@angular/forms'
+import { Usuario } from './dominio/usuario';
+import { Grupo } from './dominio/grupo'
 
 @Component({
   selector: 'app-root',
