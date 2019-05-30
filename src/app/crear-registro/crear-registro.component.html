@@ -1,4 +1,161 @@
-<form autocomplete="off" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+
+<div class="container">
+    <form autocomplete="off" class="formulario" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+  <!-- <form class="formulario" action="POST" name="form_register" enctype="multipart/form-data"> -->
+    <!-- inputs form -->
+    <div>
+      <div class="text-center title">
+        <h4>REGISTRO DE EMPLEADO</h4>
+      </div>
+      <br>
+      <!-- <div class="text-center img">
+        <img src="https://www.tramvenegroup.com/clientes/images/user.png" width="12%" alt="">
+      </div> -->
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="Usuario">Usuario</label>
+          <input type="text" class="form-control" id="inputUser" formControlName="usuario">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputNombre1">Primer Nombre</label>
+          <input type="text" class="form-control" id="inputNombre1" formControlName="primerNombre">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputnombre2">Segundo Nombre</label>
+          <input type="text" class="form-control" id="inputNombre2" formControlName="segundoNombre">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputApellido1">Primer Apellido</label>
+          <input type="text" class="form-control" id="inputApellido1" formControlName="primerApellido">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputApellido2">Segundo Apellido</label>
+          <input type="text" class="form-control" id="inputApellido2" formControlName="segundoApellido">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputDoc">Tipo de Documento</label>
+          <select id="inputDoc" class="form-control" formControlName="tipoDocumento">
+              <option value="Cédula">Cédula</option>
+              <option value="Cédula de extranjería">Cédula de extranjería</option>
+              <option value="Pasaporte">Pasaporte</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputNumd">Numero de Documento</label>
+          <input type="text" class="form-control" id="inputNumd" formControlName="numeroDocumento">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputExp">Lugar de Expedición</label>
+          <input type="text" class="form-control" id="inputExp" formControlName="lugarExpedicion">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputAdress">Dirección</label>
+          <input type="text" class="form-control" id="inputAdress" formControlName="direccion">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputPhone">Celular</label>
+          <input type="text" class="form-control" id="inputPhone" formControlName="celular">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputExt">Extensión</label>
+          <input type="text" class="form-control" id="inputExt" formControlName="extension">
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!-- Form2 -->
+    <div class="formulario">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" id="inputnombre2" placeholder="Sede" formControlName="sede">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" id="inputuser" placeholder="Jefe" formControlName="jefe">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" id="inputnombre1" placeholder="Area" formControlName="area">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" id="inputuser" placeholder="Cargo" formControlName="cargo">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" class="form-control" id="inputnombre2" placeholder="Salario en Letras" formControlName="salarioTexto">
+        </div>
+      </div>
+    </div>
+    <!-- Documentos Adjuntos -->
+    <div class="formulario">
+      <div class="text-center">
+        <h5>ADJUNTAR ARCHIVOS</h5>
+        <hr>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <span>Hoja de vida</span>
+          <form class="form-inline center-block well" action="/" method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+              <label id="browsebutton" class="btn btn-default input-group-addon" for="my-file-selector"
+                style="background-color:white">
+                <input id="my-file-selector" type="file" style="display:none;">
+                Cargar
+              </label>
+              <input id="label" type="text" class="form-control" readonly="">
+            </div>
+          </form>
+        </div>
+        <div class="col-md-4">
+          <span>Certificados</span>
+          <form class="form-inline center-block well" action="/" method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+              <label id="browsebutton" class="btn btn-default input-group-addon" for="my-file-selector"
+                style="background-color:white">
+                <input id="my-file-selector" type="file" style="display:none;">
+                Cargar
+              </label>
+              <input id="label" type="text" class="form-control" readonly="">
+            </div>
+          </form>
+        </div>
+        <div class="col-md-4">
+          <span>Diplomas</span>
+          <form class="form-inline center-block well archivos" action="/" method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+              <label id="browsebutton" class="btn btn-default input-group-addon" for="my-file-selector"
+                style="background-color:white">
+                <input id="my-file-selector" type="file" style="display:none;">
+                Cargar
+              </label>
+              <input id="label" type="text" class="form-control" readonly="">
+            </div>
+          </form>
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+        <button type="button" class="btn btn-danger btn-lg">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!-- <form autocomplete="off" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
 <div class="col-md-8 offset-md-2 text-center m-top">
   <div class="card">
     <div class="card-header">
@@ -95,4 +252,4 @@
     </div>
   </div>
 </div>
-</form>
+</form> -->

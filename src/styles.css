@@ -24,3 +24,11 @@ body {
    color: #1F2547;
    font-weight: 600;
 }
+
+.zona-usuario-logueado{
+    float: right;
+}
+
+.usuario-logueado{
+    font-size: x-large;
+}
