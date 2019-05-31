@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  // urlRaiz: 'https://aribasas.sharepoint.com',
-  // urlWeb: 'https://aribasas.sharepoint.com/sites/Intranet/Gestion-humana',
-  // urlRelativa: '/sites/Intranet/Gestion-humana',
-  urlRaiz: 'https://enovelsoluciones.sharepoint.com',
-  urlWeb:'https://enovelsoluciones.sharepoint.com/sites/jam/Araujo', 
-  urlReltativa: '/sites/jam/Araujo',
+  urlRaiz: 'https://aribasas.sharepoint.com',
+  urlWeb: 'https://aribasas.sharepoint.com/sites/Intranet/Gestion-humana',
+  urlRelativa: '/sites/Intranet/Gestion-humana',
+  // urlRaiz: 'https://enovelsoluciones.sharepoint.com',
+  // urlWeb:'https://enovelsoluciones.sharepoint.com/sites/jam/Araujo', 
+  // urlReltativa: '/sites/jam/Araujo',
   listaEmpleados: 'empleados'
 };
 
