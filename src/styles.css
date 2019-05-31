@@ -4,11 +4,7 @@
     margin: 0;
 }
 
-header {
-    background: url('assets/images/header.png');
-    width: 100%;
-    height: 100px;
-}
+
 
 body {
     /* background: url('assets/images/Fondo2.png') no-repeat; */
@@ -17,18 +13,5 @@ body {
     height: 100%;
 }
 
-.text-bienvenida {
-   text-align: end;
-   margin-right: 30px;
-   padding-top: 30px;
-   color: #1F2547;
-   font-weight: 600;
-}
 
-.zona-usuario-logueado{
-    float: right;
-}
 
-.usuario-logueado{
-    font-size: x-large;
-}
