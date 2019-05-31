@@ -22,8 +22,11 @@
     "boostrap": "^2.0.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "jquery": "^3.4.1",
+    "ng2-select2": "^1.0.0-beta.16",
     "ngx-bootstrap": "^4.1.1",
     "rxjs": "~6.3.3",
+    "select2": "^4.0.7",
     "sp-pnp-js": "^3.0.10",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
