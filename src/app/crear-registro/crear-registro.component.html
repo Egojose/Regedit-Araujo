@@ -56,17 +56,21 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <label for="inputAdress">Dirección</label>
           <input type="text" class="form-control" id="inputAdress" formControlName="direccion">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <label for="inputPhone">Celular</label>
           <input type="text" class="form-control" id="inputPhone" formControlName="celular">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <label for="inputExt">Extensión</label>
           <input type="text" class="form-control" id="inputExt" formControlName="extension">
+        </div>
+        <div class="col-md-3 form-group">
+          <label for="Contacto de emergencia">Contacto de emergencia</label>
+          <input type="text" class="form-control"  formControlName="contactoEmergencia">
         </div>
       </div>
     </div>
@@ -95,6 +99,45 @@
           <input type="text" class="form-control" id="inputnombre2" placeholder="Salario en Letras" formControlName="salarioTexto">
         </div>
       </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <select type="text" class="form-control" placeholder="Tipo de contrato" formControlName="tipoContrato">
+              <option value="" selected>Tipo de contrato</option>
+              <option value="Integral">Integral</option>
+              <option value="Ordinario">Ordinario</option>
+              <option value="Aprendiz Sena">Aprendiz Sena</option>
+              <option value="Practicante universitario">Practicante universitario</option>
+            </select>
+          </div>
+          <div class="col-md-6 form-group">
+            <select class="form-control" formControlName="terminoContrato">
+              <option value=""selected>Término del contrato</option>
+              <option value="Indefinido">Indefinido</option>
+              <option value="Fijo">Fijo</option>
+            </select>
+          </div>
+        </div>
+        <ng-container *ngIf="expression">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <input type="text" class="form-control" placeholder="Bono" formControlName="bono">
+            </div>
+            <div class="col-md-6 form-group">
+              <input type="text" class="form-control" placeholder="AFP" formControlName="afp">
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="expression">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <input type="text" class="form-control" placeholder="Universidad" formControlName="universidad">
+            </div>
+            <div class="col-md-6 form-group">
+              <input type="text" class="form-control" placeholder="Carrera" formControlName="carrera">
+            </div>
+          </div>
+        </ng-container>
+        
     </div>
     <!-- Documentos Adjuntos -->
     <div class="formulario">
@@ -138,7 +181,7 @@
                 <input id="my-file-selector" type="file" style="display:none;">
                 Cargar
               </label>
-              <input id="label" type="text" class="form-control" readonly="">
+              <input id="label" type="text" class="form-control">
             </div>
           </form>
         </div>
