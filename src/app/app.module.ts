@@ -12,6 +12,7 @@ import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angul
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,8 @@ import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angul
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   providers: [SPServicio],
   bootstrap: [AppComponent]
