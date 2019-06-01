@@ -4,16 +4,16 @@ import { CrearRegistroComponent } from './crear-registro/crear-registro.componen
 import { EditarRegistroComponent } from './editar-registro/editar-registro.component';
 import { VistaInicioComponent } from './vista-inicio/vista-inicio.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {path:'',redirectTo:'app-root',pathMatch:'full'},
+  {path:'vista-inicio', component:VistaInicioComponent},
+  {path:'crear-registro' , component:CrearRegistroComponent},
+  {path:'editar-registro', component:EditarRegistroComponent}
+];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([
-      {path:'',redirectTo:'app-root',pathMatch:'full'},
-      {path:'vista-inicio', component:VistaInicioComponent},
-      {path:'crear-registro' , component:CrearRegistroComponent},
-      {path:'editar-registro', component:EditarRegistroComponent}
-    ])
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
