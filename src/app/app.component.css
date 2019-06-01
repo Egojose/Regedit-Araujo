@@ -37,7 +37,14 @@ header {
     font-weight: 400;
     font-size: 22px;
  }
+ 
+ a H4 {
+     color: white
+ }
 
+ a {
+     text-decoration: none;
+ }
 
 /* .container {
     background: url('../assets/images/Fondo.png');
