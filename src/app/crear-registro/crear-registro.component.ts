@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SPServicio } from '../servicios/sp-servicio';
 import { Usuario } from '../dominio/usuario';
+import { ItemAddResult } from 'sp-pnp-js';
+import pnp from "sp-pnp-js";
+
 @Component({
   selector: 'app-crear-registro',
   templateUrl: './crear-registro.component.html',
@@ -116,9 +119,11 @@ usuarios: Usuario[] = [];
       SalarioIntegral: salarioIntegral,
       ContactoEmergencia: contactoEmergencia
     }
-    
+    this.servicio.AgregarInfoEmpleado(objEmpleado).then(
+      (item: ItemAddResult) => {
+        alert('guardado con éxtio')
+      },  err => {
+        alert('error al guardar la solicitud')
+      });
   }
-
-  
-
 }
