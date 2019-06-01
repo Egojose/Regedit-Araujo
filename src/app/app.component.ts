@@ -3,7 +3,7 @@ import { SPServicio } from './servicios/sp-servicio';
 import { Router } from '@angular/router';
 import { Usuario } from './dominio/usuario';
 import { Grupo } from './dominio/grupo';
-import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-root',
