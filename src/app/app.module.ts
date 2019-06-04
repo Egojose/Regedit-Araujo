@@ -9,6 +9,8 @@ import { EditarRegistroComponent } from './editar-registro/editar-registro.compo
 import { VistaInicioComponent } from './vista-inicio/vista-inicio.component';
 import { SPServicio } from './servicios/sp-servicio';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Select2Module } from 'ng2-select2';
+
 
 
 
@@ -25,6 +27,8 @@ import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angul
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    Select2Module,
+    BsDatepickerModule.forRoot()
     
   ],
   providers: [SPServicio],
