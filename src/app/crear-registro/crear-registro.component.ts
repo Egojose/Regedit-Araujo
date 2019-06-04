@@ -4,9 +4,7 @@ import { SPServicio } from '../servicios/sp-servicio';
 import { Usuario } from '../dominio/usuario';
 import { ItemAddResult } from 'sp-pnp-js';
 import { Router } from '@angular/router';
-import pnp from "sp-pnp-js";
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { Select2OptionData } from 'ng2-select2';
+
 
 @Component({
   selector: 'app-crear-registro',
@@ -166,14 +164,14 @@ dataUsuarios = [
       fechaSalida = fechaSalida;
     }
     else {
-      fechaSalida = "";
+      fechaSalida = null;
     }
 
     nombreEmpleado = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
 
     objEmpleado = {
       // usuarioId: usuario,
-      Title: nombreEmpleado,
+      Title: nombreEmpleado.toUpperCase(),
       PrimerNombre: primerNombre,
       SegundoNombre: segundoNombre,
       PrimerApellido: primerApellido,
@@ -210,10 +208,15 @@ dataUsuarios = [
     else {
       this.servicio.AgregarInfoEmpleado(objEmpleado).then(
         (item: ItemAddResult) => {
-          alert('guardado con éxito')
+          alert('guardado con éxito');
+          this.limpiarCampos();
         },  err => {
           alert('error al guardar la solicitud')
         });
     }
+  }
+
+  limpiarCampos() {
+   this.empleadoForm.get('primerNombre').value == "";
   }
 }
