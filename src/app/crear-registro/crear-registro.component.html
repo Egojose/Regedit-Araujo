@@ -14,11 +14,11 @@
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="Usuario">Usuario</label>
-          <input type="text" class="form-control" id="inputUser" formControlName="usuario">
+          <input type="text" class="form-control" formControlName="usuario">
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6" [ngClass]="{'has-error': empleadoForm.get('primerNombre').errors && (empleadoForm.get('primerNombre').touched || empleadoForm.get('primerNombre').dirty)}">
           <label for="inputNombre1">Primer Nombre</label>
           <input type="text" class="form-control" id="inputNombre1" formControlName="primerNombre">
         </div>
@@ -100,7 +100,7 @@
         </div>
       </div>
         <div class="row">
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <select type="text" class="form-control" placeholder="Tipo de contrato" formControlName="tipoContrato">
               <option value="" selected>Tipo de contrato</option>
               <option value="Integral">Integral</option>
@@ -109,15 +109,18 @@
               <option value="Practicante universitario">Practicante universitario</option>
             </select>
           </div>
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <select class="form-control" formControlName="terminoContrato">
               <option value=""selected>Término del contrato</option>
               <option value="Indefinido">Indefinido</option>
               <option value="Fijo">Fijo</option>
             </select>
           </div>
+          <div class="col-md-4 form-group">
+            <input type="text" class="form-control" placeholder="fecha de ingreso" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+          </div>
         </div>
-        <ng-container *ngIf="expression">
+        <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Integral'">
           <div class="row">
             <div class="col-md-6 form-group">
               <input type="text" class="form-control" placeholder="Bono" formControlName="bono">
@@ -127,7 +130,7 @@
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="expression">
+        <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Practicante universitario'">
           <div class="row">
             <div class="col-md-6 form-group">
               <input type="text" class="form-control" placeholder="Universidad" formControlName="universidad">
