@@ -59,6 +59,13 @@ form.archivos {
     }
   }
 
+  .validarVacio {
+    border: 1px solid red;
+  }
+
+  .validarVacio label {
+      color: red;
+  }
 
 
 /* .m-top {
