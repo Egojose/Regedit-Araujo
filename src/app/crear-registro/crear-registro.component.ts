@@ -6,7 +6,6 @@ import { ItemAddResult } from 'sp-pnp-js';
 import { Router } from '@angular/router';
 import pnp from "sp-pnp-js";
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
 import { Select2OptionData } from 'ng2-select2';
 
 @Component({
@@ -39,7 +38,8 @@ dataUsuarios = [
       segundoApellido:['', Validators.required], 
       numeroDocumento: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
-      fechaIngreso:[''],
+      fechaIngreso:['', Validators.required],
+      fechaSalida: [''],
       tipoContrato: ['', Validators.required],
       terminoContrato: ['', Validators.required],
       cargo: ['', Validators.required],
@@ -56,7 +56,8 @@ dataUsuarios = [
       afp: [''],
       universidad: [''],
       carrera: [''],
-      contactoEmergencia: ['']
+      contactoEmergencia: [''],
+      numeroContactoEmergencia: ['']
     })
     this.emptyManager = true;
     this.obtenerUsarios()
@@ -121,6 +122,7 @@ dataUsuarios = [
     let numeroDocumento = this.empleadoForm.get('numeroDocumento').value;
     let tipoDocumento = this.empleadoForm.get('tipoDocumento').value;
     let fechaIngreso = this.empleadoForm.get('fechaIngreso').value;
+    let fechaSalida = this.empleadoForm.get('fechaSalida').value;
     let tipoContrato = this.empleadoForm.get('tipoContrato').value;
     let terminoContrato = this.empleadoForm.get('terminoContrato').value;
     let cargo = this.empleadoForm.get('cargo').value;
@@ -138,6 +140,7 @@ dataUsuarios = [
     let universidad = this.empleadoForm.get('universidad').value;
     let carrera = this.empleadoForm.get('carrera').value;
     let contactoEmergencia = this.empleadoForm.get('contactoEmergencia').value;
+    let numeroContactoEmergencia = this.empleadoForm.get('numeroContactoEmergencia').value;
     let objEmpleado;
     let salarioIntegral;
     let SumaSalarioIntegral;
@@ -154,6 +157,18 @@ dataUsuarios = [
       salarioIntegral = "";
     }
 
+    if(terminoContrato === 'Fijo' && fechaSalida === "") {
+      alert('Debe especificar la fecha de salida para contrato a término fijo');
+      return false;
+    }
+
+    if(terminoContrato === 'Fijo') {
+      fechaSalida = fechaSalida;
+    }
+    else {
+      fechaSalida = "";
+    }
+
     nombreEmpleado = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
 
     objEmpleado = {
@@ -166,6 +181,7 @@ dataUsuarios = [
       NumeroDocumento: numeroDocumento,
       TipoDocumento: tipoDocumento,
       FechaIngreso: fechaIngreso,
+      FechaSalida: fechaSalida,
       TipoContrato: tipoContrato,
       Cargo: cargo,
       Salario: salario,
@@ -183,7 +199,8 @@ dataUsuarios = [
       Carrera: carrera,
       Universidad: universidad,
       SalarioIntegral: salarioIntegral,
-      ContactoEmergencia: contactoEmergencia
+      ContactoEmergencia: contactoEmergencia,
+      NumeroContactoEmergencia: numeroContactoEmergencia
     }
     console.log(salarioIntegral);
     
