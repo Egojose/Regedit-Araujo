@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
    this.PermisosCrearRegistro = false;
 
   }
+
+
   navegar() {
     this.router.navigate(["/crear-registro"]);
   }
