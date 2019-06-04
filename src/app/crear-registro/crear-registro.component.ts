@@ -3,7 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SPServicio } from '../servicios/sp-servicio';
 import { Usuario } from '../dominio/usuario';
 import { ItemAddResult } from 'sp-pnp-js';
+import { Router } from '@angular/router';
 import pnp from "sp-pnp-js";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+import { Select2OptionData } from 'ng2-select2';
 
 @Component({
   selector: 'app-crear-registro',
@@ -14,46 +18,101 @@ export class CrearRegistroComponent implements OnInit {
 empleadoForm: FormGroup;
 ObjUsuarios: [];
 usuarios: Usuario[] = [];
+emptyManager: boolean;
+adjuntoHV: any;
+adjuntoCertificado: any;
+adjuntoDiplomas: any;
+valorUsuarioPorDefecto: string = "Seleccione";
+dataUsuarios = [
+  {value: 'Seleccione', label : 'Seleccione'}
+]
 
 
-  constructor(private fB: FormBuilder, private servicio: SPServicio) { }
+  constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router) { }
 
   ngOnInit() {
     this.empleadoForm = this.fB.group({
       usuario: [''],
       primerNombre: ['', Validators.required],
-      segundoNombre: [''],
-      primerApellido:[''],
-      segundoApellido:[''], 
-      numeroDocumento: [''],
-      tipoDocumento: [''],
+      segundoNombre: ['', Validators.required],
+      primerApellido:['', Validators.required],
+      segundoApellido:['', Validators.required], 
+      numeroDocumento: ['', Validators.required],
+      tipoDocumento: ['', Validators.required],
       fechaIngreso:[''],
-      tipoContrato: [''],
-      terminoContrato: [''],
-      cargo: [''],
-      salario: [''],
-      lugarExpedicion: [''],
-      salarioTexto: [''],
-      area: [''],
+      tipoContrato: ['', Validators.required],
+      terminoContrato: ['', Validators.required],
+      cargo: ['', Validators.required],
+      salario: ['', Validators.required],
+      lugarExpedicion: ['', Validators.required],
+      salarioTexto: ['', Validators.required],
+      area: ['', Validators.required],
       jefe: [''],
-      direccion: [''],
-      celular: [''],
-      sede: [''],
-      extension: [''],
+      direccion: ['', Validators.required],
+      celular: ['', Validators.required],
+      sede: ['', Validators.required],
+      extension: ['', Validators.required],
       bono: [''],
       afp: [''],
       universidad: [''],
       carrera: [''],
       contactoEmergencia: ['']
     })
+    this.emptyManager = true;
+    this.obtenerUsarios()
+  }
+
+  obtenerUsarios() {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
-      (Usuarios) => {
-        this.ObjUsuarios = Usuarios;
+      (respuesta) => {
+        this.usuarios = Usuario.fromJsonList(respuesta);
+        this.DataSourceUsuarios();
       })
   }
 
+  adjuntarHojaDeVida(event) {
+    let AdjuntoHojaVida = event.target.files[0];
+    if (AdjuntoHojaVida != null) {
+      this.adjuntoHV = AdjuntoHojaVida;
+    } else {
+      this.adjuntoHV = null;
+    }
+  }
+
+  adjuntarCertificados(event) {
+    let AdjuntoCertificados = event.target.files[0];
+    if (AdjuntoCertificados != null) {
+      this.adjuntoCertificado = AdjuntoCertificados;
+    } else {
+      this.adjuntoCertificado = null;
+    }
+  }
+
+  adjuntarDiplomas(event) {
+    let AdjuntoDiplomas = event.target.files[0];
+    if (AdjuntoDiplomas != null) {
+      this.adjuntoDiplomas = AdjuntoDiplomas;
+    } else {
+      this.adjuntoDiplomas = null;
+    }
+  }
+
+  seleccionarUsuario(event) {
+    if (event != "Seleccione") {
+      this.emptyManager = false;
+    } else {
+      this.emptyManager = true;
+    }
+  }
+
+  private DataSourceUsuarios() {
+    this.usuarios.forEach(usuario => {
+      this.dataUsuarios.push({ value: usuario.id.toString(), label: usuario.nombre });
+    });
+  }
+
   onSubmit() {
-    console.log(this.empleadoForm.value)
+    console.log(this.empleadoForm)
     let usuario = this.empleadoForm.get('usuario').value;
     let primerNombre = this.empleadoForm.get('primerNombre').value;
     let segundoNombre = this.empleadoForm.get('segundoNombre').value;
@@ -82,17 +141,24 @@ usuarios: Usuario[] = [];
     let objEmpleado;
     let salarioIntegral;
     let SumaSalarioIntegral;
+    let salarioInteger = parseInt(salario, 10);
+    let bonoInteger = parseInt(bono, 10);
+    let afpInteger = parseInt(afp, 10);
+    let nombreEmpleado;
 
     if(tipoContrato === 'Integral') {
-      SumaSalarioIntegral = salario + bono + afp;
+      SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger;
       salarioIntegral = `${SumaSalarioIntegral}` 
     }
     else {
       salarioIntegral = "";
     }
 
+    nombreEmpleado = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
+
     objEmpleado = {
-      usuario: usuario,
+      // usuarioId: usuario,
+      Title: nombreEmpleado,
       PrimerNombre: primerNombre,
       SegundoNombre: segundoNombre,
       PrimerApellido: primerApellido,
@@ -106,7 +172,7 @@ usuarios: Usuario[] = [];
       lugarExpedicion: luagarExpedicion,
       salarioTexto: salarioTexto,
       Area: area,
-      Jefe: jefe,
+      // JefeId: jefe,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,
@@ -119,11 +185,18 @@ usuarios: Usuario[] = [];
       SalarioIntegral: salarioIntegral,
       ContactoEmergencia: contactoEmergencia
     }
-    this.servicio.AgregarInfoEmpleado(objEmpleado).then(
-      (item: ItemAddResult) => {
-        alert('guardado con éxtio')
-      },  err => {
-        alert('error al guardar la solicitud')
-      });
+    console.log(salarioIntegral);
+    
+    if(this.empleadoForm.invalid) {
+      alert('hay campos vacíos')
+    } 
+    else {
+      this.servicio.AgregarInfoEmpleado(objEmpleado).then(
+        (item: ItemAddResult) => {
+          alert('guardado con éxito')
+        },  err => {
+          alert('error al guardar la solicitud')
+        });
+    }
   }
 }
