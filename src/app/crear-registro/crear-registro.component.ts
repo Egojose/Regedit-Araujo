@@ -209,14 +209,10 @@ dataUsuarios = [
       this.servicio.AgregarInfoEmpleado(objEmpleado).then(
         (item: ItemAddResult) => {
           alert('guardado con éxito');
-          this.limpiarCampos();
+          
         },  err => {
           alert('error al guardar la solicitud')
         });
     }
-  }
-
-  limpiarCampos() {
-   this.empleadoForm.get('primerNombre').value == "";
   }
 }
