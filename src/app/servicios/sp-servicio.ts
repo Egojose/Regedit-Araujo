@@ -65,10 +65,10 @@ export class SPServicio {
         return respuesta;
     }
 
-    // agregarAdjuntoHojaVida(IdUsuario: number, nombreArchivo: string, archivo: File) {
-    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaContratos).items.getById(IdContrato);
-    //     return item.attachmentFiles.add(nombreArchivo, archivo);
-    // }
+    agregarAdjuntoHojaVida(IdUsuario: number, nombreArchivo: string, archivo: File) {
+        let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
+        return item.attachmentFiles.add(nombreArchivo, archivo);
+    }
 
     // agregarAdjuntoCertificados(IdUsuario: number, nombreArchivo: string, archivo: File) {
     //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaContratos).items.getById(IdContrato);
