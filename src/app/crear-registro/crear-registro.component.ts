@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { Sede } from '../dominio/sede';
 import { Area } from '../dominio/area';
 import { Cargo } from '../dominio/cargo';
+import { ToastrModule, ToastrManager } from 'ng6-toastr-notifications';
+
 
 
 @Component({
@@ -33,7 +35,7 @@ dataUsuarios = [
 
 
 
-  constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router) { }
+  constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
   ngOnInit() {
     this.registrarControles();
@@ -194,12 +196,12 @@ dataUsuarios = [
     }
 
     if(tipoContrato === 'Integral' && (bono === "" || afp === "")) {
-      alert('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
+      this.MensajeAdvertencia('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
       return false;
     }
 
     if(terminoContrato === 'Fijo' && fechaSalida === "") {
-      alert('Debe especificar la fecha de salida para contrato a término fijo');
+      this.MensajeAdvertencia('Debe especificar la fecha de salida para contrato a término fijo');
       return false;
     }
 
@@ -246,16 +248,32 @@ dataUsuarios = [
     console.log(salarioIntegral);
     
     if(this.empleadoForm.invalid) {
-      alert('hay campos vacíos')
+      this.MensajeAdvertencia('hay campos vacíos')
     } 
     else {
       this.servicio.AgregarInfoEmpleado(objEmpleado).then(
         (item: ItemAddResult) => {
-          alert('guardado con éxito');
+         this.MensajeExitoso("El registro se ha creado con éxito")
           
         },  err => {
-          alert('error al guardar la solicitud')
+          this.MensajeError('error al guardar la solicitud')
         });
     }
+  }
+
+  MensajeExitoso(mensaje: string) {
+    this.toastr.successToastr('This is success toast.', 'Confirmado!');
+  }
+
+  MensajeError(mensaje: string) {
+    this.toastr.errorToastr('This is error toast.', 'Oops!');
+  }
+
+  MensajeAdvertencia(mensaje: string) {
+    this.toastr.warningToastr('This is warning toast.', 'Validación!');
+  }
+
+  MensajeInfo(mensaje: string) {
+    this.toastr.infoToastr('This is info toast.', 'Info');
   }
 }
