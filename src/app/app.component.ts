@@ -3,6 +3,7 @@ import { SPServicio } from './servicios/sp-servicio';
 import { Router } from '@angular/router';
 import { Usuario } from './dominio/usuario';
 import { Grupo } from './dominio/grupo';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 
 @Component({
@@ -24,9 +25,33 @@ export class AppComponent implements OnInit {
    this.verificarPermisos();
   }
   
-  constructor(private servicio: SPServicio, private router: Router) {
+  constructor(private servicio: SPServicio, private router: Router, public toastr: ToastrManager) {
    this.PermisosCrearRegistro = false;
 
+  }
+
+  MensajeExitoso() {
+    this.toastr.successToastr('This is success toast.', 'Success!');
+  }
+
+  MensajeError() {
+    this.toastr.errorToastr('This is error toast.', 'Oops!');
+  }
+
+  MensajeAdvertencia() {
+    this.toastr.warningToastr('This is warning toast.', 'Alert!');
+  }
+
+  MensajeInfo() {
+    this.toastr.infoToastr('This is info toast.', 'Info');
+  }
+
+
+
+  showToast(position: any = 'top-left') {
+    this.toastr.infoToastr('This is a toast.', 'Toast', {
+      position: position
+    });
   }
 
   verificarPermisos() {

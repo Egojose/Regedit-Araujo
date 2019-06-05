@@ -10,6 +10,8 @@ import { VistaInicioComponent } from './vista-inicio/vista-inicio.component';
 import { SPServicio } from './servicios/sp-servicio';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Select2Module } from 'ng2-select2';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ng6-toastr-notifications';
 
 
 
@@ -28,7 +30,8 @@ import { Select2Module } from 'ng2-select2';
     FormsModule,
     ReactiveFormsModule,
     Select2Module,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    BrowserAnimationsModule,ToastrModule.forRoot()
     
   ],
   providers: [SPServicio],
