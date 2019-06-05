@@ -155,6 +155,11 @@ dataUsuarios = [
       salarioIntegral = "";
     }
 
+    if(tipoContrato === 'Integral' && (bono === "" || afp === "")) {
+      alert('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
+      return false;
+    }
+
     if(terminoContrato === 'Fijo' && fechaSalida === "") {
       alert('Debe especificar la fecha de salida para contrato a término fijo');
       return false;
