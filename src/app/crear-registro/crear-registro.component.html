@@ -13,8 +13,14 @@
       </div> -->
       <div class="form-row">
         <div class="form-group col-md-4">
-          <label for="Usuario">Usuario</label>
-          <input type="text" class="form-control" formControlName="usuario">
+           <label for="Usuario">Usuario</label>
+            <select id="usuario" formControlName="usuario" class="form-control">
+                <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                  {{usuario.label}}
+                </option>
+              </select>
+         
+          <!-- <input type="text" class="form-control" formControlName="usuario"> -->
         </div>
       </div>
       <div class="form-row">
@@ -85,18 +91,38 @@
     <div class="formulario">
       <div class="form-row">
         <div class="form-group col-md-4">
-          <input type="text" class="form-control" id="inputnombre2" placeholder="Sede" formControlName="sede">
+            <select type="text" class="form-control" formControlName="sede">
+                <option value="">Sede</option>
+                <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
+                </option>
+            </select>
+          <!-- <input type="text" class="form-control" id="inputnombre2" placeholder="Sede" formControlName="sede"> -->
         </div>
         <div class="form-group col-md-4">
-          <input type="text" class="form-control" id="inputuser" placeholder="Jefe" formControlName="jefe">
+          <select id="usuario" formControlName="jefe" class="form-control">
+            <option value="">Jefe</option>
+            <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+              {{usuario.label}}
+            </option>
+          </select>
         </div>
         <div class="form-group col-md-4">
-          <input type="text" class="form-control" id="inputnombre1" placeholder="Area" formControlName="area">
+            <select type="text" class="form-control" formControlName="area">
+                <option value="">Area</option>
+                <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
+                </option>
+            </select>
+          <!-- <input type="text" class="form-control" id="inputnombre1" placeholder="Area" formControlName="area"> -->
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-4">
-          <input type="text" class="form-control" id="inputuser" placeholder="Cargo" formControlName="cargo">
+            <select type="text" class="form-control" formControlName="cargo">
+                <option value="">Cargo</option>
+                <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
+                </option>
+            </select>
+          <!-- <input type="text" class="form-control" id="inputuser" placeholder="Cargo" formControlName="cargo"> -->
         </div>
         <div class="form-group col-md-4">
           <input type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
