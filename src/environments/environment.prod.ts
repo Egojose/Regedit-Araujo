@@ -4,5 +4,8 @@ export const environment = {
   urlWeb: 'https://aribasas.sharepoint.com/sites/Intranet/Gestion-humana',
   urlRelativa: '/sites/Intranet/Gestion-humana',
   listaEmpleados: 'empleados',
-  listaDocumentos: 'Documentos'
+  listaDocumentos: 'Documentos',
+  listaSede: 'Sede',
+  listaArea: 'Area',
+  listaCargo: 'Cargo'
 };

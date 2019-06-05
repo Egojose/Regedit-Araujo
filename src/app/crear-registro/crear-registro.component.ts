@@ -4,6 +4,9 @@ import { SPServicio } from '../servicios/sp-servicio';
 import { Usuario } from '../dominio/usuario';
 import { ItemAddResult } from 'sp-pnp-js';
 import { Router } from '@angular/router';
+import { Sede } from '../dominio/sede';
+import { Area } from '../dominio/area';
+import { Cargo } from '../dominio/cargo';
 
 
 @Component({
@@ -19,24 +22,37 @@ emptyManager: boolean;
 adjuntoHV: any;
 adjuntoCertificado: any;
 adjuntoDiplomas: any;
-valorUsuarioPorDefecto: string = "Seleccione";
+sede: Sede[] = [];
+area: Area[] = [];
+cargo: Cargo[] = [];
+// valorUsuarioPorDefecto: string = "Seleccione";
 dataUsuarios = [
   {value: 'Seleccione', label : 'Seleccione'}
 ]
 
 
+
+
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router) { }
 
   ngOnInit() {
+    this.registrarControles();
+    this.obtenerUsarios();
+    this.obtenerSede();
+    this.obtenerArea();
+    this.obtenerCargo();
+  }
+
+  private registrarControles() {
     this.empleadoForm = this.fB.group({
       usuario: [''],
       primerNombre: ['', Validators.required],
       segundoNombre: ['', Validators.required],
-      primerApellido:['', Validators.required],
-      segundoApellido:['', Validators.required], 
+      primerApellido: ['', Validators.required],
+      segundoApellido: ['', Validators.required],
       numeroDocumento: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
-      fechaIngreso:['', Validators.required],
+      fechaIngreso: ['', Validators.required],
       fechaSalida: [''],
       tipoContrato: ['', Validators.required],
       terminoContrato: ['', Validators.required],
@@ -56,15 +72,15 @@ dataUsuarios = [
       carrera: [''],
       contactoEmergencia: [''],
       numeroContactoEmergencia: ['']
-    })
+    });
     this.emptyManager = true;
-    this.obtenerUsarios()
   }
 
   obtenerUsarios() {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
       (respuesta) => {
         this.usuarios = Usuario.fromJsonList(respuesta);
+        console.log(this.usuarios);
         this.DataSourceUsuarios();
       })
   }
@@ -108,11 +124,33 @@ dataUsuarios = [
     this.usuarios.forEach(usuario => {
       this.dataUsuarios.push({ value: usuario.id.toString(), label: usuario.nombre });
     });
-  }
+  };
+
+  obtenerSede() { 
+    this.servicio.obtenerSedes().subscribe(
+    (respuesta) => {
+      this.sede = Sede.fromJsonList(respuesta);
+    });
+  };
+  
+  obtenerArea() {
+    this.servicio.obtenerArea().subscribe(
+      (respuesta) => {
+        this.area = Area.fromJsonList(respuesta);
+      });
+  };
+
+  obtenerCargo() {
+    this.servicio.obtenerCargo().subscribe(
+      (respuesta) => {
+        this.cargo = Cargo.fromJsonList(respuesta)
+      });
+  };
 
   onSubmit() {
     console.log(this.empleadoForm)
-    let usuario = this.empleadoForm.get('usuario').value;
+    let usuario = this.empleadoForm.get('usuario').value.id;
+    console.log(usuario);
     let primerNombre = this.empleadoForm.get('primerNombre').value;
     let segundoNombre = this.empleadoForm.get('segundoNombre').value;
     let primerApellido = this.empleadoForm.get('primerApellido').value;
@@ -175,7 +213,7 @@ dataUsuarios = [
     nombreEmpleado = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
 
     objEmpleado = {
-      // usuarioId: usuario,
+      usuario: usuario.id,
       Title: nombreEmpleado.toUpperCase(),
       PrimerNombre: primerNombre,
       SegundoNombre: segundoNombre,
@@ -191,7 +229,7 @@ dataUsuarios = [
       lugarExpedicion: luagarExpedicion,
       salarioTexto: salarioTexto,
       Area: area,
-      // JefeId: jefe,
+      Jefe: jefe.id,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,

@@ -11,7 +11,10 @@ export const environment = {
   // urlWeb:'https://enovelsoluciones.sharepoint.com/sites/jam/Araujo', 
   // urlReltativa: '/sites/jam/Araujo',
   listaEmpleados: 'empleados',
-  listaDocumentos: 'Documentos'
+  listaDocumentos: 'Documentos',
+  listaSede: 'Sede',
+  listaArea: 'Area',
+  listaCargo: 'Cargo'
 };
 
 /*
