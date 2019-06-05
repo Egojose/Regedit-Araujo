@@ -15,11 +15,13 @@ export class AppComponent implements OnInit {
   title = 'crear-editar-empleado';
   usuario: Usuario;
   nombreUsuario: string;
+  idUsuario: number;
   grupos: Grupo[] = [];
   PermisosCrearRegistro: boolean;
 
   public ngOnInit() {
    this.ObtenerUsuarioActual();
+   this.verificarPermisos();
   }
   
   constructor(private servicio: SPServicio, private router: Router) {
@@ -27,6 +29,12 @@ export class AppComponent implements OnInit {
 
   }
 
+  verificarPermisos() {
+    let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
+    if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+      this.PermisosCrearRegistro = true;
+    } 
+  }
 
   navegar() {
     this.router.navigate(["/crear-registro"]);
@@ -37,11 +45,11 @@ export class AppComponent implements OnInit {
       (respuesta) => {
         this.usuario = new Usuario(respuesta.Title, respuesta.email, respuesta.Id);
         this.nombreUsuario = this.usuario.nombre;
+        this.idUsuario = this.usuario.id;
         sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
         this.servicio.ObtenerGruposUsuario(this.usuario.id).subscribe(
           (respuesta) => {
             this.grupos = Grupo.fromJsonList(respuesta);
-            this.obtenerParametrosConfiguracion();
           }, err => {
             console.log('Error obteniendo grupos de usuario: ' + err);
           }
@@ -51,8 +59,4 @@ export class AppComponent implements OnInit {
       }
     )
   }
-
-  obtenerParametrosConfiguracion() {
-
-  }  
 }
