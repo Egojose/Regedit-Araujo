@@ -1,38 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SPServicio } from '../servicios/sp-servicio';
-import { Usuario } from '../dominio/usuario';
-import { ItemAddResult } from 'sp-pnp-js';
-import { Router } from '@angular/router';
-import { Sede } from '../dominio/sede';
-import { Area } from '../dominio/area';
-import { Cargo } from '../dominio/cargo';
-import { ToastrModule, ToastrManager } from 'ng6-toastr-notifications';
+  import { Component, OnInit } from '@angular/core';
+  import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+  import { SPServicio } from '../servicios/sp-servicio';
+  import { Usuario } from '../dominio/usuario';
+  import { ItemAddResult } from 'sp-pnp-js';
+  import { Router } from '@angular/router';
+  import { Sede } from '../dominio/sede';
+  import { Area } from '../dominio/area';
+  import { Cargo } from '../dominio/cargo';
+  import { ToastrModule, ToastrManager } from 'ng6-toastr-notifications';
 
 
 
-@Component({
-  selector: 'app-crear-registro',
-  templateUrl: './crear-registro.component.html',
-  styleUrls: ['./crear-registro.component.css']
-})
-export class CrearRegistroComponent implements OnInit {
-empleadoForm: FormGroup;
-ObjUsuarios: [];
-usuarios: Usuario[] = [];
-emptyManager: boolean;
-adjuntoHV: any;
-adjuntoCertificado: any;
-adjuntoDiplomas: any;
-sede: Sede[] = [];
-area: Area[] = [];
-cargo: Cargo[] = [];
-// valorUsuarioPorDefecto: string = "Seleccione";
-dataUsuarios = [
-  {value: 'Seleccione', label : 'Seleccione'}
-]
-
-
+  @Component({
+    selector: 'app-crear-registro',
+    templateUrl: './crear-registro.component.html',
+    styleUrls: ['./crear-registro.component.css']
+  })
+  export class CrearRegistroComponent implements OnInit {
+  empleadoForm: FormGroup;
+  ObjUsuarios: [];
+  usuarios: Usuario[] = [];
+  emptyManager: boolean;
+  adjuntoHV: any;
+  adjuntoCertificado: any;
+  adjuntoDiplomas: any;
+  sede: Sede[] = [];
+  area: Area[] = [];
+  cargo: Cargo[] = [];
+  // valorUsuarioPorDefecto: string = "Seleccione";
+  dataUsuarios = [
+    {value: 'Seleccione', label : 'Seleccione'}
+  ];
+  counter: number = 0;
 
 
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -149,7 +148,118 @@ dataUsuarios = [
       });
   };
 
+  validarVacios() {
+    this.counter = 0
+
+    if(this.empleadoForm.get('usuario').value === null) {
+      this.MensajeAdvertencia('El campo "Usuario" es requerido');
+      this.counter++;
+    }
+    
+    if(this.empleadoForm.get('primerNombre').value === "") {
+      this.MensajeAdvertencia('El campo "Primer Nombre" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('segundoNombre').value === "") {
+      this.MensajeAdvertencia('El campo "Segundo Nombre" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('primerApellido').value === "") {
+      this.MensajeAdvertencia('El campo "Primer Apellido" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('segundoApellido').value === "") {
+      this.MensajeAdvertencia('El campo "Segundo Apellido" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('numeroDocumento').value === "") {
+      this.MensajeAdvertencia('El campo "Número de documento" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('tipoDocumento').value === "") {
+      this.MensajeAdvertencia('El campo "Tipo de documento" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('fechaIngreso').value === "") {
+      this.MensajeAdvertencia('EL campo "Fecha de ingreso" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('tipoContrato').value === "") {
+      this.MensajeAdvertencia('El campo "Tipo de contrato" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('terminoContrato').value === "") {
+      this.MensajeAdvertencia('El campo "Término del contrato" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('cargo').value === "") {
+      this.MensajeAdvertencia('El campo "Cargo" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('salario').value === "") {
+      this.MensajeAdvertencia('El campo "Salario" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('lugarExpedicion').value === "") {
+      this.MensajeAdvertencia('El campo "Lugar de expedición" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('salarioTexto').value === "") {
+      this.MensajeAdvertencia('El campo "Salario en Letras" es requerido');
+      this.counter++;
+    }
+    
+    if(this.empleadoForm.get('area').value === "") {
+      this.MensajeAdvertencia('El campo "Area" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('jefe').value === "") {
+      this.MensajeAdvertencia('El campo "Jefe" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('direccion').value === "") {
+      this.MensajeAdvertencia('El campo "Dirección" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('celular').value === "") {
+      this.MensajeAdvertencia('El campo "Celular" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('sede').value === "") {
+      this.MensajeAdvertencia('El campo "Sede" es requerido');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('extension').value === "") {
+      this.MensajeAdvertencia('El campo "Extensión" es requerido'); 
+      this.counter ++;
+    }
+
+    if(this.counter > 0) {
+      this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
+      return false;
+    }
+  }
+
+  
   onSubmit() {
+    this.validarVacios();
     console.log(this.empleadoForm)
     let usuario = this.empleadoForm.get('usuario').value.id;
     console.log(usuario);
@@ -186,6 +296,8 @@ dataUsuarios = [
     let bonoInteger = parseInt(bono, 10);
     let afpInteger = parseInt(afp, 10);
     let nombreEmpleado;
+    let contador = 0
+    
 
     if(tipoContrato === 'Integral') {
       SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger;
@@ -262,18 +374,18 @@ dataUsuarios = [
   }
 
   MensajeExitoso(mensaje: string) {
-    this.toastr.successToastr('This is success toast.', 'Confirmado!');
+    this.toastr.successToastr(mensaje, 'Confirmado!');
   }
 
   MensajeError(mensaje: string) {
-    this.toastr.errorToastr('This is error toast.', 'Oops!');
+    this.toastr.errorToastr(mensaje, 'Oops!');
   }
 
   MensajeAdvertencia(mensaje: string) {
-    this.toastr.warningToastr('This is warning toast.', 'Validación!');
+    this.toastr.warningToastr(mensaje, 'Validación!');
   }
 
   MensajeInfo(mensaje: string) {
-    this.toastr.infoToastr('This is info toast.', 'Info');
+    this.toastr.infoToastr(mensaje, 'Info');
   }
 }
