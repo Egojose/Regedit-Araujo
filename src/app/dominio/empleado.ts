@@ -19,7 +19,17 @@ export class Empleado {
         public direccion: string,
         public celular: string,
         public sede: string,
-        public extension: string
+        public extension: string,
+        public bonos: string,
+        public afp: string,
+        public terminoContrato: string,
+        public carrera: string,
+        public universidad: string,
+        public salarioIntegral: string,
+        public contactoEmergencia: string,
+        public fechaSalida: Date,
+        public numeroContactoEmergencia: string,
+        public urlHojaDeVida: any
 
     ) {}
 
@@ -45,7 +55,17 @@ export class Empleado {
             element.Direccion,
             element.Celular,
             element.Sede,
-            element.Extension
+            element.Extension,
+            element.Bonos,
+            element.AFP,
+            element.TerminoContrato,
+            element.Carrera,
+            element.Universidad,
+            element.SalarioIntegral,
+            element.ContactoEmergencia,
+            element.FechaSalida,
+            element.NumeroContactoEmergencia,
+            element.UrlHojaDeVida
         )
     }
 
