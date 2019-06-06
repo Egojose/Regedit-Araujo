@@ -16,7 +16,7 @@
     styleUrls: ['./editar-registro.component.css']
   })
   export class EditarRegistroComponent implements OnInit {
-  editarEmpleadoForm: Form;
+  editarEmpleadoForm: FormGroup;
   usuario: Usuario;
   usuarioActual: Usuario;
   emptyManager: boolean;
@@ -37,10 +37,39 @@
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
     ngOnInit() {
+      this.registrarControles();
     }
 
-    private registrarControles () {
-
-    }
+    private registrarControles() {
+      this.editarEmpleadoForm = this.fB.group({
+        usuario: ['', Validators.required],
+        primerNombre: ['', Validators.required],
+        segundoNombre: ['', Validators.required],
+        primerApellido: ['', Validators.required],
+        segundoApellido: ['', Validators.required],
+        numeroDocumento: ['', Validators.required],
+        tipoDocumento: ['', Validators.required],
+        fechaIngreso: ['', Validators.required],
+        fechaSalida: [''],
+        tipoContrato: ['', Validators.required],
+        terminoContrato: ['', Validators.required],
+        cargo: ['', Validators.required],
+        salario: ['', Validators.required],
+        lugarExpedicion: ['', Validators.required],
+        salarioTexto: ['', Validators.required],
+        area: ['', Validators.required],
+        jefe: [''],
+        direccion: ['', Validators.required],
+        celular: ['', Validators.required],
+        sede: ['', Validators.required],
+        extension: ['', Validators.required],
+        bono: [''],
+        afp: [''],
+        universidad: [''],
+        carrera: [''],
+        contactoEmergencia: [''],
+        numeroContactoEmergencia: ['']
+      });
+    };
 
   }
