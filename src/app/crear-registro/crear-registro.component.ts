@@ -7,7 +7,7 @@
   import { Sede } from '../dominio/sede';
   import { Area } from '../dominio/area';
   import { Cargo } from '../dominio/cargo';
-  import { ToastrModule, ToastrManager } from 'ng6-toastr-notifications';
+  import { ToastrManager } from 'ng6-toastr-notifications';
 
 
 
@@ -20,6 +20,7 @@
   empleadoForm: FormGroup;
   ObjUsuarios: [];
   usuarios: Usuario[] = [];
+  usuarioActual: Usuario;
   emptyManager: boolean;
   adjuntoHV: any;
   adjuntoCertificado: any;
@@ -38,10 +39,11 @@
 
   ngOnInit() {
     this.registrarControles();
-    this.obtenerUsarios();
+    this.obtenerUsuarios();
     this.obtenerSede();
     this.obtenerArea();
     this.obtenerCargo();
+    this.ObtenerUsuarioActual();
   }
 
   private registrarControles() {
@@ -77,13 +79,24 @@
     this.emptyManager = true;
   }
 
-  obtenerUsarios() {
+  obtenerUsuarios() {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
       (respuesta) => {
         this.usuarios = Usuario.fromJsonList(respuesta);
         console.log(this.usuarios);
         this.DataSourceUsuarios();
-      })
+      });
+  };
+
+  ObtenerUsuarioActual() {
+    this.servicio.ObtenerUsuarioActual().subscribe(
+      (Response) => {
+        this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
+        console.log(this.usuarioActual);
+      }, err => {
+        console.log('Error obteniendo usuario: ' + err);
+      }
+    )
   }
 
   adjuntarHojaDeVida(event) {
@@ -151,7 +164,7 @@
   validarVacios() {
     this.counter = 0
 
-    if(this.empleadoForm.get('usuario').value === null) {
+    if(this.empleadoForm.get('usuario').value === "") {
       this.MensajeAdvertencia('El campo "Usuario" es requerido');
       this.counter++;
     }
@@ -259,7 +272,7 @@
 
   
   onSubmit() {
-    this.validarVacios();
+    // this.validarVacios();
     console.log(this.empleadoForm)
     let usuario = this.empleadoForm.get('usuario').value.id;
     console.log(usuario);
