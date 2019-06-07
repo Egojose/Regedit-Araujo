@@ -35,6 +35,7 @@
     {value: 'Seleccione', label : 'Seleccione'}
   ];
   counter: number = 0;
+  PermisosCrearRegistro: boolean;
 
 
 
@@ -46,7 +47,8 @@
       this.obtenerSede();
       this.obtenerArea();
       this.obtenerCargo();
-      this.obtenerInfoEmpleado();
+      this.verificarPermisos();
+      // this.obtenerInfoEmpleado();
     }
 
     private registrarControles() {
@@ -130,13 +132,20 @@
       this.usuarioActual = JSON.parse(sessionStorage.getItem('usuario'));
     };
 
-    obtenerInfoEmpleado() {
-      let usuarioId = this.usuarioActual.id;
-      this.servicio.obtenerInfoEmpleado(usuarioId).subscribe(
-        (respuesta) => {
-          this.empleadoEditar = Empleado.fromJsonList(respuesta)
-          console.log(this.empleadoEditar)
-        }
-      )
+    verificarPermisos() {
+      let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
+      if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+        this.PermisosCrearRegistro = true;
+      } 
     }
+
+    // obtenerInfoEmpleado() {
+    //   let usuarioId = this.usuarioActual.id;
+    //   this.servicio.obtenerInfoEmpleado(usuarioId).subscribe(
+    //     (respuesta) => {
+    //       this.empleadoEditar = Empleado.fromJsonList(respuesta)
+    //       console.log(this.empleadoEditar)
+    //     }
+    //   )
+    // }
   }

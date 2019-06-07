@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="PermisosCrearRegistro">
 <div class="container">
   <form autocomplete="off" class="formulario" [formGroup]="editarEmpleadoForm" (ngSubmit)="onSubmit()">
   <div>
@@ -183,4 +183,8 @@
     </div>
 </form>
 </div>
+</ng-container>
+
+<ng-container *ngIf="!PermisosCrearRegistro">
+  <h1>Hola usuario difrente a gestión humana</h1>
 </ng-container>
