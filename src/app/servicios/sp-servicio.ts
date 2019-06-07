@@ -49,7 +49,7 @@ export class SPServicio {
     }
 
     ObtenerUsuarioActual() {
-        let respuesta = from(this.ObtenerConfiguracion().web.currentUser.get());
+        let respuesta = from(this.ObtenerConfiguracionRaiz().web.currentUser.get());
         return respuesta;
     }
 
