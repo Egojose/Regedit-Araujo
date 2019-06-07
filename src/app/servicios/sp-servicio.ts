@@ -21,6 +21,16 @@ export class SPServicio {
         return configuracionSharepoint;
     }
 
+    public ObtenerConfiguracionRaiz() {
+        const configuracionSharepoint = pnp.sp.configure({
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            }
+        }, environment.urlRaiz);
+
+        return configuracionSharepoint;
+    }
+
     public ObtenerConfiguracionConPost() {
         const configuracionSharepoint = pnp.sp.configure({
             headers: {
@@ -34,7 +44,7 @@ export class SPServicio {
     }
 
     ObtenerTodosLosUsuarios() {
-        let respuesta = from(this.ObtenerConfiguracion().web.siteUsers.get());
+        let respuesta = from(this.ObtenerConfiguracionRaiz().web.siteUsers.get());
         return respuesta;
     }
 
@@ -83,6 +93,11 @@ export class SPServicio {
     agregarAdjuntoHojaVida(IdUsuario: number, nombreArchivo: string, archivo: File) {
         let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
         return item.attachmentFiles.add(nombreArchivo, archivo);
+    }
+
+    obtenerInfoEmpleado(usuarioId) {
+        let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.get());
+        return respuesta;
     }
 
     // agregarAdjuntoCertificados(IdUsuario: number, nombreArchivo: string, archivo: File) {

@@ -91,24 +91,24 @@
     <div class="formulario">
       <div class="form-row">
         <div class="form-group col-md-4">
+          <label for="Sede">Sede</label>
             <select type="text" class="form-control" formControlName="sede">
-                <option value="">Sede</option>
                 <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
                 </option>
             </select>
           <!-- <input type="text" class="form-control" id="inputnombre2" placeholder="Sede" formControlName="sede"> -->
         </div>
         <div class="form-group col-md-4">
+          <label for="Jefe">Jefe</label>
           <select id="usuario" formControlName="jefe" class="form-control">
-            <option value="">Jefe</option>
             <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
               {{usuario.label}}
             </option>
           </select>
         </div>
         <div class="form-group col-md-4">
+          <label for="Area">Area</label>
             <select type="text" class="form-control" formControlName="area">
-                <option value="">Area</option>
                 <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
                 </option>
             </select>
@@ -117,24 +117,26 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-4">
+            <label for="Cargo">Cargo</label>
             <select type="text" class="form-control" formControlName="cargo">
-                <option value="">Cargo</option>
                 <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
                 </option>
             </select>
           <!-- <input type="text" class="form-control" id="inputuser" placeholder="Cargo" formControlName="cargo"> -->
         </div>
         <div class="form-group col-md-4">
-          <input type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
+          <label for="Salario">Salario</label>
+          <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
         </div>
         <div class="form-group col-md-4">
-          <input type="text" class="form-control" id="inputnombre2" placeholder="Salario en Letras" formControlName="salarioTexto">
+          <label for="Salario en Letras">Salario en letras</label>
+          <input type="text" class="form-control" id="inputnombre2" formControlName="salarioTexto">
         </div>
       </div>
         <div class="row">
           <div class="col-md-4 form-group">
+            <label for="Tipo de contrato">Tipo de contrato</label>
             <select type="text" class="form-control" placeholder="Tipo de contrato" formControlName="tipoContrato">
-              <option value="" selected>Tipo de contrato</option>
               <option value="Integral">Integral</option>
               <option value="Ordinario">Ordinario</option>
               <option value="Aprendiz Sena">Aprendiz Sena</option>
@@ -142,21 +144,23 @@
             </select>
           </div>
           <div class="col-md-4 form-group">
+            <label for="Término del contrato">Término del contrato</label>
             <select class="form-control" formControlName="terminoContrato">
-              <option value=""selected>Término del contrato</option>
               <option value="Indefinido">Indefinido</option>
               <option value="Fijo">Fijo</option>
             </select>
           </div>
           <div class="col-md-4 form-group">
-            <input type="text" class="form-control" placeholder="fecha de ingreso" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <label for="Fecha de ingreso">Fecha de ingreso</label>
+            <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
           </div>
         </div>
         
         <ng-container *ngIf="empleadoForm.get('terminoContrato').value === 'Fijo'">
           <div class="row">
           <div class="col-md-4 form-group">
-            <input type="text" class="form-control" placeholder="fecha de salida" formControlName="fechaSalida" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <label for="Fecha de salida">Fecha de salida</label>
+            <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
           </div>
         </div>
         </ng-container>
@@ -164,10 +168,12 @@
         <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Integral'">
           <div class="row">
             <div class="col-md-6 form-group">
-              <input type="text" class="form-control" placeholder="Bono" formControlName="bono">
+              <label for="Bono">Bono</label>
+              <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" placeholder="Bono" formControlName="bono">
             </div>
             <div class="col-md-6 form-group">
-              <input type="text" class="form-control" placeholder="AFP" formControlName="afp">
+              <label for="AFP">AFP</label>
+              <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" placeholder="AFP" formControlName="afp">
             </div>
           </div>
         </ng-container>
@@ -175,10 +181,12 @@
         <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Practicante universitario'">
           <div class="row">
             <div class="col-md-6 form-group">
-              <input type="text" class="form-control" placeholder="Universidad" formControlName="universidad">
+              <label for="Universidad">Universidad</label>
+              <input type="text" class="form-control" formControlName="universidad">
             </div>
             <div class="col-md-6 form-group">
-              <input type="text" class="form-control" placeholder="Carrera" formControlName="carrera">
+              <label for="Carrera">Carrera</label>
+              <input type="text" class="form-control" formControlName="carrera">
             </div>
           </div>
         </ng-container>

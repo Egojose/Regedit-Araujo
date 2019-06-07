@@ -4,11 +4,12 @@
   import { Usuario } from '../dominio/usuario';
   import { Router } from '@angular/router';
   import { ToastrManager } from 'ng6-toastr-notifications';
-  import { Form } from 'sp-pnp-js/lib/sharepoint/forms';
   import { Sede } from '../dominio/sede';
   import { Area } from '../dominio/area';
   import { Cargo } from '../dominio/cargo';
   import { ItemAddResult } from 'sp-pnp-js';
+  import { Empleado } from '../dominio/empleado';
+  import { Grupo } from '../dominio/grupo';
 
   @Component({
     selector: 'app-editar-registro',
@@ -19,6 +20,7 @@
   editarEmpleadoForm: FormGroup;
   usuario: Usuario;
   usuarioActual: Usuario;
+  empleadoEditar: Empleado[] = [];
   emptyManager: boolean;
   adjuntoHV: any;
   adjuntoCertificado: any;
@@ -26,6 +28,8 @@
   sede: Sede[] = [];
   area: Area[] = [];
   cargo: Cargo[] = [];
+  empleado: Empleado;
+  grupos: Grupo[] = [];  
   // valorUsuarioPorDefecto: string = "Seleccione";
   dataUsuarios = [
     {value: 'Seleccione', label : 'Seleccione'}
@@ -38,6 +42,11 @@
 
     ngOnInit() {
       this.registrarControles();
+      this.ObtenerUsuarioActual();
+      this.obtenerSede();
+      this.obtenerArea();
+      this.obtenerCargo();
+      this.obtenerInfoEmpleado();
     }
 
     private registrarControles() {
@@ -72,4 +81,62 @@
       });
     };
 
+    ObtenerUsuarioActual() {
+     
+      this.servicio.ObtenerUsuarioActual().subscribe(
+        (Response) => {
+          this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
+          this.obtenerGrupos();
+        }, err => {
+          console.log('Error obteniendo usuario: ' + err);
+        }
+      );
+    };
+
+    obtenerGrupos() {
+      let idUsuario = this.usuarioActual.id;
+      this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
+        (respuesta) => {
+          this.grupos = Grupo.fromJsonList(respuesta);
+          console.log(this.grupos)
+        }, err => {
+          console.log('Error obteniendo grupos de usuario: ' + err);
+        }
+      )
+    };
+
+    obtenerSede() { 
+      this.servicio.obtenerSedes().subscribe(
+      (respuesta) => {
+        this.sede = Sede.fromJsonList(respuesta);
+      });
+    };
+    
+    obtenerArea() {
+      this.servicio.obtenerArea().subscribe(
+        (respuesta) => {
+          this.area = Area.fromJsonList(respuesta);
+        });
+    };
+  
+    obtenerCargo() {
+      this.servicio.obtenerCargo().subscribe(
+        (respuesta) => {
+          this.cargo = Cargo.fromJsonList(respuesta)
+        });
+    };
+
+    RecuperarUsuario() {
+      this.usuarioActual = JSON.parse(sessionStorage.getItem('usuario'));
+    };
+
+    obtenerInfoEmpleado() {
+      let usuarioId = this.usuarioActual.id;
+      this.servicio.obtenerInfoEmpleado(usuarioId).subscribe(
+        (respuesta) => {
+          this.empleadoEditar = Empleado.fromJsonList(respuesta)
+          console.log(this.empleadoEditar)
+        }
+      )
+    }
   }

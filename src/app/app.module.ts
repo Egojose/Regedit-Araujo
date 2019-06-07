@@ -12,7 +12,7 @@ import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angul
 import { Select2Module } from 'ng2-select2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ng6-toastr-notifications';
-
+import { NgxCurrencyModule } from "ngx-currency";
 
 
 
@@ -31,8 +31,8 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     ReactiveFormsModule,
     Select2Module,
     BsDatepickerModule.forRoot(),
-    BrowserAnimationsModule,ToastrModule.forRoot()
-    
+    BrowserAnimationsModule,ToastrModule.forRoot(),
+    NgxCurrencyModule
   ],
   providers: [SPServicio],
   bootstrap: [AppComponent]
