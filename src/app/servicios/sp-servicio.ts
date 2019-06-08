@@ -36,7 +36,7 @@ export class SPServicio {
             headers: {
                 "Accept": "application/json; odata=verbose",
                 'Content-Type': 'application/json;odata=verbose',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU1OTc1MDc0NCwibmJmIjoxNTU5NzUwNzQ0LCJleHAiOjE1NTk3Nzk4NDQsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.YuvaY0YmYGMd-tNaWQdH8C3Q7zolF-b25y6SKa91mDPjnzGlN01dTiMgWH4sEUBIeykp_BUy7n0eCtKD1XZ0dMwmVzdYyXqe4BD2AUB_ScgIz7gkcVvE8InWuU2JQR8JPn2Sl71-FriHgwCkMQCTGgI1Lhm_DNz51IJu8iGAV6vMXIDB4ovgHYnt0APivxViTqpGaDaTTMJ_MRLue6vQPBXk5BUUlVigb7wwvE_hQ8YrlL5wDGRpC7fb1w88zs0FGfzD6VMEp9kAUUpkYy4-T28o2GwQJTIOShQ0vLCklQf9aYcjlBRsqYf7vYieTSVb4FmVmxiM_1ZG8CeCxl-fqw'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2MDAyMTE3MywibmJmIjoxNTYwMDIxMTczLCJleHAiOjE1NjAwNTAyNzMsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.WF6H6e_MABzA8bETG7tLWw_3PVZYhxr_vlgUjSDYMZcB72TN-BhwPVmwZ88yCIXT3YEA3lc3KEEhW1gksI_1vcqNwTC6irLjTye12h_PDVwqs0Bcr3pQS7KLSIsxebpVMH_MVDSV96uYzg3jSGCLv_sy3j2zQ-6rL7iIOGxrujWgYG7ofyf5-RaJC7dxNvh_uYtFHnjE8RwV0iVGfiAFX_6vfeH8RblTZRcpBSW_drTGV666oDzks4olmMoOzzJMsvYZgrM5BCQ9anGBSHAoMQJX3sCR3WWoEnX3bLXCdsnk-EgshcPHUz95xEGQnMdUz5jZZ-i5k1kINLLYa2ikpA'
             }
         }, environment.urlWeb);
 
@@ -90,12 +90,22 @@ export class SPServicio {
         return respuesta;
     }
 
-    agregarAdjuntoHojaVida(IdUsuario: number, nombreArchivo: string, archivo: File) {
-        let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
-        return item.attachmentFiles.add(nombreArchivo, archivo);
+    // agregarAdjuntoHojaVida(IdUsuario: number, nombreArchivo: string, archivo: File) {
+    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
+    //     return item.attachmentFiles.add(nombreArchivo, archivo);
+    // }
+
+    AgregarHojaDeVida(objHojaDeVida){
+        return this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('https://aribasas.sharepoint.com/sites/Intranet/Gestion-humana/Documentos%20compartidos').folders.getByName('Hoja de vida').files.add
+        // return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.add(ObjHojaDeVida)
     }
 
-    obtenerInfoEmpleado(usuarioId) {
+    obtenerInfoEmpleadoSeleccionado(IdUsuario: number) {
+        let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.select("*").filter("IdUsuario eq " + IdUsuario + "").get());
+        return respuesta;
+    }
+
+    obtenerInfoEmpleados() {
         let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.get());
         return respuesta;
     }
@@ -105,8 +115,8 @@ export class SPServicio {
     //     return item.attachmentFiles.add(nombreArchivo, archivo);
     // }
 
-    // agregarAdjuntoDiplomas(IdUsuario: number, nombreArchivo: string, archivo: File) {
-    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaContratos).items.getById(IdContrato);
+    // agregarAdjuntoDiplomas(IdUsuario: number, objDiploma) {
+    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
     //     return item.attachmentFiles.add(nombreArchivo, archivo);
     // }
 
