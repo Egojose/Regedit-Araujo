@@ -18,6 +18,7 @@
   })
   export class EditarRegistroComponent implements OnInit {
   editarEmpleadoForm: FormGroup;
+  editarEmpleadoFormUsuario: FormGroup;
   usuario: Usuario;
   usuarioActual: Usuario;
   empleadoEditar: Empleado[] = [];
@@ -49,6 +50,22 @@
       this.obtenerCargo();
       this.verificarPermisos();
       // this.obtenerInfoEmpleado();
+    }
+
+    private registrarControlesUsuario() {
+      this.editarEmpleadoFormUsuario = this.fB.group({
+        primerNomnreUsuario: [''],
+        segundoNombreUsuario: [''],
+        primerApellidoUsuario: [''],
+        segundoApellidoUsuario: ['']
+      })
+    }
+
+    valoresPorDefecto() {
+      this.editarEmpleadoFormUsuario.get('primerNombreUsuario').setValue('Juan');
+      this.editarEmpleadoFormUsuario.get('segundoNombreUsuario').setValue('Fernando');
+      this.editarEmpleadoFormUsuario.get('primerApellidoUsuario').setValue('Vasquez');
+      this.editarEmpleadoFormUsuario.get('segundoApellidoUsuario').setValue('Gutierrez');
     }
 
     private registrarControles() {
@@ -135,7 +152,7 @@
     verificarPermisos() {
       let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
       if(existeGrupoCrearEditarPerfilEmpleado !== null) {
-        this.PermisosCrearRegistro = true;
+        this.PermisosCrearRegistro = false;
       } 
     }
 
