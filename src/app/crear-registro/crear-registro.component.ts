@@ -3,6 +3,7 @@
   import { SPServicio } from '../servicios/sp-servicio';
   import { Usuario } from '../dominio/usuario';
   import { ItemAddResult } from 'sp-pnp-js';
+  import { FileAddResult } from 'sp-pnp-js';
   import { Router } from '@angular/router';
   import { Sede } from '../dominio/sede';
   import { Area } from '../dominio/area';
@@ -92,7 +93,7 @@
     this.servicio.ObtenerUsuarioActual().subscribe(
       (Response) => {
         this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
-        console.log(this.usuarioActual);
+        // console.log(this.usuarioActual.id);
       }, err => {
         console.log('Error obteniendo usuario: ' + err);
       }
@@ -119,6 +120,7 @@
 
   adjuntarDiplomas(event) {
     let AdjuntoDiplomas = event.target.files[0];
+    console.log(AdjuntoDiplomas);
     if (AdjuntoDiplomas != null) {
       this.adjuntoDiplomas = AdjuntoDiplomas;
     } else {
@@ -274,7 +276,7 @@
   onSubmit() {
     // this.validarVacios();
     console.log(this.empleadoForm)
-    let usuario = this.empleadoForm.get('usuario').value.id;
+    let usuario = this.empleadoForm.get('usuario').value;
     console.log(usuario);
     let primerNombre = this.empleadoForm.get('primerNombre').value;
     let segundoNombre = this.empleadoForm.get('segundoNombre').value;
@@ -309,7 +311,11 @@
     let bonoInteger = parseInt(bono, 10);
     let afpInteger = parseInt(afp, 10);
     let nombreEmpleado;
-    let contador = 0
+    let objHojaDeVida;
+    let salarioString = `${salario}`;
+    let bonoString = `${bono}`;
+    let afpString = `${afp}`;
+    
     
 
     if(tipoContrato === 'Integral') {
@@ -340,7 +346,7 @@
     nombreEmpleado = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
 
     objEmpleado = {
-      usuario: usuario.id,
+      usuarioId: usuario,
       Title: nombreEmpleado.toUpperCase(),
       PrimerNombre: primerNombre,
       SegundoNombre: segundoNombre,
@@ -352,25 +358,33 @@
       FechaSalida: fechaSalida,
       TipoContrato: tipoContrato,
       Cargo: cargo,
-      Salario: salario,
+      Salario: salarioString,
       lugarExpedicion: luagarExpedicion,
       salarioTexto: salarioTexto,
       Area: area,
-      Jefe: jefe.id,
+      JefeId: jefe,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,
       Extension: extension,
-      Bonos: bono,
-      AFP: afp,
+      Bonos: bonoString,
+      AFP: afpString,
       TerminoContrato: terminoContrato,
       Carrera: carrera,
       Universidad: universidad,
       SalarioIntegral: salarioIntegral,
       ContactoEmergencia: contactoEmergencia,
-      NumeroContactoEmergencia: numeroContactoEmergencia
+      NumeroContactoEmergencia: numeroContactoEmergencia,
+      IdUsuario: usuario
     }
     console.log(salarioIntegral);
+
+    objHojaDeVida = {
+      TipoDocumento: 'Hoja de vida',
+      Empleado: nombreEmpleado,
+      Title: this.adjuntoHV
+    }
+    console.log(objHojaDeVida);
     
     if(this.empleadoForm.invalid) {
       this.MensajeAdvertencia('hay campos vacíos')
@@ -378,8 +392,10 @@
     else {
       this.servicio.AgregarInfoEmpleado(objEmpleado).then(
         (item: ItemAddResult) => {
-         this.MensajeExitoso("El registro se ha creado con éxito")
-          
+         this.servicio.AgregarHojaDeVida(objHojaDeVida)
+           
+            this.MensajeExitoso("El registro se ha creado con éxito")
+         
         },  err => {
           this.MensajeError('error al guardar la solicitud')
         });
