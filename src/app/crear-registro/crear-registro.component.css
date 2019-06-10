@@ -67,8 +67,13 @@ form.archivos {
       color: red;
   }
 
-  H2 {
+  h5 {
       color: red;
+  }
+
+  .card-header {
+      background: red;
+      color: white;
   }
 
 
