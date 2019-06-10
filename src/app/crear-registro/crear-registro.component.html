@@ -1,4 +1,6 @@
 
+<ng-container *ngIf="PermisosCrearRegistro">
+
 <div class="container">
     <form autocomplete="off" class="formulario" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
   <!-- <form class="formulario" action="POST" name="form_register" enctype="multipart/form-data"> -->
@@ -199,21 +201,26 @@
         <hr>
       </div>
       <div class="row text-center form-group">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label for="Hoja de vida">Hoja de vida</label>
           <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label for="Hoja de vida">Certificados</label>
           <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
         </div>
-        <div class="col-md-4">
+      </div>
+      <div class="row text-center form-group">
+        <div class="col-md-6">
           <label for="Hoja de vida">Diplomas</label>
           <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
         </div>
+        <div class="col-md-6">
+          <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
+          <input type="file" name="Hoja de vida corporativa" class="form-control" (change)="adjuntarHVcorporativa($event)">
+        </div>
         </div>
       </div>
-      <br>
       <br>
       <!-- Footer -->
       <div class="modal-footer">
@@ -222,5 +229,17 @@
       </div>
   </form>
 </div>
+</ng-container>
+<br>
+<ng-container *ngIf="!PermisosCrearRegistro">
+  <div class="col-md-4 offset-md-4 text-center">
+    <div class="card inicio">
+        <div class="card-body">
+           <H2>NO TIENE PERMISO PARA CREAR REGISTROS</H2>
+        </div>
+    </div>
+</div>
+</ng-container>
+
 
 
