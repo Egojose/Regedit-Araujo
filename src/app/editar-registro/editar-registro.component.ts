@@ -10,6 +10,7 @@
   import { ItemAddResult } from 'sp-pnp-js';
   import { Empleado } from '../dominio/empleado';
   import { Grupo } from '../dominio/grupo';
+  
 
   @Component({
     selector: 'app-editar-registro',
@@ -26,6 +27,7 @@
   adjuntoHV: any;
   adjuntoCertificado: any;
   adjuntoDiplomas: any;
+  adjuntoHVcorporativa: any;
   sede: Sede[] = [];
   area: Area[] = [];
   cargo: Cargo[] = [];
@@ -49,23 +51,37 @@
       this.obtenerArea();
       this.obtenerCargo();
       this.verificarPermisos();
+      this.registrarControlesUsuario();
       // this.obtenerInfoEmpleado();
     }
 
     private registrarControlesUsuario() {
       this.editarEmpleadoFormUsuario = this.fB.group({
-        primerNomnreUsuario: [''],
+        primerNombreUsuario: [''],
         segundoNombreUsuario: [''],
         primerApellidoUsuario: [''],
-        segundoApellidoUsuario: ['']
+        segundoApellidoUsuario: [''],
+        celularUsuario: [''],
+        direccionUsuario: [''],
+        contactoEmergenciaUsuario: [''],
+        telefonoContactoUsuario: ['']
       })
+    };
+
+    seleccionarUsuario(event) {
+      if (event != "Seleccione") {
+        this.emptyManager = false;
+      } else {
+        this.emptyManager = true;
+        this.MensajeAdvertencia('Debe seleccionar un usuario');
+      }
     }
 
     valoresPorDefecto() {
-      this.editarEmpleadoFormUsuario.get('primerNombreUsuario').setValue('Juan');
-      this.editarEmpleadoFormUsuario.get('segundoNombreUsuario').setValue('Fernando');
-      this.editarEmpleadoFormUsuario.get('primerApellidoUsuario').setValue('Vasquez');
-      this.editarEmpleadoFormUsuario.get('segundoApellidoUsuario').setValue('Gutierrez');
+      this.editarEmpleadoFormUsuario.get('primerNombreUsuario').setValue(this.empleado.primerNombre);
+      this.editarEmpleadoFormUsuario.get('segundoNombreUsuario').setValue(this.empleado.segundoNombre);
+      this.editarEmpleadoFormUsuario.get('primerApellidoUsuario').setValue(this.empleado.primerApellido);
+      this.editarEmpleadoFormUsuario.get('segundoApellidoUsuario').setValue(this.empleado.segundoApellido);
     }
 
     private registrarControles() {
@@ -101,11 +117,12 @@
     };
 
     ObtenerUsuarioActual() {
-     
       this.servicio.ObtenerUsuarioActual().subscribe(
         (Response) => {
           this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
           this.obtenerGrupos();
+          this.obtenerInfoEmpleado();
+          console.log(this.obtenerInfoEmpleado() + 'Hola');
         }, err => {
           console.log('Error obteniendo usuario: ' + err);
         }
@@ -152,9 +169,78 @@
     verificarPermisos() {
       let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
       if(existeGrupoCrearEditarPerfilEmpleado !== null) {
-        this.PermisosCrearRegistro = false;
-      } 
+        this.PermisosCrearRegistro = true;
+      }; 
+    };
+
+    adjuntarHojaDeVida(event) {
+      let AdjuntoHojaVida = event.target.files[0];
+      if (AdjuntoHojaVida != null) {
+        this.adjuntoHV = AdjuntoHojaVida;
+      } else {
+        this.adjuntoHV = null;
+      };
+    };
+  
+    adjuntarCertificados(event) {
+      let AdjuntoCertificados = event.target.files[0];
+      if (AdjuntoCertificados != null) {
+        this.adjuntoCertificado = AdjuntoCertificados;
+      } else {
+        this.adjuntoCertificado = null;
+      };
+    };
+  
+    adjuntarDiplomas(event) {
+      let AdjuntoDiplomas = event.target.files[0];
+      console.log(AdjuntoDiplomas);
+      if (AdjuntoDiplomas != null) {
+        this.adjuntoDiplomas = AdjuntoDiplomas;
+      } else {
+        this.adjuntoDiplomas = null;
+      };
+    };
+  
+    adjuntarHVcorporativa(event) {
+      let AdjuntoHVcorporativa = event.target.files[0];
+      if(AdjuntoHVcorporativa !== null) {
+        this.adjuntarHVcorporativa = AdjuntoHVcorporativa;
+      }
+      else {
+        this.adjuntarHVcorporativa = null;
+      };
+    };
+
+    obtenerInfoEmpleado() {
+      let idUsuario = this.usuarioActual.id;
+      this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
+        (respuesta) => {
+          this.empleadoEditar = Empleado.fromJsonList(respuesta);
+          console.log(this.empleadoEditar)
+        }
+      )
     }
+
+    cancelar() {
+      this.router.navigate['/app-root']
+    }
+
+    MensajeExitoso(mensaje: string) {
+      this.toastr.successToastr(mensaje, 'Confirmado!');
+    }
+  
+    MensajeError(mensaje: string) {
+      this.toastr.errorToastr(mensaje, 'Oops!');
+    }
+  
+    MensajeAdvertencia(mensaje: string) {
+      this.toastr.warningToastr(mensaje, 'Validación!');
+    }
+  
+    MensajeInfo(mensaje: string) {
+      this.toastr.infoToastr(mensaje, 'Info');
+    }
+  
 
     // obtenerInfoEmpleado() {
     //   let usuarioId = this.usuarioActual.id;
