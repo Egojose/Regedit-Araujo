@@ -21,6 +21,7 @@
   editarEmpleadoForm: FormGroup;
   editarEmpleadoFormUsuario: FormGroup;
   usuario: Usuario;
+  usuarios: Usuario[] = [];
   usuarioActual: Usuario;
   empleadoEditar: Empleado[] = [];
   emptyManager: boolean;
@@ -46,6 +47,7 @@
 
     ngOnInit() {
       this.registrarControles();
+      this.obtenerUsuarios();
       this.ObtenerUsuarioActual();
       this.obtenerSede();
       this.obtenerArea();
@@ -116,6 +118,15 @@
       });
     };
 
+    obtenerUsuarios() {
+      this.servicio.ObtenerTodosLosUsuarios().subscribe(
+        (respuesta) => {
+          this.usuarios = Usuario.fromJsonList(respuesta);
+          console.log(this.usuarios);
+          this.DataSourceUsuarios();
+        });
+    };
+
     ObtenerUsuarioActual() {
       this.servicio.ObtenerUsuarioActual().subscribe(
         (Response) => {
@@ -171,6 +182,12 @@
       if(existeGrupoCrearEditarPerfilEmpleado !== null) {
         this.PermisosCrearRegistro = true;
       }; 
+    };
+
+    private DataSourceUsuarios() {
+      this.usuarios.forEach(usuario => {
+        this.dataUsuarios.push({ value: usuario.id.toString(), label: usuario.nombre });
+      });
     };
 
     adjuntarHojaDeVida(event) {
