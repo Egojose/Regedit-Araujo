@@ -15,12 +15,14 @@
             <div class="col-md-4 offset-md-4 text-center">
                 <div class="card inicio">
                     <div class="card-body">
-                        <button *ngIf="PermisosCrearRegistro" type="button" class="btn btn-primary btn-block inicial" (click)="navegar">
-                            <a routerLink ="/crear-registro" routerLinkActive="active"><h4>Crear perfil de empleado</h4></a>
-                        </button>
-                        <button type="button" class="btn btn-primary btn-block final" (click)="expression">
-                            <a routerLink ="/editar-registro" routerLinkActive="active"><h4>Editar perfil de empleado</h4></a>
-                        </button>
+                        <a routerLink="/crear-registro" routerLinkActive="active"><button *ngIf="PermisosCrearRegistro" type="button"
+                                class="btn btn-primary btn-block inicial" (click)="navegar">
+                                <h4>Crear perfil de empleado</h4>
+                            </button></a>
+                        <a routerLink="/editar-registro" routerLinkActive="active"><button type="button"
+                                class="btn btn-primary btn-block final" (click)="expression">
+                                <h4>Editar perfil de empleado</h4>
+                            </button></a>
                     </div>
                 </div>
             </div>
