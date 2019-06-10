@@ -8,7 +8,7 @@
     <br>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label for="Usuario">Usuario</label>
+        <label for="Seleccione el usuario">Seleccione el usuario</label>
         <input type="text" class="form-control" formControlName="usuario">
       </div>
     </div>
@@ -80,30 +80,36 @@
   <div class="formulario">
     <div class="form-row">
       <div class="form-group col-md-4">
-        <input type="text" class="form-control" id="inputnombre2" placeholder="Sede" formControlName="sede">
+        <label for="Sede">Sede</label>
+        <input type="text" class="form-control" id="inputnombre2" formControlName="sede">
       </div>
       <div class="form-group col-md-4">
-        <input type="text" class="form-control" id="inputuser" placeholder="Jefe" formControlName="jefe">
+        <label for="Jefe">Jefe</label>
+        <input type="text" class="form-control" id="inputuser" formControlName="jefe">
       </div>
       <div class="form-group col-md-4">
-        <input type="text" class="form-control" id="inputnombre1" placeholder="Area" formControlName="area">
+        <label for="Area">Area</label>
+        <input type="text" class="form-control" id="inputnombre1" formControlName="area">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <input type="text" class="form-control" id="inputuser" placeholder="Cargo" formControlName="cargo">
+        <label for="Cargo">Cargo</label>
+        <input type="text" class="form-control" id="inputuser" formControlName="cargo">
       </div>
       <div class="form-group col-md-4">
-        <input type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
+        <label for="Salario">Salario</label>
+        <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" id="inputnombre1" formControlName="salario">
       </div>
       <div class="form-group col-md-4">
-        <input type="text" class="form-control" id="inputnombre2" placeholder="Salario en Letras" formControlName="salarioTexto">
+        <label for="Salario en Letras">Salario en letras</label>
+        <input type="text" class="form-control" id="inputnombre2" formControlName="salarioTexto">
       </div>
     </div>
       <div class="row">
         <div class="col-md-4 form-group">
+          <label for="Tipo de contrato">Tipo de contrato</label>
           <select type="text" class="form-control" placeholder="Tipo de contrato" formControlName="tipoContrato">
-            <option value="" selected>Tipo de contrato</option>
             <option value="Integral">Integral</option>
             <option value="Ordinario">Ordinario</option>
             <option value="Aprendiz Sena">Aprendiz Sena</option>
@@ -111,21 +117,23 @@
           </select>
         </div>
         <div class="col-md-4 form-group">
+          <label for="Término del contrato">Término del contrato</label>
           <select class="form-control" formControlName="terminoContrato">
-            <option value=""selected>Término del contrato</option>
             <option value="Indefinido">Indefinido</option>
             <option value="Fijo">Fijo</option>
           </select>
         </div>
         <div class="col-md-4 form-group">
-          <input type="text" class="form-control" placeholder="fecha de ingreso" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+          <label for="Fecha de ingreso">Fecha de ingreso</label>
+          <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
         </div>
       </div>
       
       <ng-container *ngIf="editarEmpleadoForm.get('terminoContrato').value === 'Fijo'">
         <div class="row">
         <div class="col-md-4 form-group">
-          <input type="text" class="form-control" placeholder="fecha de salida" formControlName="fechaSalida" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+          <label for="Fecha de salida">Fecha de salida</label>
+          <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
         </div>
       </div>
       </ng-container>
@@ -133,10 +141,12 @@
       <ng-container *ngIf="editarEmpleadoForm.get('tipoContrato').value == 'Integral'">
         <div class="row">
           <div class="col-md-6 form-group">
-            <input type="text" class="form-control" placeholder="Bono" formControlName="bono">
+            <label for="Bono">Bono</label>
+            <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" formControlName="bono">
           </div>
           <div class="col-md-6 form-group">
-            <input type="text" class="form-control" placeholder="AFP" formControlName="afp">
+            <label for="AFP">AFP</label>
+            <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" formControlName="afp">
           </div>
         </div>
       </ng-container>
@@ -144,10 +154,12 @@
       <ng-container *ngIf="editarEmpleadoForm.get('tipoContrato').value == 'Practicante universitario'">
         <div class="row">
           <div class="col-md-6 form-group">
-            <input type="text" class="form-control" placeholder="Universidad" formControlName="universidad">
+            <label for="Universidad">Universidad</label>
+            <input type="text" class="form-control" formControlName="universidad">
           </div>
           <div class="col-md-6 form-group">
-            <input type="text" class="form-control" placeholder="Carrera" formControlName="carrera">
+            <label for="Carrera">Carrera</label>
+            <input type="text" class="form-control" formControlName="carrera">
           </div>
         </div>
       </ng-container>
@@ -160,17 +172,23 @@
       <hr>
     </div>
     <div class="row text-center form-group">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <label for="Hoja de vida">Hoja de vida</label>
         <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <label for="Hoja de vida">Certificados</label>
         <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
       </div>
-      <div class="col-md-4">
+    </div>
+    <div class="row text-center form-group">
+      <div class="col-md-6">
         <label for="Hoja de vida">Diplomas</label>
         <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
+      </div>
+      <div class="col-md-6">
+        <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
+        <input type="file" name="adjuntoHVcorporativa" class="form-control" (change)="adjuntarHVcorporativa($event)">
       </div>
       </div>
     </div>
@@ -194,23 +212,68 @@
       <div class="row">
         <div class="col-md-6 form-group">
           <label for="Primer Nombre">Primer Nombre</label>
-          <input type="text" class="form-control" formControlName="primerNombreUsuario" value="Juan" text="Juan" readonly>
+          <input type="text" class="form-control" formControlName="primerNombreUsuario" value="empleado.primerNombre" text="Juan" readonly>
         </div>
         <div class="col-md-6 form-group">
           <label for="Segundo Nombre">Segundo Nombre</label>
-          <input type="text" class="form-control" formControlName="segundoNombreUsuario" value="Fernando" text="Fernando"
+          <input type="text" class="form-control" formControlName="segundoNombreUsuario" value="empleado.segundoNombre" text="Fernando"
             readonly>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 form-group">
           <label for="Primer apellido">Primer apellido</label>
-          <input type="text" class="form-control" formControlName="primerApellidoUsuario" value="Vasquez" readonly>
+          <input type="text" class="form-control" formControlName="primerApellidoUsuario" value="empleado.primerApellido" readonly>
         </div>
         <div class="col-md-6 form-group">
           <label for="Segundo apellido">Segundo apellido</label>
-          <input type="text" class="form-control" formControlName="segundoApellidoUsuario" value="Gutierrez" readonly>
+          <input type="text" class="form-control" formControlName="segundoApellidoUsuario" value="empleado.segundoApellido" readonly>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="Dirección">Dirección</label>
+          <input type="text" class="form-control" formControlName="direccionUsuario">
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="Celular">Celular</label>
+          <input type="text" class="form-control" formControlName="celularUsuario">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="Contacto de emergencia">Contacto de emergencia</label>
+          <input type="text" class="form-control" formControlName="contactoEmergenciaUsuario">
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="Numero de contacto de emergencia">Numero de contacto de emergencia</label>
+          <input type="text" class="form-control" formControlName="telefonoContactoUsuario">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="Hoja de vida">Hoja de vida</label>
+          <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
+        </div>
+        <div class="col-md-6">
+          <label for="Hoja de vida">Certificados</label>
+          <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="Hoja de vida">Diplomas</label>
+          <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
+        </div>
+        <div class="col-md-6">
+          <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
+          <input type="file" name="adjuntoHVcorporativa" class="form-control" (change)="adjuntarHVcorporativa($event)">
+        </div>
+      </div>
+      <hr>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+        <button type="button" class="btn btn-danger btn-lg" (click)="cancelar">Cancelar</button>
       </div>
    </form>
  </div>
