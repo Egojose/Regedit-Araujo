@@ -9,6 +9,7 @@
   import { Area } from '../dominio/area';
   import { Cargo } from '../dominio/cargo';
   import { ToastrManager } from 'ng6-toastr-notifications';
+  import { Grupo } from '../dominio/grupo';
 
 
 
@@ -26,14 +27,17 @@
   adjuntoHV: any;
   adjuntoCertificado: any;
   adjuntoDiplomas: any;
+  adjuntoHVcorporativa: any;
   sede: Sede[] = [];
   area: Area[] = [];
   cargo: Cargo[] = [];
+  grupos: Grupo[] = [];
   // valorUsuarioPorDefecto: string = "Seleccione";
   dataUsuarios = [
     {value: 'Seleccione', label : 'Seleccione'}
   ];
   counter: number = 0;
+  PermisosCrearRegistro: boolean;
 
 
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -45,7 +49,8 @@
     this.obtenerArea();
     this.obtenerCargo();
     this.ObtenerUsuarioActual();
-  }
+    this.verificarPermisos();
+  };
 
   private registrarControles() {
     this.empleadoForm = this.fB.group({
@@ -78,7 +83,7 @@
       numeroContactoEmergencia: ['']
     });
     this.emptyManager = true;
-  }
+  };
 
   obtenerUsuarios() {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
@@ -93,12 +98,32 @@
     this.servicio.ObtenerUsuarioActual().subscribe(
       (Response) => {
         this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
+        this.obtenerGrupos();
         // console.log(this.usuarioActual.id);
       }, err => {
         console.log('Error obteniendo usuario: ' + err);
       }
     )
-  }
+  };
+
+  obtenerGrupos() {
+    let idUsuario = this.usuarioActual.id;
+    this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
+      (respuesta) => {
+        this.grupos = Grupo.fromJsonList(respuesta);
+        console.log(this.grupos)
+      }, err => {
+        console.log('Error obteniendo grupos de usuario: ' + err);
+      }
+    )
+  };
+
+  verificarPermisos() {
+    let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
+    if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+      this.PermisosCrearRegistro = true;
+    }; 
+  };
 
   adjuntarHojaDeVida(event) {
     let AdjuntoHojaVida = event.target.files[0];
@@ -106,8 +131,8 @@
       this.adjuntoHV = AdjuntoHojaVida;
     } else {
       this.adjuntoHV = null;
-    }
-  }
+    };
+  };
 
   adjuntarCertificados(event) {
     let AdjuntoCertificados = event.target.files[0];
@@ -115,8 +140,8 @@
       this.adjuntoCertificado = AdjuntoCertificados;
     } else {
       this.adjuntoCertificado = null;
-    }
-  }
+    };
+  };
 
   adjuntarDiplomas(event) {
     let AdjuntoDiplomas = event.target.files[0];
@@ -125,8 +150,18 @@
       this.adjuntoDiplomas = AdjuntoDiplomas;
     } else {
       this.adjuntoDiplomas = null;
+    };
+  };
+
+  adjuntarHVcorporativa(event) {
+    let AdjuntoHVcorporativa = event.target.files[0];
+    if(AdjuntoHVcorporativa !== null) {
+      this.adjuntarHVcorporativa = AdjuntoHVcorporativa;
     }
-  }
+    else {
+      this.adjuntarHVcorporativa = null;
+    };
+  };
 
   seleccionarUsuario(event) {
     if (event != "Seleccione") {
