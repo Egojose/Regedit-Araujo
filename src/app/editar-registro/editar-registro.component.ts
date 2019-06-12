@@ -19,7 +19,6 @@
   })
   export class EditarRegistroComponent implements OnInit {
   editarEmpleadoForm: FormGroup;
-  editarEmpleadoFormUsuario: FormGroup;
   usuario: Usuario;
   usuarios: Usuario[] = [];
   usuarioActual: Usuario;
@@ -46,30 +45,19 @@
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
     ngOnInit() {
+      let idUsuario = 11;
       this.registrarControles();
       this.obtenerUsuarios();
-      this.ObtenerUsuarioActual();
+      // this.ObtenerUsuarioActual();
       this.obtenerSede();
       this.obtenerArea();
       this.obtenerCargo();
       this.verificarPermisos();
-      this.registrarControlesUsuario();
       // this.obtenerInfoEmpleado();
+      this.valoresPorDefecto();
     }
 
-    private registrarControlesUsuario() {
-      this.editarEmpleadoFormUsuario = this.fB.group({
-        primerNombreUsuario: [''],
-        segundoNombreUsuario: [''],
-        primerApellidoUsuario: [''],
-        segundoApellidoUsuario: [''],
-        celularUsuario: [''],
-        direccionUsuario: [''],
-        contactoEmergenciaUsuario: [''],
-        telefonoContactoUsuario: ['']
-      })
-    };
-
+  
     seleccionarUsuario(event) {
       if (event != "Seleccione") {
         this.emptyManager = false;
@@ -80,19 +68,19 @@
     }
 
     valoresPorDefecto() {
-      this.editarEmpleadoFormUsuario.get('primerNombreUsuario').setValue(this.empleado.primerNombre);
-      this.editarEmpleadoFormUsuario.get('segundoNombreUsuario').setValue(this.empleado.segundoNombre);
-      this.editarEmpleadoFormUsuario.get('primerApellidoUsuario').setValue(this.empleado.primerApellido);
-      this.editarEmpleadoFormUsuario.get('segundoApellidoUsuario').setValue(this.empleado.segundoApellido);
+      this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
+      // this.editarEmpleadoFormUsuario.get('segundoNombreUsuario').setValue(this.empleadoEditar[0].segundoNombre);
+      // this.editarEmpleadoFormUsuario.get('primerApellidoUsuario').setValue(this.empleadoEditar[0].primerApellido);
+      // this.editarEmpleadoFormUsuario.get('segundoApellidoUsuario').setValue(this.empleadoEditar[0].segundoApellido);
     }
 
     private registrarControles() {
       this.editarEmpleadoForm = this.fB.group({
         usuario: ['', Validators.required],
-        primerNombre: ['', Validators.required],
-        segundoNombre: ['', Validators.required],
+        Nombre: ['', Validators.required],
+        segundoNombre: [''],
         primerApellido: ['', Validators.required],
-        segundoApellido: ['', Validators.required],
+        segundoApellido: [''],
         numeroDocumento: ['', Validators.required],
         tipoDocumento: ['', Validators.required],
         fechaIngreso: ['', Validators.required],
@@ -124,6 +112,7 @@
           this.usuarios = Usuario.fromJsonList(respuesta);
           console.log(this.usuarios);
           this.DataSourceUsuarios();
+          this.ObtenerUsuarioActual();
         });
     };
 
@@ -233,7 +222,7 @@
       this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
         (respuesta) => {
           this.empleadoEditar = Empleado.fromJsonList(respuesta);
-          console.log(this.empleadoEditar)
+          console.log(this.empleadoEditar[0].primerNombre)
         }
       )
     }

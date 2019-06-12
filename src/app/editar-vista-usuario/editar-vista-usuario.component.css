@@ -1,0 +1,58 @@
+.container{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 80%;
+}
+
+.title{
+    padding-top: 20px;
+    color: #151d51;
+}
+
+
+.formulario{
+    padding: 40px;
+    border-radius: 20px;
+}
+
+form{
+    background: rgba(249, 249, 249, 0.92);
+}
+
+input{
+    border-radius: 14px;
+    background: #fff; 
+}
+
+label{
+    color:#151d51;
+}
+
+.img{
+    padding-bottom: 20px;
+}
+
+
+/* file */
+.file{
+    padding-bottom: 10%;
+    
+}
+
+form.archivos {
+    border-radius: none;
+}
+
+
+  /* responsive logo */
+@media (max-width: 600px) {
+    .navbar-brand {
+      width:50%;
+    }
+    .formulario{
+        padding: 5px;
+    }
+    .container{
+        width: 100%;
+    }
+  }

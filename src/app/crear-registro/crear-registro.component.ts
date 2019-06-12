@@ -129,6 +129,7 @@
     let AdjuntoHojaVida = event.target.files[0];
     if (AdjuntoHojaVida != null) {
       this.adjuntoHV = AdjuntoHojaVida;
+      this.pruebaArchivo();
     } else {
       this.adjuntoHV = null;
     };
@@ -427,7 +428,7 @@
     else {
       this.servicio.AgregarInfoEmpleado(objEmpleado).then(
         (item: ItemAddResult) => {
-         this.servicio.AgregarHojaDeVida(objHojaDeVida)
+        //  this.servicio.AgregarHojaDeVida()
            
             this.MensajeExitoso("El registro se ha creado con éxito")
          
@@ -451,5 +452,21 @@
 
   MensajeInfo(mensaje: string) {
     this.toastr.infoToastr(mensaje, 'Info');
+  }
+  
+  pruebaArchivo(){
+    console.log(this.adjuntoHV);
+    this.servicio.AgregarHojaDeVida("Archivo1", this.adjuntoHV).then(
+      (res: FileAddResult)=>{
+        debugger
+          let pp = res;
+      }
+    ).catch(
+      (error)=>{
+        debugger
+        console.error(error);
+      }
+      
+    )
   }
 }
