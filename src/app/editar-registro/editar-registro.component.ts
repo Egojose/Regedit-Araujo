@@ -39,11 +39,8 @@
   counter: number = 0;
   PermisosCrearRegistro: boolean;
   fechaFormato;
+
  
-
-
-
-
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
     ngOnInit() {
@@ -96,8 +93,8 @@
 
     async agregarHV() {
       let obj = {
-        TipoDocumento: "Hoja de vida"
-        // EmpleadoId: this.empleado[0].id
+        TipoDocumento: "Hoja de vida",
+        EmpleadoId: this.empleadoEditar[0].id
       }
       await this.servicio.AgregarHojaDeVida(this.adjuntoHV.name, this.adjuntoHV).then(
         f => {
