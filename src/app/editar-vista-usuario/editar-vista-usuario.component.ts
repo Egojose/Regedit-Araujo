@@ -201,7 +201,6 @@ export class EditarVistaUsuarioComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/'])
         }, 2000);
-      
       }).catch(
         err => {
           this.MensajeError('error al guardar la solicitud')
