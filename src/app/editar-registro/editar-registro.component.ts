@@ -33,31 +33,199 @@
   cargo: Cargo[] = [];
   empleado: Empleado;
   grupos: Grupo[] = [];  
-  // valorUsuarioPorDefecto: string = "Seleccione";
   dataUsuarios = [
     {value: 'Seleccione', label : 'Seleccione'}
   ];
   counter: number = 0;
   PermisosCrearRegistro: boolean;
+  fechaFormato;
+ 
+
 
 
 
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
     ngOnInit() {
-      let idUsuario = 11;
       this.registrarControles();
       this.obtenerUsuarios();
-      // this.ObtenerUsuarioActual();
-      this.obtenerSede();
-      this.obtenerArea();
-      this.obtenerCargo();
       this.verificarPermisos();
-      // this.obtenerInfoEmpleado();
-      this.valoresPorDefecto();
     }
 
+    adjuntarHojaDeVida(event) {
+      let AdjuntoHojaVida = event.target.files[0];
+      if (AdjuntoHojaVida != null) {
+        this.adjuntoHV = AdjuntoHojaVida;
+        this.agregarHV();
+      } else {
+        this.adjuntoHV = null;
+      };
+    };
   
+    adjuntarCertificados(event) {
+      let AdjuntoCertificados = event.target.files[0];
+      if (AdjuntoCertificados != null) {
+        this.adjuntoCertificado = AdjuntoCertificados;
+        this.agregarCertificados();
+      } else {
+        this.adjuntoCertificado = null;
+      };
+    };
+  
+    adjuntarDiplomas(event) {
+      let AdjuntoDiplomas = event.target.files[0];
+      console.log(AdjuntoDiplomas);
+      if (AdjuntoDiplomas != null) {
+        this.adjuntoDiplomas = AdjuntoDiplomas;
+        this.agregarDiplomas();
+      } else {
+        this.adjuntoDiplomas = null;
+      };
+    };
+  
+    adjuntarHVcorporativa(event) {
+      let AdjuntoHVcorporativa = event.target.files[0];
+      if (AdjuntoHVcorporativa !== null) {
+        this.adjuntoHVcorporativa = AdjuntoHVcorporativa;
+        this.agregarHVCorporativa();
+      }
+      else {
+        this.adjuntarHVcorporativa = null;
+      };
+    };
+
+    async agregarHV() {
+      let obj = {
+        TipoDocumento: "Hoja de vida"
+        // EmpleadoId: this.empleado[0].id
+      }
+      await this.servicio.AgregarHojaDeVida(this.adjuntoHV.name, this.adjuntoHV).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idDocumento = item.Id;
+            this.actualizarMetadatosHV(obj, idDocumento);
+            // item.update(obj);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    };
+  
+    async agregarCertificados() {
+      let obj = {
+        TipoDocumento: "Certificado"
+        // EmpleadoId: this.empleado[0].id
+      }
+      await this.servicio.AgregarCertificado(this.adjuntoCertificado.name, this.adjuntoCertificado).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idDocumento = item.Id;
+            this.actualizarMetadatosCert(obj, idDocumento);
+            // item.update(obj);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    }
+  
+    async agregarDiplomas() {
+      let obj = {
+        TipoDocumento: "Diploma"
+        // EmpleadoId: this.empleado[0].id
+      }
+      await this.servicio.AgregarDiploma(this.adjuntoDiplomas.name, this.adjuntoDiplomas).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idDocumento = item.Id;
+            this.actualizarMetadatoDiploma(obj, idDocumento);
+            // item.update(obj);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    }
+  
+    async agregarHVCorporativa() {
+      let obj = {
+        TipoDocumento: "Hoja de vida corporativa"
+        // EmpleadoId: this.empleado[0].id
+      }
+      await this.servicio.AgregarHojaCorporativa(this.adjuntoHVcorporativa.name, this.adjuntoHVcorporativa).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idDocumento = item.Id;
+            this.actualizarMetadatoHVCorporativa(obj, idDocumento);
+            // item.update(obj);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    }
+  
+    actualizarMetadatosHV(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('La hoja de vida se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    };
+  
+    actualizarMetadatosCert(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosCertificado(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('El certificado se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    }
+  
+    actualizarMetadatoDiploma(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosDiploma(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('El Diploma se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    }
+  
+    actualizarMetadatoHVCorporativa(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosHVCorporativa(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    }
+
     seleccionarUsuario(event) {
       if (event != "Seleccione") {
         this.emptyManager = false;
@@ -67,11 +235,69 @@
       }
     }
 
+    SeleccionarId(event) {
+      let idSeleccionado = event.target.value;
+      this.servicio.obtenerInfoEmpleadoSeleccionado(idSeleccionado).subscribe(
+        (respuesta) => {
+          this.empleadoEditar = Empleado.fromJsonList(respuesta);
+          this.valoresPorDefecto();
+        }
+      ) 
+    }
+
     valoresPorDefecto() {
+      let fechaIngreso;
+      if(this.empleadoEditar[0].fechaIngreso === null) {
+        fechaIngreso = null
+      }
+      else {
+      let fechaI = this.empleadoEditar[0].fechaIngreso;
+      let fecha1 = fechaI.split('-').toString();
+      let fecha2 = fecha1.split('T');
+      let fecha3 = fecha2[0].toString();
+      let fecha4 = fecha3.split(',');
+      fechaIngreso = (fecha4[2] + '/' + fecha4[1] + '/' + fecha4[0]);
+      }
+      let fechaSalida;
+      if(this.empleadoEditar[0].fechaSalida === null) {
+        fechaSalida = null;
+      }
+      else {
+      let fechaS = this.empleadoEditar[0].fechaSalida;
+      let fechaA = fechaS.split('-').toString();
+      let fechaB = fechaA.split('T');
+      let fechaC = fechaB[0].toString();
+      let fechaD = fechaC.split(',');
+      fechaSalida = (fechaD[2] + '/' + fechaD[1] + '/' + fechaD[0])
+      }
+
       this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
-      // this.editarEmpleadoFormUsuario.get('segundoNombreUsuario').setValue(this.empleadoEditar[0].segundoNombre);
-      // this.editarEmpleadoFormUsuario.get('primerApellidoUsuario').setValue(this.empleadoEditar[0].primerApellido);
-      // this.editarEmpleadoFormUsuario.get('segundoApellidoUsuario').setValue(this.empleadoEditar[0].segundoApellido);
+      this.editarEmpleadoForm.controls['segundoNombre'].setValue(this.empleadoEditar[0].segundoNombre);
+      this.editarEmpleadoForm.controls['primerApellido'].setValue(this.empleadoEditar[0].primerApellido);
+      this.editarEmpleadoForm.controls['segundoApellido'].setValue(this.empleadoEditar[0].segundoApellido);
+      this.editarEmpleadoForm.controls['numeroDocumento'].setValue(this.empleadoEditar[0].numeroDocumento);
+      this.editarEmpleadoForm.controls['tipoDocumento'].setValue(this.empleadoEditar[0].tipoDocumento);
+      this.editarEmpleadoForm.controls['fechaIngreso'].setValue(fechaIngreso);
+      this.editarEmpleadoForm.controls['fechaSalida'].setValue(fechaSalida);
+      this.editarEmpleadoForm.controls['tipoContrato'].setValue(this.empleadoEditar[0].tipoContrato);
+      this.editarEmpleadoForm.controls['terminoContrato'].setValue(this.empleadoEditar[0].terminoContrato);
+      this.editarEmpleadoForm.controls['cargo'].setValue(this.empleadoEditar[0].cargo);
+      this.editarEmpleadoForm.controls['salario'].setValue(this.empleadoEditar[0].salario);
+      this.editarEmpleadoForm.controls['lugarExpedicion'].setValue(this.empleadoEditar[0].lugarExpedicion);
+      this.editarEmpleadoForm.controls['salarioTexto'].setValue(this.empleadoEditar[0].salarioTexto);
+      this.editarEmpleadoForm.controls['area'].setValue(this.empleadoEditar[0].area);
+      this.editarEmpleadoForm.controls['jefe'].setValue(this.empleadoEditar[0].jefe);
+      this.editarEmpleadoForm.controls['direccion'].setValue(this.empleadoEditar[0].direccion);
+      this.editarEmpleadoForm.controls['celular'].setValue(this.empleadoEditar[0].celular);
+      this.editarEmpleadoForm.controls['sede'].setValue(this.empleadoEditar[0].sede);
+      this.editarEmpleadoForm.controls['extension'].setValue(this.empleadoEditar[0].extension);
+      this.editarEmpleadoForm.controls['bono'].setValue(this.empleadoEditar[0].bonos);
+      this.editarEmpleadoForm.controls['afp'].setValue(this.empleadoEditar[0].afp);
+      this.editarEmpleadoForm.controls['universidad'].setValue(this.empleadoEditar[0].universidad);
+      this.editarEmpleadoForm.controls['carrera'].setValue(this.empleadoEditar[0].carrera);
+      this.editarEmpleadoForm.controls['contactoEmergencia'].setValue(this.empleadoEditar[0].contactoEmergencia);
+      this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
+    
     }
 
     private registrarControles() {
@@ -82,21 +308,21 @@
         primerApellido: ['', Validators.required],
         segundoApellido: [''],
         numeroDocumento: ['', Validators.required],
-        tipoDocumento: ['', Validators.required],
+        tipoDocumento: [''],
         fechaIngreso: ['', Validators.required],
         fechaSalida: [''],
-        tipoContrato: ['', Validators.required],
-        terminoContrato: ['', Validators.required],
-        cargo: ['', Validators.required],
-        salario: ['', Validators.required],
-        lugarExpedicion: ['', Validators.required],
-        salarioTexto: ['', Validators.required],
-        area: ['', Validators.required],
+        tipoContrato: [''],
+        terminoContrato: [''],
+        cargo: [''],
+        salario: [''],
+        lugarExpedicion: [''],
+        salarioTexto: [''],
+        area: [''],
         jefe: [''],
-        direccion: ['', Validators.required],
-        celular: ['', Validators.required],
-        sede: ['', Validators.required],
-        extension: ['', Validators.required],
+        direccion: [''],
+        celular: [''],
+        sede: [''],
+        extension: [''],
         bono: [''],
         afp: [''],
         universidad: [''],
@@ -107,6 +333,8 @@
     };
 
     obtenerUsuarios() {
+      let usuarioCampo = this.editarEmpleadoForm.get('usuario').value;
+      console.log(usuarioCampo);
       this.servicio.ObtenerTodosLosUsuarios().subscribe(
         (respuesta) => {
           this.usuarios = Usuario.fromJsonList(respuesta);
@@ -121,8 +349,7 @@
         (Response) => {
           this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
           this.obtenerGrupos();
-          this.obtenerInfoEmpleado();
-          console.log(this.obtenerInfoEmpleado() + 'Hola');
+          this.obtenerSede(); 
         }, err => {
           console.log('Error obteniendo usuario: ' + err);
         }
@@ -134,7 +361,6 @@
       this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
         (respuesta) => {
           this.grupos = Grupo.fromJsonList(respuesta);
-          console.log(this.grupos)
         }, err => {
           console.log('Error obteniendo grupos de usuario: ' + err);
         }
@@ -145,6 +371,8 @@
       this.servicio.obtenerSedes().subscribe(
       (respuesta) => {
         this.sede = Sede.fromJsonList(respuesta);
+        this.obtenerArea();
+      
       });
     };
     
@@ -152,13 +380,15 @@
       this.servicio.obtenerArea().subscribe(
         (respuesta) => {
           this.area = Area.fromJsonList(respuesta);
+          this.obtenerCargo();
+          
         });
     };
   
     obtenerCargo() {
       this.servicio.obtenerCargo().subscribe(
         (respuesta) => {
-          this.cargo = Cargo.fromJsonList(respuesta)
+          this.cargo = Cargo.fromJsonList(respuesta);
         });
     };
 
@@ -179,56 +409,98 @@
       });
     };
 
-    adjuntarHojaDeVida(event) {
-      let AdjuntoHojaVida = event.target.files[0];
-      if (AdjuntoHojaVida != null) {
-        this.adjuntoHV = AdjuntoHojaVida;
-      } else {
-        this.adjuntoHV = null;
-      };
-    };
-  
-    adjuntarCertificados(event) {
-      let AdjuntoCertificados = event.target.files[0];
-      if (AdjuntoCertificados != null) {
-        this.adjuntoCertificado = AdjuntoCertificados;
-      } else {
-        this.adjuntoCertificado = null;
-      };
-    };
-  
-    adjuntarDiplomas(event) {
-      let AdjuntoDiplomas = event.target.files[0];
-      console.log(AdjuntoDiplomas);
-      if (AdjuntoDiplomas != null) {
-        this.adjuntoDiplomas = AdjuntoDiplomas;
-      } else {
-        this.adjuntoDiplomas = null;
-      };
-    };
-  
-    adjuntarHVcorporativa(event) {
-      let AdjuntoHVcorporativa = event.target.files[0];
-      if(AdjuntoHVcorporativa !== null) {
-        this.adjuntarHVcorporativa = AdjuntoHVcorporativa;
-      }
-      else {
-        this.adjuntarHVcorporativa = null;
-      };
-    };
+    
 
     obtenerInfoEmpleado() {
       let idUsuario = this.usuarioActual.id;
       this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
         (respuesta) => {
           this.empleadoEditar = Empleado.fromJsonList(respuesta);
-          console.log(this.empleadoEditar[0].primerNombre)
+          this.obtenerSede();
+          
         }
       )
     }
 
+    onSubmit() {
+      let idUsuarioSeleccionado = this.empleadoEditar[0].id;
+      console.log(idUsuarioSeleccionado);
+      let usuario = this.editarEmpleadoForm.get('usuario').value;
+      let primerNombre = this.editarEmpleadoForm.get('Nombre').value;
+      let segundoNombre = this.editarEmpleadoForm.get('segundoNombre').value;
+      let primerApellido = this.editarEmpleadoForm.get('primerApellido').value;
+      let segundoApellido = this.editarEmpleadoForm.get('segundoApellido').value;
+      let numeroDocumento = this.editarEmpleadoForm.get('numeroDocumento').value;
+      let tipoDocumento = this.editarEmpleadoForm.get('tipoDocumento').value;
+      let fechaIngreso = this.editarEmpleadoForm.get('fechaIngreso').value;
+      let fechaSalida = this.editarEmpleadoForm.get('fechaSalida').value;
+      let tipoContrato = this.editarEmpleadoForm.get('tipoContrato').value;
+      let terminoContrato = this.editarEmpleadoForm.get('terminoContrato').value;
+      let cargo = this.editarEmpleadoForm.get('cargo').value;
+      let salario = this.editarEmpleadoForm.get('salario').value;
+      let lugarExpedicion = this.editarEmpleadoForm.get('lugarExpedicion').value;
+      let salarioTexto = this.editarEmpleadoForm.get('salarioTexto').value;
+      let area = this.editarEmpleadoForm.get('area').value;
+      let jefe = this.editarEmpleadoForm.get('jefe').value;
+      let direccion = this.editarEmpleadoForm.get('direccion').value;
+      let celular = this.editarEmpleadoForm.get('celular').value;
+      let sede = this.editarEmpleadoForm.get('sede').value;
+      let extension = this.editarEmpleadoForm.get('extension').value;
+      let bono = this.editarEmpleadoForm.get('bono').value;
+      let afp = this.editarEmpleadoForm.get('afp').value;
+      let universidad = this.editarEmpleadoForm.get('universidad').value;
+      let carrera = this.editarEmpleadoForm.get('carrera').value;
+      let contactoEmergencia = this.editarEmpleadoForm.get('contactoEmergencia').value;
+      let numeroContactoEmergencia = this.editarEmpleadoForm.get('numeroContactoEmergencia').value;
+      let salarioString = `${salario}`;
+      let bonoString = `${bono}`;
+      let afpString = `${afp}`;
+      let objEmpleado;
+
+      objEmpleado = {
+        usuarioId: usuario,
+        PrimerNombre: primerNombre,
+        SegundoNombre: segundoNombre,
+        PrimerApellido: primerApellido,
+        SegundoApellido: segundoApellido,
+        NumeroDocumento: numeroDocumento,
+        TipoContrato: tipoContrato,
+        FechaIngreso: fechaIngreso,
+        TipoDocumento: tipoDocumento,
+        Cargo: cargo,
+        Salario: salarioString,
+        lugarExpedicion: lugarExpedicion,
+        salarioTexto: salarioTexto,
+        Area: area,
+        JefeId: jefe,
+        Direccion: direccion,
+        Celular: celular,
+        Sede: sede,
+        Extension: extension,
+        Bonos: bonoString,
+        AFP: afpString,
+        TerminoContrato: terminoContrato,
+        Carrera: carrera,
+        Universidad: universidad,
+        ContactoEmergencia: contactoEmergencia,
+        FechaSalida: fechaSalida,
+        NumeroContactoEmergencia: numeroContactoEmergencia
+      }
+
+      this.servicio.ActualizarInfoEmpleadoGhumana(idUsuarioSeleccionado, objEmpleado).then(
+        (item: ItemAddResult) => {
+          this.MensajeExitoso('La información se actualizó con éxtio')
+          setTimeout(() => {
+            this.router.navigate(['/'])
+          }, 2000);
+        }, err => {
+          this.MensajeError('Error actualizando la información')
+        }
+      );
+    }
+
     cancelar() {
-      this.router.navigate['/app-root']
+      this.router.navigate(['/'])
     }
 
     MensajeExitoso(mensaje: string) {

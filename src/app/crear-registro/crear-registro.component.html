@@ -1,140 +1,131 @@
-
 <ng-container *ngIf="PermisosCrearRegistro">
 
-<div class="container">
+  <div class="container">
     <form autocomplete="off" class="formulario" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
-  <!-- <form class="formulario" action="POST" name="form_register" enctype="multipart/form-data"> -->
-    <!-- inputs form -->
-    <div>
-      <div class="text-center title">
-        <h4>Crear registro de empleado</h4>
-      </div>
-      <br>
-      <!-- <div class="text-center img">
-        <img src="https://www.tramvenegroup.com/clientes/images/user.png" width="12%" alt="">
-      </div> -->
-      <div class="form-row">
-        <div class="form-group col-md-4">
-           <label for="Usuario">Usuario</label>
+      <div>
+        <div class="text-center title">
+          <h4>Crear registro de empleado</h4>
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="Usuario">Usuario</label>
             <select id="usuario" formControlName="usuario" class="form-control">
-                <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
-                  {{usuario.label}}
-                </option>
-              </select>
-         
-          <!-- <input type="text" class="form-control" formControlName="usuario"> -->
+              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                {{usuario.label}}
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6" [ngClass]="{'has-error': empleadoForm.get('primerNombre').errors && (empleadoForm.get('primerNombre').touched || empleadoForm.get('primerNombre').dirty)}">
-          <label for="inputNombre1">Primer Nombre</label>
-          <input type="text" class="form-control" id="inputNombre1" formControlName="primerNombre">
+        <div class="form-row">
+          <div class="form-group col-md-6"
+            [ngClass]="{'has-error': empleadoForm.get('primerNombre').errors && (empleadoForm.get('primerNombre').touched || empleadoForm.get('primerNombre').dirty)}">
+            <label for="inputNombre1">Primer Nombre</label>
+            <input type="text" class="form-control" id="inputNombre1" formControlName="primerNombre">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputnombre2">Segundo Nombre</label>
+            <input type="text" class="form-control" id="inputNombre2" formControlName="segundoNombre">
+          </div>
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputnombre2">Segundo Nombre</label>
-          <input type="text" class="form-control" id="inputNombre2" formControlName="segundoNombre">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputApellido1">Primer Apellido</label>
+            <input type="text" class="form-control" id="inputApellido1" formControlName="primerApellido">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputApellido2">Segundo Apellido</label>
+            <input type="text" class="form-control" id="inputApellido2" formControlName="segundoApellido">
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputApellido1">Primer Apellido</label>
-          <input type="text" class="form-control" id="inputApellido1" formControlName="primerApellido">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputApellido2">Segundo Apellido</label>
-          <input type="text" class="form-control" id="inputApellido2" formControlName="segundoApellido">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="inputDoc">Tipo de Documento</label>
-          <select id="inputDoc" class="form-control" formControlName="tipoDocumento">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputDoc">Tipo de Documento</label>
+            <select id="inputDoc" class="form-control" formControlName="tipoDocumento">
               <option value="Cédula">Cédula</option>
               <option value="Cédula de extranjería">Cédula de extranjería</option>
               <option value="Pasaporte">Pasaporte</option>
-          </select>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputNumd">Numero de Documento</label>
+            <input type="text" class="form-control" id="inputNumd" formControlName="numeroDocumento">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputExp">Lugar de Expedición</label>
+            <input type="text" class="form-control" id="inputExp" formControlName="lugarExpedicion">
+          </div>
         </div>
-        <div class="form-group col-md-4">
-          <label for="inputNumd">Numero de Documento</label>
-          <input type="text" class="form-control" id="inputNumd" formControlName="numeroDocumento">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputAdress">Dirección</label>
+            <input type="text" class="form-control" id="inputAdress" formControlName="direccion">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputPhone">Celular</label>
+            <input type="text" class="form-control" id="inputPhone" formControlName="celular">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputExt">Extensión</label>
+            <input type="text" class="form-control" id="inputExt" formControlName="extension">
+          </div>
         </div>
-        <div class="form-group col-md-4">
-          <label for="inputExp">Lugar de Expedición</label>
-          <input type="text" class="form-control" id="inputExp" formControlName="lugarExpedicion">
+        <div class="form-row">
+          <div class="col-md-6 form-group">
+            <label for="Contacto de emergencia">Contacto de emergencia</label>
+            <input type="text" class="form-control" formControlName="contactoEmergencia">
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="Contacto de emergencia">Número del contacto</label>
+            <input type="text" class="form-control" formControlName="numeroContactoEmergencia">
+          </div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="inputAdress">Dirección</label>
-          <input type="text" class="form-control" id="inputAdress" formControlName="direccion">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputPhone">Celular</label>
-          <input type="text" class="form-control" id="inputPhone" formControlName="celular">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputExt">Extensión</label>
-          <input type="text" class="form-control" id="inputExt" formControlName="extension">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-6 form-group">
-          <label for="Contacto de emergencia">Contacto de emergencia</label>
-          <input type="text" class="form-control"  formControlName="contactoEmergencia">
-        </div>
-        <div class="col-md-6 form-group">
-          <label for="Contacto de emergencia">Número del contacto</label>
-          <input type="text" class="form-control"  formControlName="numeroContactoEmergencia">
-        </div>
-      </div>
-    </div>
-    <hr>
-    <!-- Form2 -->
-    <div class="formulario">
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="Sede">Sede</label>
+      <hr>
+      <div class="formulario">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="Sede">Sede</label>
             <select type="text" class="form-control" formControlName="sede">
-                <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
-                </option>
+              <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
+              </option>
             </select>
-          <!-- <input type="text" class="form-control" id="inputnombre2" placeholder="Sede" formControlName="sede"> -->
-        </div>
-        <div class="form-group col-md-4">
-          <label for="Jefe">Jefe</label>
-          <select id="usuario" formControlName="jefe" class="form-control">
-            <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
-              {{usuario.label}}
-            </option>
-          </select>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="Area">Area</label>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Jefe">Jefe</label>
+            <select id="usuario" formControlName="jefe" class="form-control">
+              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                {{usuario.label}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Area">Area</label>
             <select type="text" class="form-control" formControlName="area">
-                <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
-                </option>
+              <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
+              </option>
             </select>
-          <!-- <input type="text" class="form-control" id="inputnombre1" placeholder="Area" formControlName="area"> -->
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-row">
+          <div class="form-group col-md-4">
             <label for="Cargo">Cargo</label>
             <select type="text" class="form-control" formControlName="cargo">
-                <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
-                </option>
+              <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
+              </option>
             </select>
-          <!-- <input type="text" class="form-control" id="inputuser" placeholder="Cargo" formControlName="cargo"> -->
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Salario">Salario</label>
+            <input currencyMask
+              [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+              type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Salario en Letras">Salario en letras</label>
+            <input type="text" class="form-control" id="inputnombre2" formControlName="salarioTexto">
+          </div>
         </div>
-        <div class="form-group col-md-4">
-          <label for="Salario">Salario</label>
-          <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" id="inputnombre1" placeholder="Salario" formControlName="salario">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="Salario en Letras">Salario en letras</label>
-          <input type="text" class="form-control" id="inputnombre2" formControlName="salarioTexto">
-        </div>
-      </div>
         <div class="row">
           <div class="col-md-4 form-group">
             <label for="Tipo de contrato">Tipo de contrato</label>
@@ -154,28 +145,34 @@
           </div>
           <div class="col-md-4 form-group">
             <label for="Fecha de ingreso">Fecha de ingreso</label>
-            <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
           </div>
         </div>
-        
+
         <ng-container *ngIf="empleadoForm.get('terminoContrato').value === 'Fijo'">
           <div class="row">
-          <div class="col-md-4 form-group">
-            <label for="Fecha de salida">Fecha de salida</label>
-            <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <div class="col-md-4 form-group">
+              <label for="Fecha de salida">Fecha de salida</label>
+              <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            </div>
           </div>
-        </div>
         </ng-container>
-        
+
         <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Integral'">
           <div class="row">
             <div class="col-md-6 form-group">
               <label for="Bono">Bono</label>
-              <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" placeholder="Bono" formControlName="bono">
+              <input currencyMask
+                [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+                type="text" class="form-control" placeholder="Bono" formControlName="bono">
             </div>
             <div class="col-md-6 form-group">
               <label for="AFP">AFP</label>
-              <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" placeholder="AFP" formControlName="afp">
+              <input currencyMask
+                [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+                type="text" class="form-control" placeholder="AFP" formControlName="afp">
             </div>
           </div>
         </ng-container>
@@ -192,58 +189,57 @@
             </div>
           </div>
         </ng-container>
-        
-    </div>
-    <!-- Documentos Adjuntos -->
-    <div class="formulario">
-      <div class="text-center">
-        <h5>Adjuntar archivos</h5>
-        <hr>
+
       </div>
-      <div class="row text-center form-group">
-        <div class="col-md-6">
-          <label for="Hoja de vida">Hoja de vida</label>
-          <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
+      <div class="formulario">
+        <div class="text-center">
+          <h5>Adjuntar archivos</h5>
+          <hr>
         </div>
-        <div class="col-md-6">
-          <label for="Hoja de vida">Certificados</label>
-          <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
+        <div class="row text-center form-group">
+          <div class="col-md-6">
+            <label for="Hoja de vida">Hoja de vida</label>
+            <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
+          </div>
+          <div class="col-md-6">
+            <label for="Hoja de vida">Certificados</label>
+            <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
+          </div>
         </div>
-      </div>
-      <div class="row text-center form-group">
-        <div class="col-md-6">
-          <label for="Hoja de vida">Diplomas</label>
-          <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
-        </div>
-        <div class="col-md-6">
-          <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
-          <input type="file" name="Hoja de vida corporativa" class="form-control" (change)="adjuntarHVcorporativa($event)">
-        </div>
+        <div class="row text-center form-group">
+          <div class="col-md-6">
+            <label for="Hoja de vida">Diplomas</label>
+            <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
+          </div>
+          <div class="col-md-6">
+            <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
+            <input type="file" name="Hoja de vida corporativa" class="form-control"
+              (change)="adjuntarHVcorporativa($event)">
+          </div>
         </div>
       </div>
       <br>
-      <!-- Footer -->
       <div class="modal-footer">
         <button type="submit" class="btn btn-success btn-lg">Guardar</button>
-        <button type="button" class="btn btn-danger btn-lg">Cancelar</button>
+        <button type="button" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
       </div>
-  </form>
-</div>
+    </form>
+  </div>
 </ng-container>
 <br>
 <ng-container *ngIf="!PermisosCrearRegistro">
   <div class="col-md-4 offset-md-4 text-center">
     <div class="card inicio">
-      <div class="card-header"><h3>Acceso denegado</h3></div>
-        <div class="card-body">
-           <h5 class="detalles">Detalles:</h5>
-           <p>Usted no tiene permisos para crear registros.</p>
-           <p>Si pertenece al área de gestión humana y requiere permisos, por favor pónganse en contacto con el administrador de Sharepoint.</p>
-        </div>
+      <div class="card-header">
+        <h3>Acceso denegado</h3>
+      </div>
+      <div class="card-body">
+        <h5 class="detalles">Detalles:</h5>
+        <p>Usted no tiene permisos para crear registros.</p>
+        <p>Si pertenece al área de gestión humana y requiere permisos, por favor pónganse en contacto con el
+          administrador de Sharepoint.</p>
+      </div>
     </div>
-</div>
-<br>
+  </div>
+  <br>
 </ng-container>
-
-
-

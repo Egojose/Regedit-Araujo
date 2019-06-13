@@ -26,7 +26,7 @@ export class SPServicio {
             headers: {
                 "Accept": "application/json; odata=verbose"
             }
-        }, environment.urlRaiz);
+        }, environment.urlWeb);
 
         return configuracionSharepoint;
     }
@@ -36,7 +36,7 @@ export class SPServicio {
             headers: {
                 "Accept": "application/json; odata=verbose",
                 'Content-Type': 'application/json;odata=verbose',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2MDI5MDY0OSwibmJmIjoxNTYwMjkwNjQ5LCJleHAiOjE1NjAzMTk3NDksImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.QdVxUC4Pq6vi1QrW-dpYs-8dR0xsU0QTjO5yxhntgVnIWeZthZItMXirSplSX5Z0NfSSV7-phZQmw90Fza7Gd9bO-A4ZMmto7xHfKglbybldcQJit9tRONxAY7a5JkOV-fceGUFV5G1UqSXqFdntLytbK9rGvx-cD95yIFcvjwGlBYnEeeqaLJZ_UoyG76pT4uqXjS-ubmKd6jH34Ht85UTioR97ymc4xWAVt0Tql6ct7F8XuN8_GVfxAW5TfC3Cf1O3kYPz2UvOeNNbz7se2EfXrfILUS7TCwsOjQ_1R1x6UdOPItzeAuUgHj4RiFShSvwKfRVdWivy6pzb5kxFWA'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2MDQ0MTk5MywibmJmIjoxNTYwNDQxOTkzLCJleHAiOjE1NjA0NzEwOTMsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.aYEWexUJWtEKb7DqdE6EdIZg9nqRZyb_L_63eRWLSBxcI0ZiwZGjzQh0MnjvkHgpowEwSoTe91N7XfVRIxRKMfpixf3TFLL69r4RzosdCIESrYWE1NisfzbQj5D_VrCKPiQAlNFg98WYcu2CBK455DVQ_bFBha1yrTCx4Ss_-hq3tn5uYCoa4TUcxvPxcUYCA2baZwEW_algVmHPJ7fJPGaYaAMXtAk03DXa6Ytb1HKWL9OzSte58t2LMKupxV2vFl3toulru57NhAUYppWm4rjN51-17qNxBnhx-Ymll4icxDW2cnGg5wcwyCkFbZYahT98PodAM-tOnSQTuSnMvw'
             }
         }, environment.urlWeb);
 
@@ -74,12 +74,12 @@ export class SPServicio {
         return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.add(ObjEmpleado)
     }
 
-    ActualizarInfoEmpleado(idEmpleado: number, empleado: Empleado) {
-        return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update({});
+    ActualizarInfoEmpleado(IdUsuario: number, objEmpleado) {
+        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
     }
 
-    ActualizarInfoEmpleadoGhumana(idEmpleado: number, empleado: Empleado) {
-        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update({})
+    ActualizarInfoEmpleadoGhumana(idEmpleado: number, objEmpleado) {
+        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update(objEmpleado)
     }
 
     ObtenerGruposUsuario(usuarioId: number){
@@ -107,12 +107,61 @@ export class SPServicio {
     //     return item.attachmentFiles.add(nombreArchivo, archivo);
     // }
 
-    AgregarHojaDeVida(nombreArchivo, archivo: File){
-        return this.ObtenerConfiguracionConPost2().web.getFolderByServerRelativeUrl('/sites/Intranet/Gestion-humana/Documentos%20compartidos/Hoja%20de%20vida/').files.add(nombreArchivo, archivo, false);
+    // AgregarHojaDeVida(nombreArchivo, archivo: File){
+    //     return this.ObtenerConfiguracionConPost2().web.getFolderByServerRelativeUrl('/Prueba%20Documentos').files.add(nombreArchivo, archivo, false);
+    //     // return this.ObtenerConfiguracionConPost2().web.getFolderByServerRelativeUrl('/sites/Intranet/Gestion-humana/Documentos%20compartidos/Hoja%20de%20vida/').files.add(nombreArchivo, archivo, false);
+    // }
+
+    async AgregarHojaDeVida(nombre, archivo: File): Promise<any> {
+        let mensaje = ""
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        return respuesta;
+        
+    }
+
+    async AgregarHojaCorporativa(nombre, archivo: File): Promise<any> {
+        let mensaje = ""
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        return respuesta;
+        
+    }
+
+    async AgregarCertificado(nombre, archivo: File): Promise<any> {
+        let mensaje = ""
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        return respuesta;
+        
+    }
+
+    async AgregarDiploma(nombre, archivo: File): Promise<any> {
+        let mensaje = ""
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        return respuesta;
+        
+    }
+    
+    ActualizarMetaDatosHV(obj, idDocumento){
+        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        return respuesta;
+    }
+
+    ActualizarMetaDatosHVCorporativa(obj, idDocumento){
+        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        return respuesta;
+    }
+
+    ActualizarMetaDatosCertificado(obj, idDocumento){
+        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        return respuesta;
+    }
+
+    ActualizarMetaDatosDiploma(obj, idDocumento){
+        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        return respuesta;
     }
 
     obtenerInfoEmpleadoSeleccionado(IdUsuario: number) {
-        let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.select("*").filter("IdUsuario eq " + IdUsuario + "").get());
+        let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.select("*").filter("usuarioId eq " + IdUsuario + "").get());
         return respuesta;
     }
 

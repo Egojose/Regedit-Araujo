@@ -1,24 +1,25 @@
-  import { Component, OnInit } from '@angular/core';
-  import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-  import { SPServicio } from '../servicios/sp-servicio';
-  import { Usuario } from '../dominio/usuario';
-  import { ItemAddResult } from 'sp-pnp-js';
-  import { FileAddResult } from 'sp-pnp-js';
-  import { Router } from '@angular/router';
-  import { Sede } from '../dominio/sede';
-  import { Area } from '../dominio/area';
-  import { Cargo } from '../dominio/cargo';
-  import { ToastrManager } from 'ng6-toastr-notifications';
-  import { Grupo } from '../dominio/grupo';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SPServicio } from '../servicios/sp-servicio';
+import { Empleado } from '../dominio/empleado';
+import { Usuario } from '../dominio/usuario';
+import { ItemAddResult } from 'sp-pnp-js';
+import { FileAddResult } from 'sp-pnp-js';
+import { Router } from '@angular/router';
+import { Sede } from '../dominio/sede';
+import { Area } from '../dominio/area';
+import { Cargo } from '../dominio/cargo';
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { Grupo } from '../dominio/grupo';
 
 
 
-  @Component({
-    selector: 'app-crear-registro',
-    templateUrl: './crear-registro.component.html',
-    styleUrls: ['./crear-registro.component.css']
-  })
-  export class CrearRegistroComponent implements OnInit {
+@Component({
+  selector: 'app-crear-registro',
+  templateUrl: './crear-registro.component.html',
+  styleUrls: ['./crear-registro.component.css']
+})
+export class CrearRegistroComponent implements OnInit {
   empleadoForm: FormGroup;
   ObjUsuarios: [];
   usuarios: Usuario[] = [];
@@ -32,9 +33,10 @@
   area: Area[] = [];
   cargo: Cargo[] = [];
   grupos: Grupo[] = [];
+  empleado: Empleado[] = []
   // valorUsuarioPorDefecto: string = "Seleccione";
   dataUsuarios = [
-    {value: 'Seleccione', label : 'Seleccione'}
+    { value: 'Seleccione', label: 'Seleccione' }
   ];
   counter: number = 0;
   PermisosCrearRegistro: boolean;
@@ -45,36 +47,32 @@
   ngOnInit() {
     this.registrarControles();
     this.obtenerUsuarios();
-    this.obtenerSede();
-    this.obtenerArea();
-    this.obtenerCargo();
-    this.ObtenerUsuarioActual();
     this.verificarPermisos();
   };
 
   private registrarControles() {
     this.empleadoForm = this.fB.group({
-      usuario: [''],
+      usuario: ['', Validators.required],
       primerNombre: ['', Validators.required],
-      segundoNombre: ['', Validators.required],
+      segundoNombre: [''],
       primerApellido: ['', Validators.required],
-      segundoApellido: ['', Validators.required],
+      segundoApellido: [''],
       numeroDocumento: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
-      fechaIngreso: ['', Validators.required],
+      tipoDocumento: [''],
+      fechaIngreso: [''],
       fechaSalida: [''],
-      tipoContrato: ['', Validators.required],
-      terminoContrato: ['', Validators.required],
-      cargo: ['', Validators.required],
-      salario: ['', Validators.required],
-      lugarExpedicion: ['', Validators.required],
-      salarioTexto: ['', Validators.required],
-      area: ['', Validators.required],
+      tipoContrato: [''],
+      terminoContrato: [''],
+      cargo: [''],
+      salario: [''],
+      lugarExpedicion: [''],
+      salarioTexto: [''],
+      area: [''],
       jefe: [''],
-      direccion: ['', Validators.required],
-      celular: ['', Validators.required],
-      sede: ['', Validators.required],
-      extension: ['', Validators.required],
+      direccion: [''],
+      celular: [''],
+      sede: [''],
+      extension: [''],
       bono: [''],
       afp: [''],
       universidad: [''],
@@ -90,6 +88,7 @@
       (respuesta) => {
         this.usuarios = Usuario.fromJsonList(respuesta);
         console.log(this.usuarios);
+        this.ObtenerUsuarioActual();
         this.DataSourceUsuarios();
       });
   };
@@ -99,6 +98,7 @@
       (Response) => {
         this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
         this.obtenerGrupos();
+        this.obtenerArea();
         // console.log(this.usuarioActual.id);
       }, err => {
         console.log('Error obteniendo usuario: ' + err);
@@ -112,6 +112,8 @@
       (respuesta) => {
         this.grupos = Grupo.fromJsonList(respuesta);
         console.log(this.grupos)
+        this.obtenerSede();
+        this.obtenerCargo();
       }, err => {
         console.log('Error obteniendo grupos de usuario: ' + err);
       }
@@ -120,16 +122,17 @@
 
   verificarPermisos() {
     let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
-    if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+    console.log(existeGrupoCrearEditarPerfilEmpleado);
+    if (existeGrupoCrearEditarPerfilEmpleado !== null) {
       this.PermisosCrearRegistro = true;
-    }; 
+    };
   };
 
   adjuntarHojaDeVida(event) {
     let AdjuntoHojaVida = event.target.files[0];
     if (AdjuntoHojaVida != null) {
       this.adjuntoHV = AdjuntoHojaVida;
-      this.pruebaArchivo();
+      this.agregarHV();
     } else {
       this.adjuntoHV = null;
     };
@@ -139,6 +142,7 @@
     let AdjuntoCertificados = event.target.files[0];
     if (AdjuntoCertificados != null) {
       this.adjuntoCertificado = AdjuntoCertificados;
+      this.agregarCertificados();
     } else {
       this.adjuntoCertificado = null;
     };
@@ -149,6 +153,7 @@
     console.log(AdjuntoDiplomas);
     if (AdjuntoDiplomas != null) {
       this.adjuntoDiplomas = AdjuntoDiplomas;
+      this.agregarDiplomas();
     } else {
       this.adjuntoDiplomas = null;
     };
@@ -156,8 +161,9 @@
 
   adjuntarHVcorporativa(event) {
     let AdjuntoHVcorporativa = event.target.files[0];
-    if(AdjuntoHVcorporativa !== null) {
-      this.adjuntarHVcorporativa = AdjuntoHVcorporativa;
+    if (AdjuntoHVcorporativa !== null) {
+      this.adjuntoHVcorporativa = AdjuntoHVcorporativa;
+      this.agregarHVCorporativa();
     }
     else {
       this.adjuntarHVcorporativa = null;
@@ -178,13 +184,13 @@
     });
   };
 
-  obtenerSede() { 
+  obtenerSede() {
     this.servicio.obtenerSedes().subscribe(
-    (respuesta) => {
-      this.sede = Sede.fromJsonList(respuesta);
-    });
+      (respuesta) => {
+        this.sede = Sede.fromJsonList(respuesta);
+      });
   };
-  
+
   obtenerArea() {
     this.servicio.obtenerArea().subscribe(
       (respuesta) => {
@@ -195,120 +201,44 @@
   obtenerCargo() {
     this.servicio.obtenerCargo().subscribe(
       (respuesta) => {
-        this.cargo = Cargo.fromJsonList(respuesta)
+        this.cargo = Cargo.fromJsonList(respuesta);
       });
   };
 
   validarVacios() {
     this.counter = 0
 
-    if(this.empleadoForm.get('usuario').value === "") {
+    if (this.empleadoForm.get('usuario').value === "") {
       this.MensajeAdvertencia('El campo "Usuario" es requerido');
       this.counter++;
     }
-    
-    if(this.empleadoForm.get('primerNombre').value === "") {
+
+    if (this.empleadoForm.get('primerNombre').value === "") {
       this.MensajeAdvertencia('El campo "Primer Nombre" es requerido');
       this.counter++;
     }
 
-    if(this.empleadoForm.get('segundoNombre').value === "") {
-      this.MensajeAdvertencia('El campo "Segundo Nombre" es requerido');
-      this.counter++;
-    }
 
-    if(this.empleadoForm.get('primerApellido').value === "") {
+    if (this.empleadoForm.get('primerApellido').value === "") {
       this.MensajeAdvertencia('El campo "Primer Apellido" es requerido');
       this.counter++;
     }
 
-    if(this.empleadoForm.get('segundoApellido').value === "") {
-      this.MensajeAdvertencia('El campo "Segundo Apellido" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('numeroDocumento').value === "") {
+    if (this.empleadoForm.get('numeroDocumento').value === "") {
       this.MensajeAdvertencia('El campo "Número de documento" es requerido');
       this.counter++;
     }
 
-    if(this.empleadoForm.get('tipoDocumento').value === "") {
-      this.MensajeAdvertencia('El campo "Tipo de documento" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('fechaIngreso').value === "") {
-      this.MensajeAdvertencia('EL campo "Fecha de ingreso" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('tipoContrato').value === "") {
-      this.MensajeAdvertencia('El campo "Tipo de contrato" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('terminoContrato').value === "") {
-      this.MensajeAdvertencia('El campo "Término del contrato" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('cargo').value === "") {
-      this.MensajeAdvertencia('El campo "Cargo" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('salario').value === "") {
-      this.MensajeAdvertencia('El campo "Salario" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('lugarExpedicion').value === "") {
-      this.MensajeAdvertencia('El campo "Lugar de expedición" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('salarioTexto').value === "") {
-      this.MensajeAdvertencia('El campo "Salario en Letras" es requerido');
-      this.counter++;
-    }
-    
-    if(this.empleadoForm.get('area').value === "") {
-      this.MensajeAdvertencia('El campo "Area" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('jefe').value === "") {
-      this.MensajeAdvertencia('El campo "Jefe" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('direccion').value === "") {
-      this.MensajeAdvertencia('El campo "Dirección" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('celular').value === "") {
-      this.MensajeAdvertencia('El campo "Celular" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('sede').value === "") {
-      this.MensajeAdvertencia('El campo "Sede" es requerido');
-      this.counter++;
-    }
-
-    if(this.empleadoForm.get('extension').value === "") {
-      this.MensajeAdvertencia('El campo "Extensión" es requerido'); 
-      this.counter ++;
-    }
-
-    if(this.counter > 0) {
+    if (this.counter > 0) {
       this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
       return false;
     }
   }
 
-  
+  cancelar() {
+    this.router.navigate(['/'])
+  }
+
   onSubmit() {
     // this.validarVacios();
     console.log(this.empleadoForm)
@@ -351,28 +281,28 @@
     let salarioString = `${salario}`;
     let bonoString = `${bono}`;
     let afpString = `${afp}`;
-    
-    
 
-    if(tipoContrato === 'Integral') {
+
+
+    if (tipoContrato === 'Integral') {
       SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger;
-      salarioIntegral = `${SumaSalarioIntegral}` 
+      salarioIntegral = `${SumaSalarioIntegral}`
     }
     else {
       salarioIntegral = "";
     }
 
-    if(tipoContrato === 'Integral' && (bono === "" || afp === "")) {
+    if (tipoContrato === 'Integral' && (bono === "" || afp === "")) {
       this.MensajeAdvertencia('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
       return false;
     }
 
-    if(terminoContrato === 'Fijo' && fechaSalida === "") {
+    if (terminoContrato === 'Fijo' && fechaSalida === "") {
       this.MensajeAdvertencia('Debe especificar la fecha de salida para contrato a término fijo');
       return false;
     }
 
-    if(terminoContrato === 'Fijo') {
+    if (terminoContrato === 'Fijo') {
       fechaSalida = fechaSalida;
     }
     else {
@@ -421,20 +351,23 @@
       Title: this.adjuntoHV
     }
     console.log(objHojaDeVida);
-    
-    if(this.empleadoForm.invalid) {
+
+    if (this.empleadoForm.invalid) {
       this.MensajeAdvertencia('hay campos vacíos')
-    } 
+    }
     else {
       this.servicio.AgregarInfoEmpleado(objEmpleado).then(
-        (item: ItemAddResult) => {
-        //  this.servicio.AgregarHojaDeVida()
-           
-            this.MensajeExitoso("El registro se ha creado con éxito")
-         
-        },  err => {
+        (result) => {
+          this.MensajeExitoso("El registro se ha creado con éxito")
+          setTimeout(() => {
+            this.router.navigate(['/'])
+          }, 2000);
+        }
+      ).catch(
+        err => {
           this.MensajeError('error al guardar la solicitud')
-        });
+        }
+      );
     }
   }
 
@@ -453,20 +386,153 @@
   MensajeInfo(mensaje: string) {
     this.toastr.infoToastr(mensaje, 'Info');
   }
-  
-  pruebaArchivo(){
-    console.log(this.adjuntoHV);
-    this.servicio.AgregarHojaDeVida("Archivo1", this.adjuntoHV).then(
-      (res: FileAddResult)=>{
-        debugger
-          let pp = res;
+
+  async agregarHV() {
+    let obj = {
+      TipoDocumento: "Hoja de vida"
+      // EmpleadoId: this.empleado[0].id
+    }
+    await this.servicio.AgregarHojaDeVida(this.adjuntoHV.name, this.adjuntoHV).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatosHV(obj, idDocumento);
+          // item.update(obj);               
+        })
       }
     ).catch(
-      (error)=>{
-        debugger
-        console.error(error);
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
       }
-      
-    )
+    );
+  };
+
+  async agregarCertificados() {
+    let obj = {
+      TipoDocumento: "Certificado"
+      // EmpleadoId: this.empleado[0].id
+    }
+    await this.servicio.AgregarCertificado(this.adjuntoCertificado.name, this.adjuntoCertificado).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatosCert(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
   }
+
+  async agregarDiplomas() {
+    let obj = {
+      TipoDocumento: "Diploma"
+      // EmpleadoId: this.empleado[0].id
+    }
+    await this.servicio.AgregarDiploma(this.adjuntoDiplomas.name, this.adjuntoDiplomas).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatoDiploma(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
+  }
+
+  async agregarHVCorporativa() {
+    let obj = {
+      TipoDocumento: "Hoja de vida corporativa"
+      // EmpleadoId: this.empleado[0].id
+    }
+    await this.servicio.AgregarHojaCorporativa(this.adjuntoHVcorporativa.name, this.adjuntoHVcorporativa).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatoHVCorporativa(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
+  }
+
+  actualizarMetadatosHV(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('La hoja de vida se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  };
+
+  actualizarMetadatosCert(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosCertificado(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('El certificado se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
+
+  actualizarMetadatoDiploma(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosDiploma(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('El Diploma se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
+
+  actualizarMetadatoHVCorporativa(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosHVCorporativa(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
+
+
+  // pruebaArchivo(){
+  //   console.log(this.adjuntoHV);
+  //   this.servicio.AgregarHojaDeVida("Archivo1", this.adjuntoHV).then(
+  //     (res: FileAddResult)=>{
+  //       debugger
+  //         let pp = res;
+  //     }
+  //   ).catch(
+  //     (error)=>{
+  //       debugger
+  //       console.error(error);
+  //     }
+
+  //   )
+  // }
 }

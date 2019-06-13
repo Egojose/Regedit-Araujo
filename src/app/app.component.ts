@@ -61,9 +61,6 @@ export class AppComponent implements OnInit {
     } 
   }
 
-  navegar() {
-    this.router.navigate(["/crear-registro"]);
-  }
 
   ObtenerUsuarioActual() {
     this.servicio.ObtenerUsuarioActual().subscribe(

@@ -9,7 +9,7 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="Seleccione el usuario">Seleccione el usuario</label>
-        <select id="usuario" formControlName="usuario" class="form-control">
+        <select id="usuario" formControlName="usuario" class="form-control" (change)="SeleccionarId($event)">
             <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
               {{usuario.label}}
             </option>
@@ -85,21 +85,38 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="Sede">Sede</label>
-        <input type="text" class="form-control" id="inputnombre2" formControlName="sede">
+        <select type="text" class="form-control" formControlName="sede">
+            <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
+            </option>
+        </select>
+        <!-- <input type="text" class="form-control" id="inputnombre2" formControlName="sede"> -->
       </div>
       <div class="form-group col-md-4">
         <label for="Jefe">Jefe</label>
-        <input type="text" class="form-control" id="inputuser" formControlName="jefe">
+        <select id="usuario" formControlName="jefe" class="form-control">
+          <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+            {{usuario.label}}
+          </option>
+        </select>
+        <!-- <input type="text" class="form-control" id="inputuser" formControlName="jefe"> -->
       </div>
       <div class="form-group col-md-4">
         <label for="Area">Area</label>
-        <input type="text" class="form-control" id="inputnombre1" formControlName="area">
+        <select type="text" class="form-control" formControlName="area">
+            <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
+            </option>
+        </select>
+        <!-- <input type="text" class="form-control" id="inputnombre1" formControlName="area"> -->
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="Cargo">Cargo</label>
-        <input type="text" class="form-control" id="inputuser" formControlName="cargo">
+        <select type="text" class="form-control" formControlName="cargo">
+            <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
+            </option>
+        </select>
+        <!-- <input type="text" class="form-control" id="inputuser" formControlName="cargo"> -->
       </div>
       <div class="form-group col-md-4">
         <label for="Salario">Salario</label>
@@ -125,6 +142,7 @@
           <select class="form-control" formControlName="terminoContrato">
             <option value="Indefinido">Indefinido</option>
             <option value="Fijo">Fijo</option>
+            <option value="Obra o labor">Obra o labor</option>
           </select>
         </div>
         <div class="col-md-4 form-group">
@@ -201,10 +219,27 @@
     <!-- Footer -->
     <div class="modal-footer">
       <button type="submit" class="btn btn-success btn-lg">Guardar</button>
-      <button type="button" class="btn btn-danger btn-lg">Cancelar</button>
+      <button type="button" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
     </div>
 </form>
 </div>
 </ng-container>
+<ng-container *ngIf="!PermisosCrearRegistro">
+    <div class="col-md-4 offset-md-4 text-center">
+      <div class="card inicio">
+        <div class="card-header">
+          <h3>Acceso denegado</h3>
+        </div>
+        <div class="card-body">
+          <h5 class="detalles">Detalles:</h5>
+          <p>Usted no tiene permisos ingresar a este sitio.</p>
+          <p>Si pertenece al área de gestión humana y requiere permisos, por favor pónganse en contacto con el
+            administrador de Sharepoint.</p>
+        </div>
+      </div>
+    </div>
+    <br>
+  </ng-container>
+
 
 

@@ -1,5 +1,6 @@
 export class Empleado {
     constructor(
+        public id: number,
         public nombreCompleto: string,
         public usuario: any,
         public primerNombre: string,
@@ -8,7 +9,7 @@ export class Empleado {
         public segundoApellido: string,
         public numeroDocumento: string,
         public tipoDocumento: string,
-        public fechaIngreso: Date,
+        public fechaIngreso: any,
         public tipoContrato: string,
         public cargo: string,
         public salario: string,
@@ -27,15 +28,16 @@ export class Empleado {
         public universidad: string,
         public salarioIntegral: string,
         public contactoEmergencia: string,
-        public fechaSalida: Date,
+        public fechaSalida: any,
         public numeroContactoEmergencia: string,
-        public urlHojaDeVida: any
+        public urlHojaDeVida: any,
 
     ) {}
 
 
     public static fromJson(element: any) {
         return new Empleado(
+            element.ID,
             element.Title,
             element.usuario,
             element.PrimerNombre,
@@ -48,8 +50,8 @@ export class Empleado {
             element.TipoContrato,
             element.Cargo,
             element.Salario,
-            element.LugarExpedicion,
-            element.SalarioTexto,
+            element.lugarExpedicion,
+            element.salarioTexto,
             element.Area,
             element.Jefe,
             element.Direccion,

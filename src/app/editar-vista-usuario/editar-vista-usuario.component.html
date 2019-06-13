@@ -1,17 +1,20 @@
 <ng-container *ngIf="!PermisosCrearRegistro">
     <div class="container">
-      <form autocomplete="off" class="formulario" [formGroup]="editarEmpleadoFormUsuario" (ngSubmit)="onSubmitUsuario()">
+      <form autocomplete="off" class="formulario" [formGroup]="editarEmpleadoFormUsuario" (ngSubmit)="onSubmit()">
          <div class="text-center title">
            <h4>Editar registro de empleado</h4>
          </div>
+         <br>
+         <hr>
+         <br>
          <div class="row">
            <div class="col-md-6 form-group">
              <label for="Primer Nombre">Primer Nombre</label>
-             <input type="text" class="form-control" formControlName="primerNombreUsuario" value="empleadoEditar.primerNombre" text="Juan" readonly>
+             <input type="text" class="form-control" formControlName="primerNombreUsuario" readonly>
            </div>
            <div class="col-md-6 form-group">
              <label for="Segundo Nombre">Segundo Nombre</label>
-             <input type="text" class="form-control" formControlName="segundoNombreUsuario" value="empleado.segundoNombre" text="Fernando"
+             <input type="text" class="form-control" formControlName="segundoNombreUsuario"
                readonly>
            </div>
          </div>
@@ -68,8 +71,10 @@
          <hr>
          <div class="modal-footer">
            <button type="submit" class="btn btn-success btn-lg">Guardar</button>
-           <button type="button" class="btn btn-danger btn-lg" (click)="cancelar">Cancelar</button>
+           <button type="button" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
          </div>
       </form>
     </div>
    </ng-container>
+
+   
