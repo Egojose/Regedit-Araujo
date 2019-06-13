@@ -56,12 +56,12 @@ export class SPServicio {
     }
 
     ObtenerTodosLosUsuarios() {
-        let respuesta = from(this.ObtenerConfiguracionRaiz().web.siteUsers.get());
+        let respuesta = from(this.ObtenerConfiguracion().web.siteUsers.get());
         return respuesta;
     }
 
     ObtenerUsuarioActual() {
-        let respuesta = from(this.ObtenerConfiguracionRaiz().web.currentUser.get());
+        let respuesta = from(this.ObtenerConfiguracion().web.currentUser.get());
         return respuesta;
     }
 
@@ -71,15 +71,15 @@ export class SPServicio {
     }
 
     AgregarInfoEmpleado(ObjEmpleado){
-        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.add(ObjEmpleado)
+        return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.add(ObjEmpleado)
     }
 
     ActualizarInfoEmpleado(IdUsuario: number, objEmpleado) {
-        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
+        return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
     }
 
     ActualizarInfoEmpleadoGhumana(idEmpleado: number, objEmpleado) {
-        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update(objEmpleado)
+        return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update(objEmpleado)
     }
 
     ObtenerGruposUsuario(usuarioId: number){
@@ -114,49 +114,49 @@ export class SPServicio {
 
     async AgregarHojaDeVida(nombre, archivo: File): Promise<any> {
         let mensaje = ""
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
         return respuesta;
         
     }
 
     async AgregarHojaCorporativa(nombre, archivo: File): Promise<any> {
         let mensaje = ""
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
         return respuesta;
         
     }
 
     async AgregarCertificado(nombre, archivo: File): Promise<any> {
         let mensaje = ""
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
         return respuesta;
         
     }
 
     async AgregarDiploma(nombre, archivo: File): Promise<any> {
         let mensaje = ""
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
         return respuesta;
         
     }
     
     ActualizarMetaDatosHV(obj, idDocumento){
-        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
         return respuesta;
     }
 
     ActualizarMetaDatosHVCorporativa(obj, idDocumento){
-        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
         return respuesta;
     }
 
     ActualizarMetaDatosCertificado(obj, idDocumento){
-        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
         return respuesta;
     }
 
     ActualizarMetaDatosDiploma(obj, idDocumento){
-        let respuesta = this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
         return respuesta;
     }
 
