@@ -389,8 +389,8 @@ export class CrearRegistroComponent implements OnInit {
 
   async agregarHV() {
     let obj = {
-      TipoDocumento: "Hoja de vida"
-      // EmpleadoId: this.empleado[0].id
+      TipoDocumento: "Hoja de vida",
+      EmpleadoId: this.empleado[0].id
     }
     await this.servicio.AgregarHojaDeVida(this.adjuntoHV.name, this.adjuntoHV).then(
       f => {
@@ -409,8 +409,8 @@ export class CrearRegistroComponent implements OnInit {
 
   async agregarCertificados() {
     let obj = {
-      TipoDocumento: "Certificado"
-      // EmpleadoId: this.empleado[0].id
+      TipoDocumento: "Certificado",
+      EmpleadoId: this.empleado[0].id
     }
     await this.servicio.AgregarCertificado(this.adjuntoCertificado.name, this.adjuntoCertificado).then(
       f => {
@@ -429,8 +429,8 @@ export class CrearRegistroComponent implements OnInit {
 
   async agregarDiplomas() {
     let obj = {
-      TipoDocumento: "Diploma"
-      // EmpleadoId: this.empleado[0].id
+      TipoDocumento: "Diploma",
+      EmpleadoId: this.empleado[0].id
     }
     await this.servicio.AgregarDiploma(this.adjuntoDiplomas.name, this.adjuntoDiplomas).then(
       f => {
@@ -449,8 +449,8 @@ export class CrearRegistroComponent implements OnInit {
 
   async agregarHVCorporativa() {
     let obj = {
-      TipoDocumento: "Hoja de vida corporativa"
-      // EmpleadoId: this.empleado[0].id
+      TipoDocumento: "Hoja de vida corporativa",
+      EmpleadoId: this.empleado[0].id
     }
     await this.servicio.AgregarHojaCorporativa(this.adjuntoHVcorporativa.name, this.adjuntoHVcorporativa).then(
       f => {
