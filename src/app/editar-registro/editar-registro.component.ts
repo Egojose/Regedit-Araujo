@@ -98,6 +98,7 @@
         TipoDocumento: "Hoja de vida",
         EmpleadoId: this.empleadoEditar[0].id
       }
+      
       await this.servicio.AgregarHojaDeVida(nombreArchivo, this.adjuntoHV).then(
         f => {
           f.file.getItem().then(item => {

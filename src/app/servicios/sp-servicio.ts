@@ -81,6 +81,10 @@ export class SPServicio {
     ActualizarInfoEmpleadoGhumana(idEmpleado: number, objEmpleado) {
         return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update(objEmpleado)
     }
+    
+    ActualizarUrl(IdUsuario: number, objEmpleado) {
+        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
+    }
 
     ObtenerGruposUsuario(usuarioId: number){
         let respuesta = from(this.ObtenerConfiguracion().web.getUserById(usuarioId).groups.get());
