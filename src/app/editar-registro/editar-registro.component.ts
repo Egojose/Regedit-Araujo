@@ -438,7 +438,7 @@
         this.counter++;
       }
   
-      if (this.editarEmpleadoForm.get('primerNombre').value === "") {
+      if (this.editarEmpleadoForm.get('Nombre').value === "") {
         this.MensajeAdvertencia('El campo "Primer Nombre" es requerido');
         this.counter++;
       }
