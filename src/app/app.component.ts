@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
  
   title = 'crear-editar-empleado';
   usuario: Usuario;
+  usuarioActual: Usuario;
   nombreUsuario: string;
   idUsuario: number;
   grupos: Grupo[] = [];
@@ -22,7 +23,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
    this.ObtenerUsuarioActual();
-   this.verificarPermisos();
   }
   
   constructor(private servicio: SPServicio, private router: Router, public toastr: ToastrManager) {
@@ -56,10 +56,23 @@ export class AppComponent implements OnInit {
 
   verificarPermisos() {
     let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
-    if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+    if(existeGrupoCrearEditarPerfilEmpleado !== undefined) {
       this.PermisosCrearRegistro = true;
     } 
   }
+
+  obtenerGrupos() {
+    let idUsuario = this.usuario.id;
+    this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
+      (respuesta) => {
+        this.grupos = Grupo.fromJsonList(respuesta);
+        console.log(this.grupos)
+        this.verificarPermisos();
+      }, err => {
+        console.log('Error obteniendo grupos de usuario: ' + err);
+      }
+    )
+  };
 
 
   ObtenerUsuarioActual() {
@@ -69,13 +82,7 @@ export class AppComponent implements OnInit {
         this.nombreUsuario = this.usuario.nombre;
         this.idUsuario = this.usuario.id;
         sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
-        this.servicio.ObtenerGruposUsuario(this.usuario.id).subscribe(
-          (respuesta) => {
-            this.grupos = Grupo.fromJsonList(respuesta);
-          }, err => {
-            console.log('Error obteniendo grupos de usuario: ' + err);
-          }
-        )
+        this.obtenerGrupos();
       }, err => {
         console.log('Error obteniendo usuario: ' + err);
       }

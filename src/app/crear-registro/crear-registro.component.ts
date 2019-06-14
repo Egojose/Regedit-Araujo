@@ -47,7 +47,7 @@ export class CrearRegistroComponent implements OnInit {
   ngOnInit() {
     this.registrarControles();
     this.obtenerUsuarios();
-    this.verificarPermisos();
+    this.ObtenerUsuarioActual();
   };
 
   private registrarControles() {
@@ -88,7 +88,6 @@ export class CrearRegistroComponent implements OnInit {
       (respuesta) => {
         this.usuarios = Usuario.fromJsonList(respuesta);
         console.log(this.usuarios);
-        this.ObtenerUsuarioActual();
         this.DataSourceUsuarios();
       });
   };
@@ -112,6 +111,7 @@ export class CrearRegistroComponent implements OnInit {
       (respuesta) => {
         this.grupos = Grupo.fromJsonList(respuesta);
         console.log(this.grupos)
+        this.verificarPermisos();
         this.obtenerSede();
         this.obtenerCargo();
       }, err => {
@@ -123,7 +123,7 @@ export class CrearRegistroComponent implements OnInit {
   verificarPermisos() {
     let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
     console.log(existeGrupoCrearEditarPerfilEmpleado);
-    if (existeGrupoCrearEditarPerfilEmpleado !== null) {
+    if (existeGrupoCrearEditarPerfilEmpleado !== undefined) {
       this.PermisosCrearRegistro = true;
     };
   };
@@ -240,7 +240,7 @@ export class CrearRegistroComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.validarVacios();
+    this.validarVacios();
     console.log(this.empleadoForm)
     let usuario = this.empleadoForm.get('usuario').value;
     console.log(usuario);
@@ -292,15 +292,15 @@ export class CrearRegistroComponent implements OnInit {
       salarioIntegral = "";
     }
 
-    if (tipoContrato === 'Integral' && (bono === "" || afp === "")) {
-      this.MensajeAdvertencia('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
-      return false;
-    }
+    // if (tipoContrato === 'Integral' && (bono === "" || afp === "")) {
+    //   this.MensajeAdvertencia('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
+    //   return false;
+    // }
 
-    if (terminoContrato === 'Fijo' && fechaSalida === "") {
-      this.MensajeAdvertencia('Debe especificar la fecha de salida para contrato a término fijo');
-      return false;
-    }
+    // if (terminoContrato === 'Fijo' && fechaSalida === "") {
+    //   this.MensajeAdvertencia('Debe especificar la fecha de salida para contrato a término fijo');
+    //   return false;
+    // }
 
     if (terminoContrato === 'Fijo') {
       fechaSalida = fechaSalida;
@@ -343,14 +343,12 @@ export class CrearRegistroComponent implements OnInit {
       NumeroContactoEmergencia: numeroContactoEmergencia,
       IdUsuario: usuario
     }
-    console.log(salarioIntegral);
 
     objHojaDeVida = {
       TipoDocumento: 'Hoja de vida',
       Empleado: nombreEmpleado,
       Title: this.adjuntoHV
     }
-    console.log(objHojaDeVida);
 
     if (this.empleadoForm.invalid) {
       this.MensajeAdvertencia('hay campos vacíos')

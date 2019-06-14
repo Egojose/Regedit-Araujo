@@ -46,7 +46,8 @@
     ngOnInit() {
       this.registrarControles();
       this.obtenerUsuarios();
-      this.verificarPermisos();
+      this.ObtenerUsuarioActual();
+      
     }
 
     adjuntarHojaDeVida(event) {
@@ -92,11 +93,12 @@
     };
 
     async agregarHV() {
+      let nombreArchivo = this.GenerarIdentificador() + '-' + this.adjuntoHV.name;
       let obj = {
         TipoDocumento: "Hoja de vida",
         EmpleadoId: this.empleadoEditar[0].id
       }
-      await this.servicio.AgregarHojaDeVida(this.adjuntoHV.name, this.adjuntoHV).then(
+      await this.servicio.AgregarHojaDeVida(nombreArchivo, this.adjuntoHV).then(
         f => {
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
@@ -112,11 +114,12 @@
     };
   
     async agregarCertificados() {
+      let nombreArchivoCertificado = this.GenerarIdentificador() + '-' + this.adjuntoCertificado.name;
       let obj = {
-        TipoDocumento: "Certificado"
-        // EmpleadoId: this.empleado[0].id
+        TipoDocumento: "Certificado",
+        EmpleadoId: this.empleadoEditar[0].id
       }
-      await this.servicio.AgregarCertificado(this.adjuntoCertificado.name, this.adjuntoCertificado).then(
+      await this.servicio.AgregarCertificado(nombreArchivoCertificado, this.adjuntoCertificado).then(
         f => {
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
@@ -132,11 +135,12 @@
     }
   
     async agregarDiplomas() {
+      let nombreArchivoDiploma = this.GenerarIdentificador() + '-' + this.adjuntoDiplomas.name;
       let obj = {
-        TipoDocumento: "Diploma"
-        // EmpleadoId: this.empleado[0].id
+        TipoDocumento: "Diploma",
+        EmpleadoId: this.empleadoEditar[0].id
       }
-      await this.servicio.AgregarDiploma(this.adjuntoDiplomas.name, this.adjuntoDiplomas).then(
+      await this.servicio.AgregarDiploma(nombreArchivoDiploma, this.adjuntoDiplomas).then(
         f => {
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
@@ -152,11 +156,12 @@
     }
   
     async agregarHVCorporativa() {
+      let nombreArchivoHVcorp = this.GenerarIdentificador() + '-' + this.adjuntoHVcorporativa.name;
       let obj = {
-        TipoDocumento: "Hoja de vida corporativa"
-        // EmpleadoId: this.empleado[0].id
+        TipoDocumento: "Hoja de vida corporativa",
+        EmpleadoId: this.empleadoEditar[0].id
       }
-      await this.servicio.AgregarHojaCorporativa(this.adjuntoHVcorporativa.name, this.adjuntoHVcorporativa).then(
+      await this.servicio.AgregarHojaCorporativa(nombreArchivoHVcorp, this.adjuntoHVcorporativa).then(
         f => {
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
@@ -337,7 +342,6 @@
           this.usuarios = Usuario.fromJsonList(respuesta);
           console.log(this.usuarios);
           this.DataSourceUsuarios();
-          this.ObtenerUsuarioActual();
         });
     };
 
@@ -358,6 +362,7 @@
       this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
         (respuesta) => {
           this.grupos = Grupo.fromJsonList(respuesta);
+          this.verificarPermisos();
         }, err => {
           console.log('Error obteniendo grupos de usuario: ' + err);
         }
@@ -395,7 +400,7 @@
 
     verificarPermisos() {
       let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
-      if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+      if(existeGrupoCrearEditarPerfilEmpleado !== undefined) {
         this.PermisosCrearRegistro = true;
       }; 
     };
@@ -419,7 +424,44 @@
       )
     }
 
+    GenerarIdentificador(): string {
+      var fecha = new Date();
+      var valorprimitivo = fecha.valueOf().toString();
+      return valorprimitivo;
+    }
+
+    validarVacios() {
+      this.counter = 0
+  
+      if (this.editarEmpleadoForm.get('usuario').value === "") {
+        this.MensajeAdvertencia('El campo "Usuario" es requerido');
+        this.counter++;
+      }
+  
+      if (this.editarEmpleadoForm.get('primerNombre').value === "") {
+        this.MensajeAdvertencia('El campo "Primer Nombre" es requerido');
+        this.counter++;
+      }
+  
+  
+      if (this.editarEmpleadoForm.get('primerApellido').value === "") {
+        this.MensajeAdvertencia('El campo "Primer Apellido" es requerido');
+        this.counter++;
+      }
+  
+      if (this.editarEmpleadoForm.get('numeroDocumento').value === "") {
+        this.MensajeAdvertencia('El campo "Número de documento" es requerido');
+        this.counter++;
+      }
+  
+      if (this.counter > 0) {
+        this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
+        return false;
+      }
+    }
+
     onSubmit() {
+      this.validarVacios();
       let idUsuarioSeleccionado = this.empleadoEditar[0].id;
       console.log(idUsuarioSeleccionado);
       let usuario = this.editarEmpleadoForm.get('usuario').value;
@@ -515,15 +557,4 @@
     MensajeInfo(mensaje: string) {
       this.toastr.infoToastr(mensaje, 'Info');
     }
-  
-
-    // obtenerInfoEmpleado() {
-    //   let usuarioId = this.usuarioActual.id;
-    //   this.servicio.obtenerInfoEmpleado(usuarioId).subscribe(
-    //     (respuesta) => {
-    //       this.empleadoEditar = Empleado.fromJsonList(respuesta)
-    //       console.log(this.empleadoEditar)
-    //     }
-    //   )
-    // }
   }

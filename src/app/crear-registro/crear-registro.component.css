@@ -76,6 +76,10 @@ form.archivos {
       color: white;
   }
 
+  .req {
+      color: red;
+  }
+
 
 /* .m-top {
     margin-top: 30px;
