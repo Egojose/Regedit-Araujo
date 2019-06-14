@@ -110,10 +110,16 @@ export class EditarVistaUsuarioComponent implements OnInit {
 
   verificarPermisos() {
     let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
-    if(existeGrupoCrearEditarPerfilEmpleado !== null) {
+    if(existeGrupoCrearEditarPerfilEmpleado !== undefined) {
       this.PermisosCrearRegistro = true;
     }; 
   };
+
+  GenerarIdentificador(): string {
+    var fecha = new Date();
+    var valorprimitivo = fecha.valueOf().toString();
+    return valorprimitivo;
+  }
 
   valoresPorDefecto() {
     this.editarEmpleadoFormUsuario.controls['primerNombreUsuario'].setValue(this.empleadoEditar[0].primerNombre);
@@ -130,6 +136,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     let AdjuntoHojaVida = event.target.files[0];
     if (AdjuntoHojaVida != null) {
       this.adjuntoHV = AdjuntoHojaVida;
+      this.agregarHV();
     } else {
       this.adjuntoHV = null;
     };
@@ -139,6 +146,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     let AdjuntoCertificados = event.target.files[0];
     if (AdjuntoCertificados != null) {
       this.adjuntoCertificado = AdjuntoCertificados;
+      this.agregarCertificados();
     } else {
       this.adjuntoCertificado = null;
     };
@@ -149,6 +157,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     console.log(AdjuntoDiplomas);
     if (AdjuntoDiplomas != null) {
       this.adjuntoDiplomas = AdjuntoDiplomas;
+      this.agregarDiplomas();
     } else {
       this.adjuntoDiplomas = null;
     };
@@ -156,19 +165,164 @@ export class EditarVistaUsuarioComponent implements OnInit {
 
   adjuntarHVcorporativa(event) {
     let AdjuntoHVcorporativa = event.target.files[0];
-    if(AdjuntoHVcorporativa !== null) {
-      this.adjuntarHVcorporativa = AdjuntoHVcorporativa;
+    if (AdjuntoHVcorporativa !== null) {
+      this.adjuntoHVcorporativa = AdjuntoHVcorporativa;
+      this.agregarHVCorporativa();
     }
     else {
       this.adjuntarHVcorporativa = null;
     };
   };
 
+  async agregarHV() {
+    let nombreArchivo = this.GenerarIdentificador() + '-' + this.adjuntoHV.name;
+    let obj = {
+      TipoDocumento: "Hoja de vida",
+      EmpleadoId: this.empleadoEditar[0].id
+    }
+    await this.servicio.AgregarHojaDeVida(nombreArchivo, this.adjuntoHV).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatosHV(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
+  };
+
+  async agregarCertificados() {
+    let nombreArchivoCertificado = this.GenerarIdentificador() + '-' + this.adjuntoCertificado.name;
+    let obj = {
+      TipoDocumento: "Certificado",
+      EmpleadoId: this.empleadoEditar[0].id
+    }
+    await this.servicio.AgregarCertificado(nombreArchivoCertificado, this.adjuntoCertificado).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatosCert(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
+  }
+
+  async agregarDiplomas() {
+    let nombreArchivoDiploma = this.GenerarIdentificador() + '-' + this.adjuntoDiplomas.name;
+    let obj = {
+      TipoDocumento: "Diploma",
+      EmpleadoId: this.empleadoEditar[0].id
+    }
+    await this.servicio.AgregarDiploma(nombreArchivoDiploma, this.adjuntoDiplomas).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatoDiploma(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
+  }
+
+  async agregarHVCorporativa() {
+    let nombreArchivoHVcorp = this.GenerarIdentificador() + '-' + this.adjuntoHVcorporativa.name;
+    let obj = {
+      TipoDocumento: "Hoja de vida corporativa",
+      EmpleadoId: this.empleadoEditar[0].id
+    }
+    await this.servicio.AgregarHojaCorporativa(nombreArchivoHVcorp, this.adjuntoHVcorporativa).then(
+      f => {
+        f.file.getItem().then(item => {
+          let idDocumento = item.Id;
+          this.actualizarMetadatoHVCorporativa(obj, idDocumento);
+          // item.update(obj);               
+        })
+      }
+    ).catch(
+      (error) => {
+        this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+      }
+    );
+  }
+
+  actualizarMetadatosHV(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('La hoja de vida se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  };
+
+  actualizarMetadatosCert(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosCertificado(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('El certificado se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
+
+  actualizarMetadatoDiploma(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosDiploma(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('El Diploma se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
+
+  actualizarMetadatoHVCorporativa(obj, idDocumento) {
+    this.servicio.ActualizarMetaDatosHVCorporativa(obj, idDocumento).then(
+      (res) => {
+        this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+      }
+    )
+      .catch(
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
+
+  
   obtenerInfoEmpleado() {
     let idUsuario = this.usuarioActual.id;
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
+        let infoEmpleado = this.empleadoEditar.find(x => x.id === idUsuario)
+        if(infoEmpleado === undefined) {
+          this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníqiuese con el  área de gestión humana.')
+         setTimeout(() => {
+          this.router.navigate(['/']);
+         }, 2000);
+        }
         this.valoresPorDefecto();
         console.log(this.empleadoEditar)
       }
