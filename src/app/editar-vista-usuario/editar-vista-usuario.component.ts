@@ -316,13 +316,13 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
-        let infoEmpleado = this.empleadoEditar.find(x => x.id === idUsuario)
-        if(infoEmpleado === undefined) {
-          this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníqiuese con el  área de gestión humana.')
-         setTimeout(() => {
-          this.router.navigate(['/']);
-         }, 2000);
-        }
+        // let infoEmpleado = this.empleadoEditar.find(x => x.id === idUsuario)
+        // if(infoEmpleado === undefined) {
+        //   this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníqiuese con el  área de gestión humana.')
+        //  setTimeout(() => {
+        //   this.router.navigate(['/']);
+        //  }, 2000);
+        // }
         this.valoresPorDefecto();
         console.log(this.empleadoEditar)
       }
