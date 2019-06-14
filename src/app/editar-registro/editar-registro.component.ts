@@ -525,7 +525,10 @@
         FechaSalida: fechaSalida,
         NumeroContactoEmergencia: numeroContactoEmergencia
       }
-
+      if (this.editarEmpleadoForm.invalid) {
+        this.MensajeAdvertencia('hay campos vacíos')
+      }
+      else {
       this.servicio.ActualizarInfoEmpleadoGhumana(idUsuarioSeleccionado, objEmpleado).then(
         (item: ItemAddResult) => {
           this.MensajeExitoso('La información se actualizó con éxtio')
@@ -536,6 +539,7 @@
           this.MensajeError('Error actualizando la información')
         }
       );
+      }
     }
 
     cancelar() {
