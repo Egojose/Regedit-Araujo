@@ -106,15 +106,6 @@ export class SPServicio {
         return respuesta;
     }
 
-    // agregarAdjuntoHojaVida(IdUsuario: number, nombreArchivo: string, archivo: File) {
-    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
-    //     return item.attachmentFiles.add(nombreArchivo, archivo);
-    // }
-
-    // AgregarHojaDeVida(nombreArchivo, archivo: File){
-    //     return this.ObtenerConfiguracionConPost2().web.getFolderByServerRelativeUrl('/Prueba%20Documentos').files.add(nombreArchivo, archivo, false);
-    //     // return this.ObtenerConfiguracionConPost2().web.getFolderByServerRelativeUrl('/sites/Intranet/Gestion-humana/Documentos%20compartidos/Hoja%20de%20vida/').files.add(nombreArchivo, archivo, false);
-    // }
 
     async AgregarHojaDeVida(nombre, archivo: File): Promise<any> {
         let mensaje = ""
@@ -173,16 +164,5 @@ export class SPServicio {
         let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.get());
         return respuesta;
     }
-
-    // agregarAdjuntoCertificados(IdUsuario: number, nombreArchivo: string, archivo: File) {
-    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaContratos).items.getById(IdContrato);
-    //     return item.attachmentFiles.add(nombreArchivo, archivo);
-    // }
-
-    // agregarAdjuntoDiplomas(IdUsuario: number, objDiploma) {
-    //     let item = this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaDocumentos).items.getById(IdUsuario);
-    //     return item.attachmentFiles.add(nombreArchivo, archivo);
-    // }
-
 
 }
