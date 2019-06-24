@@ -10,6 +10,8 @@
   import { ItemAddResult } from 'sp-pnp-js';
   import { Empleado } from '../dominio/empleado';
   import { Grupo } from '../dominio/grupo';
+  import { Documento } from '../dominio/documento';
+import { MatTableDataSource } from '@angular/material';
   
 
   @Component({
@@ -39,9 +41,14 @@
   counter: number = 0;
   PermisosCrearRegistro: boolean;
   fechaFormato;
+  dataSource;
+  documentos: Documento[] = [];
+  empty: boolean;
+  idEmpleadoSeleccionado;
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
+    displayedColumns: string[] = ['nombre', 'tipo', 'ver', 'eliminar'];
 
     ngOnInit() {
       this.registrarControles();
@@ -239,13 +246,42 @@
     }
 
     SeleccionarId(event) {
-      let idSeleccionado = event.target.value;
-      this.servicio.obtenerInfoEmpleadoSeleccionado(idSeleccionado).subscribe(
+     this.idEmpleadoSeleccionado = event.target.value;
+     console.log(this.idEmpleadoSeleccionado);
+      this.servicio.obtenerInfoEmpleadoSeleccionado(this.idEmpleadoSeleccionado).subscribe(
         (respuesta) => {
           this.empleadoEditar = Empleado.fromJsonList(respuesta);
           this.valoresPorDefecto();
+          this.obtenerDocumentos();
         }
       ) 
+    }
+
+    obtenerDocumentos() {
+      let id = this.empleadoEditar[0].id;
+     console.log(id);
+      this.servicio.obtenerDocumentos(id).then(
+        (respuesta) => {
+          this.documentos = Documento.fromJsonList(respuesta);
+          console.log(this.documentos);
+          if(this.documentos.length > 0) {
+            this.empty = false;
+            this.dataSource = new MatTableDataSource(this.documentos)
+            console.log(this.dataSource);
+          }
+          else {
+            this.empty = true;
+          }
+        }
+      ).catch(
+        error => {
+          console.log('Error obteniendo los documentos: ' + error);
+        }
+      )
+    }
+
+    applyFilter(filterValue: string) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     valoresPorDefecto() {

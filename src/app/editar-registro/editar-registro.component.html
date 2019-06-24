@@ -215,7 +215,44 @@
       </div>
     </div>
     <br>
-    <br>
+    <form action="">
+      <accordion>
+        <accordion-group heading="Ver archivos" class="text-center">
+            <table mat-table [dataSource]="dataSource">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef>Nombre del documento</th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="tipo">
+                  <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
+                  <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="ver">
+                  <th mat-header-cell *matHeaderCellDef>Ver</th>
+                  <td mat-cell *matCellDef="let element"><a href="{{element.rutaArchivo}}"><button type="button" class="btn btn-primary">Ver</button></a></td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="eliminar">
+                  <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                  <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-danger">Eliminar</button></td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+        </accordion-group>
+      </accordion>
+    </form>
     <!-- Footer -->
     <div class="modal-footer">
       <button type="submit" class="btn btn-success btn-lg">Guardar</button>
