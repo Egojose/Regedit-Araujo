@@ -165,4 +165,9 @@ export class SPServicio {
         return respuesta;
     }
 
+    obtenerDocumentos(Empleado) {
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.select("ID", "Title", "TipoDocumento", "Empleado/ID", "File").expand("File", "Empleado/ID").filter('Empleado').getAll();
+        return respuesta;
+    }
+
 }
