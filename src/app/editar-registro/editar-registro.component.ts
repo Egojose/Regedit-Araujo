@@ -48,6 +48,7 @@
   empty: boolean;
   idEmpleadoSeleccionado;
   show: boolean = true;
+  urlHVCorporativa: any;
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -199,8 +200,19 @@
       await this.servicio.AgregarHojaCorporativa(nombreArchivoHVcorp, this.adjuntoHVcorporativa).then(
         f => {
           f.file.getItem().then(item => {
+            let idUsuario = this.empleadoEditar[0].id;
+            let url = f.data.ServerRelativeUrl
+            console.log(url)
+            let objUrl = {
+             UrlHojadeVida: {
+              "__metadata": { "type": "SP.FieldUrlValue" },
+              "Description": "Url hoja de vida corporativa",
+              "Url": url
+             }
+            }
             let idDocumento = item.Id;
             this.actualizarMetadatoHVCorporativa(obj, idDocumento);
+            this.servicio.ActualizarUrl(idUsuario, objUrl);
             // item.update(obj);               
           })
         }
