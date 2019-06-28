@@ -14,7 +14,6 @@ table {
     color: #151d51;
 }
 
-
 .formulario{
     padding: 40px;
     border-radius: 20px;
@@ -50,6 +49,19 @@ label{
 
 form.archivos {
     border-radius: none;
+}
+
+.alerta {
+    background: red;
+    color: white;
+}
+
+.detalles {
+    color: red;
+}
+
+.fas {
+    color: white;
 }
 
 
