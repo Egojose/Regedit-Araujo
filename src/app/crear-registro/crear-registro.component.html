@@ -48,7 +48,7 @@
             </select>
           </div>
           <div class="form-group col-md-4">
-            <label for="inputNumd">Numero de Documento<span class="req">*</span></label>
+            <label for="inputNumd">Número de Documento<span class="req">*</span></label>
             <input type="text" class="form-control" id="inputNumd" formControlName="numeroDocumento">
           </div>
           <div class="form-group col-md-4">
@@ -71,14 +71,27 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <label for="Contacto de emergencia">Contacto de emergencia</label>
             <input type="text" class="form-control" formControlName="contactoEmergencia">
           </div>
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <label for="Contacto de emergencia">Número del contacto</label>
             <input type="text" class="form-control" formControlName="numeroContactoEmergencia">
           </div>
+          <div class="col-md-4 form-group">
+              <label for="Grupo sanguíneo">Grupo sanguíneo</label>
+              <select class="form-control" formControlName="grupoSanguineo">
+                <option value="A-">A-</option>
+                <option value="B-">B-</option>
+                <option value="O-">O-</option>
+                <option value="AB-">AB-</option>
+                <option value="A+">A+</option>
+                <option value="B+">B+</option>
+                <option value="O+">O+</option>
+                <option value="AB+">AB+</option>
+              </select>
+            </div>
         </div>
       </div>
       <hr>
@@ -92,7 +105,7 @@
             </select>
           </div>
           <div class="form-group col-md-4">
-            <label for="Jefe">Jefe</label>
+            <label for="Jefe">Jefe<span class="req">*</span></label>
             <select id="usuario" formControlName="jefe" class="form-control">
               <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
                 {{usuario.label}}
@@ -100,7 +113,7 @@
             </select>
           </div>
           <div class="form-group col-md-4">
-            <label for="Area">Area</label>
+            <label for="Area">Área</label>
             <select type="text" class="form-control" formControlName="area">
               <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
               </option>
@@ -144,7 +157,7 @@
             </select>
           </div>
           <div class="col-md-4 form-group">
-            <label for="Fecha de ingreso">Fecha de ingreso</label>
+            <label for="Fecha de ingreso">Fecha de ingreso<span class="req">*</span></label>
             <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker
               [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
           </div>
@@ -160,16 +173,22 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Integral'">
+        <ng-container *ngIf="empleadoForm.get('tipoContrato').value == 'Integral' || empleadoForm.get('tipoContrato').value == 'Ordinario'">
           <div class="row">
-            <div class="col-md-6 form-group">
-              <label for="Bono">Bono</label>
+            <div class="col-md-4 form-group">
+              <label for="Bono sodexo canasta">Bono sodexo canasta</label>
               <input currencyMask
                 [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
                 type="text" class="form-control" placeholder="Bono" formControlName="bono">
             </div>
-            <div class="col-md-6 form-group">
-              <label for="AFP">AFP</label>
+            <div class="col-md-4 form-group">
+                <label for="Bono sodexo gasolina">Bono sodexo gasolina</label>
+                <input currencyMask
+                  [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+                  type="text" class="form-control" placeholder="Bono" formControlName="bonoGasolina">
+              </div>
+            <div class="col-md-4 form-group">
+              <label for="Aportes voluntarios">Aportes voluntarios</label>
               <input currencyMask
                 [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
                 type="text" class="form-control" placeholder="AFP" formControlName="afp">
