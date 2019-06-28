@@ -7,5 +7,6 @@ export const environment = {
   listaDocumentos: 'Documentos',
   listaSede: 'Sede',
   listaArea: 'Area',
-  listaCargo: 'Cargo'
+  listaCargo: 'Cargo',
+  listaDocumentosEmpleados: 'DocumentosEmpleados'
 };

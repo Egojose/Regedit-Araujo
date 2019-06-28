@@ -68,7 +68,41 @@
              <input type="file" name="adjuntoHVcorporativa" class="form-control" (change)="adjuntarHVcorporativa($event)">
            </div>
          </div>
-         <hr>
+         <br>
+         <!-- <form action="">
+            <accordion>
+              <accordion-group heading="Ver archivos">
+                <table mat-table [dataSource]="dataSource">
+    
+                  <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef>Nombre del documento</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}} </td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="ver">
+                    <th mat-header-cell *matHeaderCellDef>Ver</th>
+                    <td mat-cell *matCellDef="let element"><a
+                        href="{{'https://aribasas.sharepoint.com' + element.rutaArchivo}}" target="_blank"><button
+                          type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="eliminar">
+                    <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                    <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-danger"
+                        (click)="eliminarArchivos(element)"><i class="fas fa-trash-alt"></i></button></td>
+                  </ng-container>
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </accordion-group>
+            </accordion>
+          </form> -->
          <div class="modal-footer">
            <button type="submit" class="btn btn-success btn-lg">Guardar</button>
            <button type="button" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>

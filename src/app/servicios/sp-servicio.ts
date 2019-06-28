@@ -36,7 +36,7 @@ export class SPServicio {
             headers: {
                 "Accept": "application/json; odata=verbose",
                 'Content-Type': 'application/json;odata=verbose',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2MDQ4MTU5NSwibmJmIjoxNTYwNDgxNTk1LCJleHAiOjE1NjA1MTA2OTUsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.BuQSGNcV9gNVpg2ehqR_s_zCoiG7FX4Mf-Mmc3mVelRnBgaFJCAqdb73WM2akazh4UQcLlQ00N6vUO3dWyyGG5nGsS2EYMFcYZmoruJk5TDzF5zkYeZ73snV1nbRauJC1i74l_RTW0AhtRLhXIStuqDYdBTjKG4GzT4itUOlf4iNJykg0YHgN32dMcTH1bC2z6OK1t8XhczRfbk8RFqQTxOxoMJVUdgyUfeGKE71HB_6erBKcJ2x0qbTXya7-nluYUA0VKb_YJ1jBqnzRxalYW-Wu9tf0Km5Oof4kCYGqmgigiX5vNL0HsRp5RiMp6B6MJIoBxuXve5H0nNfInXYcg'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2MTcyNzM1MiwibmJmIjoxNTYxNzI3MzUyLCJleHAiOjE1NjE3NTY0NTIsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.H602BgMbahqrH-7yk_jvINptQmp_oKKsMlBieIX1u4MWEyB5D6ndjn17ukCVfAv3m63GHY6vpReUliw4rAHglCAQt4v54RqV6p28mv66jnWAoyyJDVmtUAZXLEb9qsx9TQhxW_gHXKDSYVdbBrrj54QJVwXm1SIgm7gd_tyFWhjJC_TB21-cAvO1IvprRIxG1MT0JIrhPyhdeZ8GzIAOjvw5cSG-Lon5nR1BgXKZLbItfqYoO5-yP_kaFK-aCr9x6rvZt4IbPOsRlHKBCowyEPLaOcBnb2grbXMSejNG5p9aVa0xc6y_lRstHmj53z8OpUAn8lhhVM7neYa9BDsHgQ'
             }
         }, environment.urlWeb);
 
@@ -56,12 +56,12 @@ export class SPServicio {
     }
 
     ObtenerTodosLosUsuarios() {
-        let respuesta = from(this.ObtenerConfiguracion().web.siteUsers.get());
+        let respuesta = from(this.ObtenerConfiguracionRaiz().web.siteUsers.get());
         return respuesta;
     }
 
     ObtenerUsuarioActual() {
-        let respuesta = from(this.ObtenerConfiguracion().web.currentUser.get());
+        let respuesta = from(this.ObtenerConfiguracionRaiz().web.currentUser.get());
         return respuesta;
     }
 
@@ -80,6 +80,10 @@ export class SPServicio {
 
     ActualizarInfoEmpleadoGhumana(idEmpleado: number, objEmpleado) {
         return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(idEmpleado).update(objEmpleado)
+    }
+    
+    ActualizarUrl(IdUsuario: number, objEmpleado) {
+        return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
     }
 
     ObtenerGruposUsuario(usuarioId: number){
@@ -101,6 +105,7 @@ export class SPServicio {
         let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaCargo).items.get());
         return respuesta;
     }
+
 
     async AgregarHojaDeVida(nombre, archivo: File): Promise<any> {
         let mensaje = ""
@@ -129,6 +134,20 @@ export class SPServicio {
         return respuesta;
         
     }
+
+    async AgregarActa(nombre, archivo: File): Promise<any> {
+        let mensaje = ""
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        return respuesta;
+        
+    }
+
+    async AgregarAfiliacion(nombre, archivo: File): Promise<any> {
+        let mensaje = ""
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("DocumentosEmpleados").files.add(nombre, archivo);
+        return respuesta;
+        
+    }
     
     ActualizarMetaDatosHV(obj, idDocumento){
         let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
@@ -150,6 +169,16 @@ export class SPServicio {
         return respuesta;
     }
 
+    ActualizarMetaDatosActas(obj, idDocumento){
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        return respuesta;
+    }
+
+    ActualizarMetaDatosAfiliaciones(obj, idDocumento){
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(idDocumento).update(obj);
+        return respuesta;
+    }
+
     obtenerInfoEmpleadoSeleccionado(IdUsuario: number) {
         let respuesta = from(this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.select("*").filter("usuarioId eq " + IdUsuario + "").get());
         return respuesta;
@@ -160,5 +189,13 @@ export class SPServicio {
         return respuesta;
     }
 
+    obtenerDocumentos(IdEmpleado: number) {
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.select("ID", "Title", "TipoDocumento", "Empleado/Title", "Empleado/ID", "File").expand("File", "Empleado").filter("Empleado eq " + IdEmpleado + "").getAll();
+        return respuesta;
+    }
+
+    borrarArchivo(IdArchivo: number){
+        return this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.getById(IdArchivo).delete();
+    }
 
 }

@@ -74,11 +74,13 @@ export class CrearRegistroComponent implements OnInit {
       sede: [''],
       extension: [''],
       bono: [''],
+      bonoGasolina: [''],
       afp: [''],
       universidad: [''],
       carrera: [''],
       contactoEmergencia: [''],
-      numeroContactoEmergencia: ['']
+      numeroContactoEmergencia: [''],
+      grupoSanguineo: ['']
     });
     this.emptyManager = true;
   };
@@ -265,31 +267,35 @@ export class CrearRegistroComponent implements OnInit {
     let sede = this.empleadoForm.get('sede').value;
     let extension = this.empleadoForm.get('extension').value;
     let bono = this.empleadoForm.get('bono').value;
+    let bonoGasolina = this.empleadoForm.get('bonoGasolina').value;
     let afp = this.empleadoForm.get('afp').value;
     let universidad = this.empleadoForm.get('universidad').value;
     let carrera = this.empleadoForm.get('carrera').value;
     let contactoEmergencia = this.empleadoForm.get('contactoEmergencia').value;
     let numeroContactoEmergencia = this.empleadoForm.get('numeroContactoEmergencia').value;
+    let grupoSanguineo = this.empleadoForm.get('grupoSanguineo').value;
     let objEmpleado;
     let salarioIntegral;
     let SumaSalarioIntegral;
     let salarioInteger = parseInt(salario, 10);
     let bonoInteger = parseInt(bono, 10);
     let afpInteger = parseInt(afp, 10);
+    let bonoGasolinaInteger = parseInt(bonoGasolina, 10);
     let nombreEmpleado;
     let objHojaDeVida;
     let salarioString = `${salario}`;
     let bonoString = `${bono}`;
     let afpString = `${afp}`;
+    let bonoGasolinaString = `${bonoGasolina}`;
 
 
 
-    if (tipoContrato === 'Integral') {
-      SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger;
+    if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
+      SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
       salarioIntegral = `${SumaSalarioIntegral}`
     }
     else {
-      salarioIntegral = "";
+      salarioIntegral = "0";
     }
 
     // if (tipoContrato === 'Integral' && (bono === "" || afp === "")) {
@@ -334,6 +340,7 @@ export class CrearRegistroComponent implements OnInit {
       Sede: sede,
       Extension: extension,
       Bonos: bonoString,
+      BonoGasolina: bonoGasolinaString,
       AFP: afpString,
       TerminoContrato: terminoContrato,
       Carrera: carrera,
@@ -341,6 +348,7 @@ export class CrearRegistroComponent implements OnInit {
       SalarioIntegral: salarioIntegral,
       ContactoEmergencia: contactoEmergencia,
       NumeroContactoEmergencia: numeroContactoEmergencia,
+      GrupoSanguineo: grupoSanguineo,
       IdUsuario: usuario
     }
 

@@ -1,245 +1,316 @@
 <ng-container *ngIf="PermisosCrearRegistro">
-<div class="container">
-  <form autocomplete="off" class="formulario" [formGroup]="editarEmpleadoForm" (ngSubmit)="onSubmit()">
-  <div>
-    <div class="text-center title">
-      <h4>Editar registro de empleado</h4>
-    </div>
-    <br>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="Seleccione el usuario">Seleccione el usuario<span class="req">*</span></label>
-        <select id="usuario" formControlName="usuario" class="form-control" (change)="SeleccionarId($event)">
-            <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
-              {{usuario.label}}
-            </option>
-          </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6" [ngClass]="{'has-error': editarEmpleadoForm.get('Nombre').errors && (editarEmpleadoForm.get('Nombre').touched || editarEmpleadoForm.get('Nombre').dirty)}">
-        <label for="inputNombre1">Primer Nombre<span class="req">*</span></label>
-        <input type="text"  class="form-control" id="inputNombre1" formControlName="Nombre">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputnombre2">Segundo Nombre</label>
-        <input type="text" class="form-control" id="inputNombre2" formControlName="segundoNombre">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputApellido1">Primer Apellido<span class="req">*</span></label>
-        <input type="text" class="form-control" id="inputApellido1" formControlName="primerApellido">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputApellido2">Segundo Apellido</label>
-        <input type="text" class="form-control" id="inputApellido2" formControlName="segundoApellido">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="inputDoc">Tipo de Documento</label>
-        <select id="inputDoc" class="form-control" formControlName="tipoDocumento">
-            <option value="Cédula">Cédula</option>
-            <option value="Cédula de extranjería">Cédula de extranjería</option>
-            <option value="Pasaporte">Pasaporte</option>
-        </select>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputNumd">Numero de Documento<span class="req">*</span></label>
-        <input type="text" class="form-control" id="inputNumd" formControlName="numeroDocumento">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputExp">Lugar de Expedición</label>
-        <input type="text" class="form-control" id="inputExp" formControlName="lugarExpedicion">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="inputAdress">Dirección</label>
-        <input type="text" class="form-control" id="inputAdress" formControlName="direccion">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputPhone">Celular</label>
-        <input type="text" class="form-control" id="inputPhone" formControlName="celular">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputExt">Extensión</label>
-        <input type="text" class="form-control" id="inputExt" formControlName="extension">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-6 form-group">
-        <label for="Contacto de emergencia">Contacto de emergencia</label>
-        <input type="text" class="form-control"  formControlName="contactoEmergencia">
-      </div>
-      <div class="col-md-6 form-group">
-        <label for="Contacto de emergencia">Número del contacto</label>
-        <input type="text" class="form-control"  formControlName="numeroContactoEmergencia">
-      </div>
-    </div>
-  </div>
-  <hr>
-  <!-- Form2 -->
-  <div class="formulario">
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="Sede">Sede</label>
-        <select type="text" class="form-control" formControlName="sede">
-            <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
-            </option>
-        </select>
-        <!-- <input type="text" class="form-control" id="inputnombre2" formControlName="sede"> -->
-      </div>
-      <div class="form-group col-md-4">
-        <label for="Jefe">Jefe</label>
-        <select id="usuario" formControlName="jefe" class="form-control">
-          <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
-            {{usuario.label}}
-          </option>
-        </select>
-        <!-- <input type="text" class="form-control" id="inputuser" formControlName="jefe"> -->
-      </div>
-      <div class="form-group col-md-4">
-        <label for="Area">Area</label>
-        <select type="text" class="form-control" formControlName="area">
-            <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
-            </option>
-        </select>
-        <!-- <input type="text" class="form-control" id="inputnombre1" formControlName="area"> -->
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="Cargo">Cargo</label>
-        <select type="text" class="form-control" formControlName="cargo">
-            <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
-            </option>
-        </select>
-        <!-- <input type="text" class="form-control" id="inputuser" formControlName="cargo"> -->
-      </div>
-      <div class="form-group col-md-4">
-        <label for="Salario">Salario</label>
-        <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" id="inputnombre1" formControlName="salario">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="Salario en Letras">Salario en letras</label>
-        <input type="text" class="form-control" id="inputnombre2" formControlName="salarioTexto">
-      </div>
-    </div>
-      <div class="row">
-        <div class="col-md-4 form-group">
-          <label for="Tipo de contrato">Tipo de contrato</label>
-          <select type="text" class="form-control" placeholder="Tipo de contrato" formControlName="tipoContrato">
-            <option value="Integral">Integral</option>
-            <option value="Ordinario">Ordinario</option>
-            <option value="Aprendiz Sena">Aprendiz Sena</option>
-            <option value="Practicante universitario">Practicante universitario</option>
-          </select>
+  <div class="container">
+    <form autocomplete="off" class="formulario" [formGroup]="editarEmpleadoForm" (ngSubmit)="onSubmit()">
+      <div>
+        <div class="text-center title">
+          <h4>Editar registro de empleado</h4>
         </div>
-        <div class="col-md-4 form-group">
-          <label for="Término del contrato">Término del contrato</label>
-          <select class="form-control" formControlName="terminoContrato">
-            <option value="Indefinido">Indefinido</option>
-            <option value="Fijo">Fijo</option>
-            <option value="Obra o labor">Obra o labor</option>
-          </select>
-        </div>
-        <div class="col-md-4 form-group">
-          <label for="Fecha de ingreso">Fecha de ingreso</label>
-          <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
-        </div>
-      </div>
-      
-      <ng-container *ngIf="editarEmpleadoForm.get('terminoContrato').value === 'Fijo'">
-        <div class="row">
-        <div class="col-md-4 form-group">
-          <label for="Fecha de salida">Fecha de salida</label>
-          <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
-        </div>
-      </div>
-      </ng-container>
-      
-      <ng-container *ngIf="editarEmpleadoForm.get('tipoContrato').value == 'Integral'">
-        <div class="row">
-          <div class="col-md-6 form-group">
-            <label for="Bono">Bono</label>
-            <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" formControlName="bono">
-          </div>
-          <div class="col-md-6 form-group">
-            <label for="AFP">AFP</label>
-            <input currencyMask [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }" type="text" class="form-control" formControlName="afp">
+        <br>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="Seleccione el usuario">Seleccione el usuario<span class="req">*</span></label>
+            <select id="usuario" formControlName="usuario" class="form-control" (change)="SeleccionarId($event)">
+              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                {{usuario.label}}
+              </option>
+            </select>
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngIf="editarEmpleadoForm.get('tipoContrato').value == 'Practicante universitario'">
-        <div class="row">
-          <div class="col-md-6 form-group">
-            <label for="Universidad">Universidad</label>
-            <input type="text" class="form-control" formControlName="universidad">
+        <div class="form-row">
+          <div class="form-group col-md-6"
+            [ngClass]="{'has-error': editarEmpleadoForm.get('Nombre').errors && (editarEmpleadoForm.get('Nombre').touched || editarEmpleadoForm.get('Nombre').dirty)}">
+            <label for="inputNombre1">Primer Nombre<span class="req">*</span></label>
+            <input type="text" class="form-control" id="inputNombre1" formControlName="Nombre">
           </div>
-          <div class="col-md-6 form-group">
-            <label for="Carrera">Carrera</label>
-            <input type="text" class="form-control" formControlName="carrera">
+          <div class="form-group col-md-6">
+            <label for="inputnombre2">Segundo Nombre</label>
+            <input type="text" class="form-control" id="inputNombre2" formControlName="segundoNombre">
           </div>
         </div>
-      </ng-container>
-      
-  </div>
-  <!-- Documentos Adjuntos -->
-  <div class="formulario">
-    <div class="text-center">
-      <h5>Adjuntar archivos</h5>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputApellido1">Primer Apellido<span class="req">*</span></label>
+            <input type="text" class="form-control" id="inputApellido1" formControlName="primerApellido">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputApellido2">Segundo Apellido</label>
+            <input type="text" class="form-control" id="inputApellido2" formControlName="segundoApellido">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputDoc">Tipo de Documento</label>
+            <select id="inputDoc" class="form-control" formControlName="tipoDocumento">
+              <option value="Cédula">Cédula</option>
+              <option value="Cédula de extranjería">Cédula de extranjería</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputNumd">Número de Documento<span class="req">*</span></label>
+            <input type="text" class="form-control" id="inputNumd" formControlName="numeroDocumento">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputExp">Lugar de Expedición</label>
+            <input type="text" class="form-control" id="inputExp" formControlName="lugarExpedicion">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputAdress">Dirección</label>
+            <input type="text" class="form-control" id="inputAdress" formControlName="direccion">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputPhone">Celular</label>
+            <input type="text" class="form-control" id="inputPhone" formControlName="celular">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputExt">Extensión</label>
+            <input type="text" class="form-control" id="inputExt" formControlName="extension">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-4 form-group">
+            <label for="Contacto de emergencia">Contacto de emergencia</label>
+            <input type="text" class="form-control" formControlName="contactoEmergencia">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="Contacto de emergencia">Número del contacto</label>
+            <input type="text" class="form-control" formControlName="numeroContactoEmergencia">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="Grupo sanguíneo">Grupo sanguíneo</label>
+            <select class="form-control" formControlName="grupoSanguineo">
+              <option value="A-">A-</option>
+              <option value="B-">B-</option>
+              <option value="O-">O-</option>
+              <option value="AB-">AB-</option>
+              <option value="A+">A+</option>
+              <option value="B+">B+</option>
+              <option value="O+">O+</option>
+              <option value="AB+">AB+</option>
+            </select>
+          </div>
+        </div>
+      </div>
       <hr>
-    </div>
-    <div class="row text-center form-group">
-      <div class="col-md-6">
-        <label for="Hoja de vida">Hoja de vida</label>
-        <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
+      <!-- Form2 -->
+      <div class="formulario">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="Sede">Sede</label>
+            <select type="text" class="form-control" formControlName="sede">
+              <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
+              </option>
+            </select>
+            <!-- <input type="text" class="form-control" id="inputnombre2" formControlName="sede"> -->
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Jefe">Jefe<span class="req">*</span></label>
+            <select id="usuario" formControlName="jefe" class="form-control">
+              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                {{usuario.label}}
+              </option>
+            </select>
+            <!-- <input type="text" class="form-control" id="inputuser" formControlName="jefe"> -->
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Area">Área</label>
+            <select type="text" class="form-control" formControlName="area">
+              <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}
+              </option>
+            </select>
+            <!-- <input type="text" class="form-control" id="inputnombre1" formControlName="area"> -->
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="Cargo">Cargo</label>
+            <select type="text" class="form-control" formControlName="cargo">
+              <option *ngFor="let cargo of cargo" [value]="cargo.nombre" [text]="cargo.nombre">{{cargo.nombre}}
+              </option>
+            </select>
+            <!-- <input type="text" class="form-control" id="inputuser" formControlName="cargo"> -->
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Salario">Salario</label>
+            <input currencyMask
+              [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+              type="text" class="form-control" id="inputnombre1" formControlName="salario">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Salario en Letras">Salario en letras</label>
+            <input type="text" class="form-control" id="inputnombre2" formControlName="salarioTexto">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label for="Tipo de contrato">Tipo de contrato</label>
+            <select type="text" class="form-control" placeholder="Tipo de contrato" formControlName="tipoContrato">
+              <option value="Integral">Integral</option>
+              <option value="Ordinario">Ordinario</option>
+              <option value="Aprendiz Sena">Aprendiz Sena</option>
+              <option value="Practicante universitario">Practicante universitario</option>
+            </select>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="Término del contrato">Término del contrato</label>
+            <select class="form-control" formControlName="terminoContrato">
+              <option value="Indefinido">Indefinido</option>
+              <option value="Fijo">Fijo</option>
+              <option value="Obra o labor">Obra o labor</option>
+            </select>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="Fecha de ingreso">Fecha de ingreso<span class="req">*</span></label>
+            <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+          </div>
+        </div>
+
+        <ng-container *ngIf="editarEmpleadoForm.get('terminoContrato').value === 'Fijo'">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label for="Fecha de salida">Fecha de salida</label>
+              <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="editarEmpleadoForm.get('tipoContrato').value == 'Integral' || editarEmpleadoForm.get('tipoContrato').value == 'Ordinario'">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label for="Bono">Bono Canasta</label>
+              <input currencyMask
+                [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+                type="text" class="form-control" formControlName="bono">
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="Bono gasolina">Bono gasolina</label>
+              <input currencyMask
+                [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+                type="text" class="form-control" formControlName="bonoGasolina">
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="Aportes voluntarios">Aportes voluntarios</label>
+              <input currencyMask
+                [options]="{ prefix: ' ', thousands: '.', decimal: ',', align: 'left' , allowNegative: false, precision: 0 }"
+                type="text" class="form-control" formControlName="afp">
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="editarEmpleadoForm.get('tipoContrato').value == 'Practicante universitario'">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="Universidad">Universidad</label>
+              <input type="text" class="form-control" formControlName="universidad">
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="Carrera">Carrera</label>
+              <input type="text" class="form-control" formControlName="carrera">
+            </div>
+          </div>
+        </ng-container>
+
       </div>
-      <div class="col-md-6">
-        <label for="Hoja de vida">Certificados</label>
-        <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
+      <!-- Documentos Adjuntos -->
+      <div class="formulario">
+        <div class="text-center">
+          <h5>Adjuntar archivos</h5>
+          <hr>
+        </div>
+        <div class="row text-center form-group">
+          <div class="col-md-6">
+            <label for="Hoja de vida">Hoja de vida</label>
+            <input type="file" name="adjuntoHV" class="form-control" (change)="adjuntarHojaDeVida($event)">
+          </div>
+          <div class="col-md-6">
+            <label for="Hoja de vida">Certificados</label>
+            <input type="file" name="adjuntoCertificados" class="form-control" (change)="adjuntarCertificados($event)">
+          </div>
+        </div>
+        <div class="row text-center form-group">
+          <div class="col-md-6">
+            <label for="Hoja de vida">Diplomas</label>
+            <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
+          </div>
+          <div class="col-md-6">
+            <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
+            <input type="file" name="adjuntoHVcorporativa" class="form-control"
+              (change)="adjuntarHVcorporativa($event)">
+          </div>
+        </div>
+        <div class="row text-center form-group">
+          <div class="col-md-6">
+            <label for="Actas">Actas</label>
+            <input type="file" name="adjuntoActas" class="form-control" (change)="adjuntarActas($event)">
+          </div>
+          <div class="col-md-6">
+            <label for="Afiliaciones">Afiliaciones</label>
+            <input type="file" name="adjuntoAfiliaciones" class="form-control" (change)="adjuntarAfiliaciones($event)">
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row text-center form-group">
-      <div class="col-md-6">
-        <label for="Hoja de vida">Diplomas</label>
-        <input type="file" name="adjuntoDiplomas" class="form-control" (change)="adjuntarDiplomas($event)">
+      <br>
+      <form action="">
+        <accordion>
+          <accordion-group heading="Ver archivos">
+            <table mat-table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre del documento</th>
+                <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef>Tipo de documento</th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ver">
+                <th mat-header-cell *matHeaderCellDef>Ver</th>
+                <td mat-cell *matCellDef="let element"><a
+                    href="{{'https://aribasas.sharepoint.com' + element.rutaArchivo}}" target="_blank"><button
+                      type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="eliminar">
+                <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-danger"
+                    (click)="eliminarArchivos(element)"><i class="fas fa-trash-alt"></i></button></td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </accordion-group>
+        </accordion>
+      </form>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+        <button type="button" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
       </div>
-      <div class="col-md-6">
-        <label for="Hoja de vida corporativa">Hoja de vida corporativa</label>
-        <input type="file" name="adjuntoHVcorporativa" class="form-control" (change)="adjuntarHVcorporativa($event)">
-      </div>
-      </div>
-    </div>
-    <br>
-    <br>
-    <!-- Footer -->
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-success btn-lg">Guardar</button>
-      <button type="button" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
-    </div>
-</form>
-</div>
+    </form>
+  </div>
 </ng-container>
+<br>
 <ng-container *ngIf="!PermisosCrearRegistro">
-    <div class="col-md-4 offset-md-4 text-center">
-      <div class="card inicio">
-        <div class="card-header">
-          <h3>Acceso denegado</h3>
-        </div>
-        <div class="card-body">
-          <h5 class="detalles">Detalles:</h5>
-          <p>Usted no tiene permisos ingresar a este sitio.</p>
-          <p>Si pertenece al área de gestión humana y requiere permisos, por favor pónganse en contacto con el
-            administrador de Sharepoint.</p>
-        </div>
+  <div class="col-md-4 offset-md-4 text-center">
+    <div class="card inicio">
+      <div class="card-header alerta">
+        <h3>Acceso denegado</h3>
+      </div>
+      <div class="card-body">
+        <h5 class="detalles">Detalles:</h5>
+        <p>Usted no tiene permisos ingresar a este sitio.</p>
+        <p>Si pertenece al área de gestión humana y requiere permisos, por favor pónganse en contacto con el
+          administrador de Sharepoint.</p>
       </div>
     </div>
-    <br>
-  </ng-container>
-
-
-
+  </div>
+  <br>
+</ng-container>

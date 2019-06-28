@@ -7,6 +7,8 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { ItemAddResult } from 'sp-pnp-js';
 import { Empleado } from '../dominio/empleado';
 import { Grupo } from '../dominio/grupo';
+import { Documento } from '../dominio/documento';
+import { MatTableDataSource } from '@angular/material';
 @Component({
   selector: 'app-editar-vista-usuario',
   templateUrl: './editar-vista-usuario.component.html',
@@ -33,10 +35,13 @@ export class EditarVistaUsuarioComponent implements OnInit {
   empleadoEditar: Empleado[] = [];
   empleado: Empleado;
   idUsuario;
+  documentos: Documento[] = [];
+  empty: boolean;
+  dataSource;
 
 
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
-
+  displayedColumns: string[] = ['nombre', 'tipo', 'ver', 'eliminar'];
   ngOnInit() {
     this.registrarControlesUsuario();
     this.obtenerUsuarios();
@@ -85,6 +90,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
         this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
         this.obtenerGrupos();
         this.obtenerInfoEmpleado();
+        this.obtenerDocumentos();
       }, err => {
         console.log('Error obteniendo usuario: ' + err);
       }
@@ -119,6 +125,29 @@ export class EditarVistaUsuarioComponent implements OnInit {
     var fecha = new Date();
     var valorprimitivo = fecha.valueOf().toString();
     return valorprimitivo;
+  }
+
+  obtenerDocumentos() {
+    let id = this.empleadoEditar[0].id;
+   console.log(id);
+    this.servicio.obtenerDocumentos(id).then(
+      (respuesta) => {
+        this.documentos = Documento.fromJsonList(respuesta);
+        console.log(this.documentos);
+        if(this.documentos.length > 0) {
+          this.empty = false;
+          this.dataSource = new MatTableDataSource(this.documentos)
+          console.log(this.dataSource);
+        }
+        else {
+          this.empty = true;
+        }
+      }
+    ).catch(
+      error => {
+        console.log('Error obteniendo los documentos: ' + error);
+      }
+    )
   }
 
   valoresPorDefecto() {
@@ -334,7 +363,8 @@ export class EditarVistaUsuarioComponent implements OnInit {
   }
 
   onSubmit() {
-    let id = this.empleadoEditar[0].id
+    // let id = this.empleadoEditar[0].id
+    let id = this.usuarioActual.id;
     console.log(id); 
     let celular = this.editarEmpleadoFormUsuario.get('celularUsuario').value;
     let direccion = this.editarEmpleadoFormUsuario.get('direccionUsuario').value;

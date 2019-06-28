@@ -1,3 +1,8 @@
+table {
+    width: 100%;
+    margin: 20px;
+  }
+
 .container{
     padding-top: 50px;
     padding-bottom: 50px;
@@ -8,7 +13,6 @@
     padding-top: 20px;
     color: #151d51;
 }
-
 
 .formulario{
     padding: 40px;
@@ -45,6 +49,19 @@ label{
 
 form.archivos {
     border-radius: none;
+}
+
+.alerta {
+    background: red;
+    color: white;
+}
+
+.detalles {
+    color: red;
+}
+
+.fas {
+    color: white;
 }
 
 
