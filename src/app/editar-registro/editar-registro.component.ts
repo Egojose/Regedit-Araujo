@@ -11,7 +11,7 @@
   import { Empleado } from '../dominio/empleado';
   import { Grupo } from '../dominio/grupo';
   import { Documento } from '../dominio/documento';
-import { MatTableDataSource } from '@angular/material';
+  import { MatTableDataSource } from '@angular/material';
   
 
   @Component({
@@ -30,6 +30,8 @@ import { MatTableDataSource } from '@angular/material';
   adjuntoCertificado: any;
   adjuntoDiplomas: any;
   adjuntoHVcorporativa: any;
+  adjuntoActa: any;
+  adjuntoAfiliacion: any;
   sede: Sede[] = [];
   area: Area[] = [];
   cargo: Cargo[] = [];
@@ -45,6 +47,7 @@ import { MatTableDataSource } from '@angular/material';
   documentos: Documento[] = [];
   empty: boolean;
   idEmpleadoSeleccionado;
+  show: boolean = true;
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -90,12 +93,35 @@ import { MatTableDataSource } from '@angular/material';
   
     adjuntarHVcorporativa(event) {
       let AdjuntoHVcorporativa = event.target.files[0];
+      console.log(AdjuntoHVcorporativa);
       if (AdjuntoHVcorporativa !== null) {
         this.adjuntoHVcorporativa = AdjuntoHVcorporativa;
         this.agregarHVCorporativa();
       }
       else {
         this.adjuntarHVcorporativa = null;
+      };
+    };
+
+    adjuntarActas(event) {
+      let AdjuntoActa = event.target.files[0];
+      if (AdjuntoActa !== null) {
+        this.adjuntoActa = AdjuntoActa;
+        this.agregarActa();
+      }
+      else {
+        this.adjuntarActas = null;
+      };
+    };
+
+    adjuntarAfiliaciones(event) {
+      let adjuntoAfiliacion = event.target.files[0];
+      if (adjuntoAfiliacion !== null) {
+        this.adjuntoAfiliacion = adjuntoAfiliacion;
+        this.agregarAfiliacion();
+      }
+      else {
+        this.adjuntarAfiliaciones = null;
       };
     };
 
@@ -165,6 +191,7 @@ import { MatTableDataSource } from '@angular/material';
   
     async agregarHVCorporativa() {
       let nombreArchivoHVcorp = this.GenerarIdentificador() + '-' + this.adjuntoHVcorporativa.name;
+      console.log(this.adjuntarHVcorporativa);
       let obj = {
         TipoDocumento: "Hoja de vida corporativa",
         EmpleadoId: this.empleadoEditar[0].id
@@ -174,6 +201,48 @@ import { MatTableDataSource } from '@angular/material';
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
             this.actualizarMetadatoHVCorporativa(obj, idDocumento);
+            // item.update(obj);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    }
+
+    async agregarActa() {
+      let nombreArchivoActa = this.GenerarIdentificador() + '-' + this.adjuntoActa.name;
+      let obj = {
+        TipoDocumento: "Acta",
+        EmpleadoId: this.empleadoEditar[0].id
+      }
+      await this.servicio.AgregarActa(nombreArchivoActa, this.adjuntoActa).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idDocumento = item.Id;
+            this.actualizarMetadatoActas(obj, idDocumento);
+            // item.update(obj);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    }
+
+    async agregarAfiliacion() {
+      let nombreArchivoAfiliacion = this.GenerarIdentificador() + '-' + this.adjuntoAfiliacion.name;
+      let obj = {
+        TipoDocumento: "Afiliación",
+        EmpleadoId: this.empleadoEditar[0].id
+      }
+      await this.servicio.AgregarAfiliacion(nombreArchivoAfiliacion, this.adjuntoAfiliacion).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idDocumento = item.Id;
+            this.actualizarMetadatoAfiliaciones(obj, idDocumento);
             // item.update(obj);               
           })
         }
@@ -234,6 +303,48 @@ import { MatTableDataSource } from '@angular/material';
             console.log(error);
           }
         )
+    }
+
+    actualizarMetadatoActas(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosActas(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('El acta se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    }
+
+    actualizarMetadatoAfiliaciones(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosAfiliaciones(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('La afiliación se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    }
+
+    toggle(element) {
+      this.show = !this.show;
+    }  
+
+    eliminarArchivos(element) {
+      this.servicio.borrarArchivo(element.id).then(
+        (respuesta) => {
+          this.documentos = this.documentos.filter(x => x.id !== element.id);
+          this.dataSource = this.documentos;
+          this.MensajeExitoso('El archivo se ha eliminado')
+        }, err => {
+          console.log('Error al eliminar el archivo: ' + err);
+        } 
+      )
     }
 
     seleccionarUsuario(event) {
@@ -331,11 +442,13 @@ import { MatTableDataSource } from '@angular/material';
       this.editarEmpleadoForm.controls['sede'].setValue(this.empleadoEditar[0].sede);
       this.editarEmpleadoForm.controls['extension'].setValue(this.empleadoEditar[0].extension);
       this.editarEmpleadoForm.controls['bono'].setValue(this.empleadoEditar[0].bonos);
+      this.editarEmpleadoForm.controls['bonoGasolina'].setValue(this.empleadoEditar[0].bonoGasolina);
       this.editarEmpleadoForm.controls['afp'].setValue(this.empleadoEditar[0].afp);
       this.editarEmpleadoForm.controls['universidad'].setValue(this.empleadoEditar[0].universidad);
       this.editarEmpleadoForm.controls['carrera'].setValue(this.empleadoEditar[0].carrera);
       this.editarEmpleadoForm.controls['contactoEmergencia'].setValue(this.empleadoEditar[0].contactoEmergencia);
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
+      this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
     
     }
 
@@ -363,11 +476,13 @@ import { MatTableDataSource } from '@angular/material';
         sede: [''],
         extension: [''],
         bono: [''],
+        bonoGasolina: [''],
         afp: [''],
         universidad: [''],
         carrera: [''],
         contactoEmergencia: [''],
-        numeroContactoEmergencia: ['']
+        numeroContactoEmergencia: [''],
+        grupoSanguineo: ['']
       });
     };
 
@@ -448,8 +563,6 @@ import { MatTableDataSource } from '@angular/material';
       });
     };
 
-    
-
     obtenerInfoEmpleado() {
       let idUsuario = this.usuarioActual.id;
       this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
@@ -490,6 +603,16 @@ import { MatTableDataSource } from '@angular/material';
         this.MensajeAdvertencia('El campo "Número de documento" es requerido');
         this.counter++;
       }
+
+      if(this.editarEmpleadoForm.get('jefe').value === "") {
+        this.MensajeAdvertencia('El campo Jefe es requerido');
+        this.counter++;
+      }
+
+      if(this.editarEmpleadoForm.get('fechaIngreso').value === "") {
+        this.MensajeAdvertencia('El campo Fecha de ingreso es requerido');
+        this.counter++;
+      }
   
       if (this.counter > 0) {
         this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
@@ -523,15 +646,32 @@ import { MatTableDataSource } from '@angular/material';
       let sede = this.editarEmpleadoForm.get('sede').value;
       let extension = this.editarEmpleadoForm.get('extension').value;
       let bono = this.editarEmpleadoForm.get('bono').value;
+      let bonoGasolina = this.editarEmpleadoForm.get('bonoGasolina').value;
       let afp = this.editarEmpleadoForm.get('afp').value;
       let universidad = this.editarEmpleadoForm.get('universidad').value;
       let carrera = this.editarEmpleadoForm.get('carrera').value;
       let contactoEmergencia = this.editarEmpleadoForm.get('contactoEmergencia').value;
       let numeroContactoEmergencia = this.editarEmpleadoForm.get('numeroContactoEmergencia').value;
+      let grupoSanguineo = this.editarEmpleadoForm.get('grupoSanguineo').value;
+      let salarioInteger = parseInt(salario, 10);
+      let bonoInteger = parseInt(bono, 10);
+      let afpInteger = parseInt(afp, 10);
+      let bonoGasolinaInteger = parseInt(bonoGasolina, 10);
       let salarioString = `${salario}`;
       let bonoString = `${bono}`;
       let afpString = `${afp}`;
+      let bonoGasolinaString = `${bonoGasolina}`;
       let objEmpleado;
+      let SumaSalarioIntegral;
+      let salarioIntegral;
+
+      if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
+        SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
+        salarioIntegral = `${SumaSalarioIntegral}`
+      }
+      else {
+        salarioIntegral = "0";
+      }
 
       objEmpleado = {
         usuarioId: usuario,
@@ -554,13 +694,16 @@ import { MatTableDataSource } from '@angular/material';
         Sede: sede,
         Extension: extension,
         Bonos: bonoString,
+        BonoGasolina: bonoGasolinaString,
         AFP: afpString,
         TerminoContrato: terminoContrato,
         Carrera: carrera,
+        SalarioIntegral: salarioIntegral,
         Universidad: universidad,
         ContactoEmergencia: contactoEmergencia,
         FechaSalida: fechaSalida,
-        NumeroContactoEmergencia: numeroContactoEmergencia
+        NumeroContactoEmergencia: numeroContactoEmergencia,
+        GrupoSanguineo: grupoSanguineo
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')
