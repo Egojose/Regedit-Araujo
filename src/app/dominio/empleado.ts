@@ -22,6 +22,7 @@ export class Empleado {
         public sede: string,
         public extension: string,
         public bonos: string,
+        public bonoGasolina: string,
         public afp: string,
         public terminoContrato: string,
         public carrera: string,
@@ -30,6 +31,7 @@ export class Empleado {
         public contactoEmergencia: string,
         public fechaSalida: any,
         public numeroContactoEmergencia: string,
+        public grupoSanguineo: string,
         public urlHojaDeVida: any,
 
     ) {}
@@ -53,12 +55,13 @@ export class Empleado {
             element.lugarExpedicion,
             element.salarioTexto,
             element.Area,
-            element.Jefe,
+            element.JefeId,
             element.Direccion,
             element.Celular,
             element.Sede,
             element.Extension,
             element.Bonos,
+            element.BonoGasolina,
             element.AFP,
             element.TerminoContrato,
             element.Carrera,
@@ -67,6 +70,7 @@ export class Empleado {
             element.ContactoEmergencia,
             element.FechaSalida,
             element.NumeroContactoEmergencia,
+            element.GrupoSanguineo,
             element.UrlHojaDeVida
         )
     }
