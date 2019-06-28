@@ -79,7 +79,7 @@ export class SPServicio {
     }
 
     async ActualizarUrlEmpleado(IdUsuario: number, objEmpleado) {
-        return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
+        return this.ObtenerConfiguracion().web.lists.getByTitle(environment.listaEmpleados).items.getById(IdUsuario).update(objEmpleado);
     }
 
     ActualizarInfoEmpleadoGhumana(idEmpleado: number, objEmpleado) {
