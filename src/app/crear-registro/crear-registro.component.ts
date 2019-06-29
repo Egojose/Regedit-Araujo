@@ -89,7 +89,6 @@ export class CrearRegistroComponent implements OnInit {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
       (respuesta) => {
         this.usuarios = Usuario.fromJsonList(respuesta);
-        console.log(this.usuarios);
         this.DataSourceUsuarios();
       });
   };
@@ -112,7 +111,6 @@ export class CrearRegistroComponent implements OnInit {
     this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
       (respuesta) => {
         this.grupos = Grupo.fromJsonList(respuesta);
-        console.log(this.grupos)
         this.verificarPermisos();
         this.obtenerSede();
         this.obtenerCargo();
@@ -124,7 +122,6 @@ export class CrearRegistroComponent implements OnInit {
 
   verificarPermisos() {
     let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
-    console.log(existeGrupoCrearEditarPerfilEmpleado);
     if (existeGrupoCrearEditarPerfilEmpleado !== undefined) {
       this.PermisosCrearRegistro = true;
     };
@@ -152,7 +149,6 @@ export class CrearRegistroComponent implements OnInit {
 
   adjuntarDiplomas(event) {
     let AdjuntoDiplomas = event.target.files[0];
-    console.log(AdjuntoDiplomas);
     if (AdjuntoDiplomas != null) {
       this.adjuntoDiplomas = AdjuntoDiplomas;
       this.agregarDiplomas();
