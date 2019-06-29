@@ -66,7 +66,6 @@ export class AppComponent implements OnInit {
     this.servicio.ObtenerGruposUsuario(idUsuario).subscribe(
       (respuesta) => {
         this.grupos = Grupo.fromJsonList(respuesta);
-        console.log(this.grupos)
         this.verificarPermisos();
       }, err => {
         console.log('Error obteniendo grupos de usuario: ' + err);
