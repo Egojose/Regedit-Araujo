@@ -83,7 +83,6 @@
   
     adjuntarDiplomas(event) {
       let AdjuntoDiplomas = event.target.files[0];
-      console.log(AdjuntoDiplomas);
       if (AdjuntoDiplomas != null) {
         this.adjuntoDiplomas = AdjuntoDiplomas;
         this.agregarDiplomas();
@@ -94,7 +93,6 @@
   
     adjuntarHVcorporativa(event) {
       let AdjuntoHVcorporativa = event.target.files[0];
-      console.log(AdjuntoHVcorporativa);
       if (AdjuntoHVcorporativa !== null) {
         this.adjuntoHVcorporativa = AdjuntoHVcorporativa;
         this.agregarHVCorporativa();
@@ -192,7 +190,6 @@
   
     async agregarHVCorporativa() {
       let nombreArchivoHVcorp = this.GenerarIdentificador() + '-' + this.adjuntoHVcorporativa.name;
-      console.log(this.adjuntarHVcorporativa);
       let obj = {
         TipoDocumento: "Hoja de vida corporativa",
         EmpleadoId: this.empleadoEditar[0].id
@@ -202,7 +199,6 @@
           f.file.getItem().then(item => {
             let idUsuario = this.empleadoEditar[0].id;
             let url = f.data.ServerRelativeUrl
-            console.log(url)
             let objUrl = {
              UrlHojadeVida: {
               "__metadata": { "type": "SP.FieldUrlValue" },
@@ -212,8 +208,7 @@
             }
             let idDocumento = item.Id;
             this.actualizarMetadatoHVCorporativa(obj, idDocumento);
-            this.servicio.ActualizarUrl(idUsuario, objUrl);
-            // item.update(obj);               
+            this.servicio.ActualizarUrl(idUsuario, objUrl);               
           })
         }
       ).catch(
@@ -233,8 +228,7 @@
         f => {
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
-            this.actualizarMetadatoActas(obj, idDocumento);
-            // item.update(obj);               
+            this.actualizarMetadatoActas(obj, idDocumento);           
           })
         }
       ).catch(
@@ -254,8 +248,7 @@
         f => {
           f.file.getItem().then(item => {
             let idDocumento = item.Id;
-            this.actualizarMetadatoAfiliaciones(obj, idDocumento);
-            // item.update(obj);               
+            this.actualizarMetadatoAfiliaciones(obj, idDocumento);              
           })
         }
       ).catch(
@@ -370,7 +363,6 @@
 
     SeleccionarId(event) {
      this.idEmpleadoSeleccionado = event.target.value;
-     console.log(this.idEmpleadoSeleccionado);
       this.servicio.obtenerInfoEmpleadoSeleccionado(this.idEmpleadoSeleccionado).subscribe(
         (respuesta) => {
           if(respuesta.length === 0) {
@@ -381,7 +373,6 @@
             }, 6000);
           }
           else {
-            console.log(respuesta);
             this.empleadoEditar = Empleado.fromJsonList(respuesta);
             this.valoresPorDefecto();
             this.obtenerDocumentos();
@@ -392,15 +383,12 @@
 
     obtenerDocumentos() {
       let id = this.empleadoEditar[0].id;
-     console.log(id);
       this.servicio.obtenerDocumentos(id).then(
         (respuesta) => {
           this.documentos = Documento.fromJsonList(respuesta);
-          console.log(this.documentos);
           if(this.documentos.length > 0) {
             this.empty = false;
             this.dataSource = new MatTableDataSource(this.documentos)
-            console.log(this.dataSource);
           }
           else {
             this.empty = true;
@@ -540,12 +528,9 @@
     };
 
     obtenerUsuarios() {
-      let usuarioCampo = this.editarEmpleadoForm.get('usuario').value;
-      console.log(usuarioCampo);
       this.servicio.ObtenerTodosLosUsuarios().subscribe(
         (respuesta) => {
           this.usuarios = Usuario.fromJsonList(respuesta);
-          console.log(this.usuarios);
           this.DataSourceUsuarios();
         });
     };
