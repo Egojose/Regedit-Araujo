@@ -373,9 +373,19 @@
      console.log(this.idEmpleadoSeleccionado);
       this.servicio.obtenerInfoEmpleadoSeleccionado(this.idEmpleadoSeleccionado).subscribe(
         (respuesta) => {
-          this.empleadoEditar = Empleado.fromJsonList(respuesta);
-          this.valoresPorDefecto();
-          this.obtenerDocumentos();
+          if(respuesta.length === 0) {
+            this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Debe crear el perfil antes de poder editar');
+            this.limpiarCampos();
+            setTimeout(() => {
+              this.router.navigate(['/'])
+            }, 6000);
+          }
+          else {
+            console.log(respuesta);
+            this.empleadoEditar = Empleado.fromJsonList(respuesta);
+            this.valoresPorDefecto();
+            this.obtenerDocumentos();
+          }
         }
       ) 
     }
@@ -462,6 +472,37 @@
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
     
+    }
+
+    limpiarCampos() {
+      this.editarEmpleadoForm.controls['Nombre'].setValue("");
+      this.editarEmpleadoForm.controls['segundoNombre'].setValue("");
+      this.editarEmpleadoForm.controls['primerApellido'].setValue("");
+      this.editarEmpleadoForm.controls['segundoApellido'].setValue("");
+      this.editarEmpleadoForm.controls['numeroDocumento'].setValue("");
+      this.editarEmpleadoForm.controls['tipoDocumento'].setValue("");
+      this.editarEmpleadoForm.controls['fechaIngreso'].setValue("");
+      this.editarEmpleadoForm.controls['fechaSalida'].setValue("");
+      this.editarEmpleadoForm.controls['tipoContrato'].setValue("");
+      this.editarEmpleadoForm.controls['terminoContrato'].setValue("");
+      this.editarEmpleadoForm.controls['cargo'].setValue("");
+      this.editarEmpleadoForm.controls['salario'].setValue("");
+      this.editarEmpleadoForm.controls['lugarExpedicion'].setValue("");
+      this.editarEmpleadoForm.controls['salarioTexto'].setValue("");
+      this.editarEmpleadoForm.controls['area'].setValue("");
+      this.editarEmpleadoForm.controls['jefe'].setValue("");
+      this.editarEmpleadoForm.controls['direccion'].setValue("");
+      this.editarEmpleadoForm.controls['celular'].setValue("");
+      this.editarEmpleadoForm.controls['sede'].setValue("");
+      this.editarEmpleadoForm.controls['extension'].setValue("");
+      this.editarEmpleadoForm.controls['bono'].setValue("");
+      this.editarEmpleadoForm.controls['bonoGasolina'].setValue("");
+      this.editarEmpleadoForm.controls['afp'].setValue("");
+      this.editarEmpleadoForm.controls['universidad'].setValue("");
+      this.editarEmpleadoForm.controls['carrera'].setValue("");
+      this.editarEmpleadoForm.controls['contactoEmergencia'].setValue("");
+      this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue("");
+      this.editarEmpleadoForm.controls['grupoSanguineo'].setValue("");
     }
 
     private registrarControles() {
