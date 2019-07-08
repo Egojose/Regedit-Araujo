@@ -34,6 +34,8 @@ export class CrearRegistroComponent implements OnInit {
   cargo: Cargo[] = [];
   grupos: Grupo[] = [];
   empleado: Empleado[] = []
+  empleadoEditar: Empleado[] = [];
+  tienePerfil: boolean;
   // valorUsuarioPorDefecto: string = "Seleccione";
   dataUsuarios = [
     { value: 'Seleccione', label: 'Seleccione' }
@@ -45,6 +47,7 @@ export class CrearRegistroComponent implements OnInit {
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
   ngOnInit() {
+    this.tienePerfil = false; 
     this.registrarControles();
     this.obtenerUsuarios();
     this.ObtenerUsuarioActual();
@@ -126,6 +129,36 @@ export class CrearRegistroComponent implements OnInit {
       this.PermisosCrearRegistro = true;
     };
   };
+
+  verificarUsuario($event) {
+    alert('funciona')
+    let idEmpleadoSeleccionado = $event.target.value;
+    let existeUsuario = this.empleado.find(x => x.usuario === idEmpleadoSeleccionado);
+    console.log(existeUsuario);
+    if(existeUsuario !== undefined) {
+      this.MensajeAdvertencia('Este usuario ya tiene un perfil creado')
+      return false;
+    }; 
+  };
+
+  obtenerInfoEmpleado($event) {
+    let idUsuario = $event.target.value
+    this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
+      (respuesta) => {
+        this.empleadoEditar = Empleado.fromJsonList(respuesta);
+        if(respuesta.length > 0) {
+          this.tienePerfil = true;
+          this.MensajeAdvertencia('Este usuario ya tiene un perfil creado. Si necesita cambiar algo debe hacerlo por el módulo de editar perfil')
+          return false;
+        }
+      }
+    )
+  }
+
+  // verificarSiUsuarioExiste($event) {
+  //   alert('funciona');
+  //   this.verificarUsuario();
+  // }
 
   adjuntarHojaDeVida(event) {
     let AdjuntoHojaVida = event.target.files[0];
@@ -231,6 +264,37 @@ export class CrearRegistroComponent implements OnInit {
       this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
       return false;
     }
+  }
+
+  limpiarCampos() {
+    this.empleadoForm.controls['Nombre'].setValue("");
+    this.empleadoForm.controls['segundoNombre'].setValue("");
+    this.empleadoForm.controls['primerApellido'].setValue("");
+    this.empleadoForm.controls['segundoApellido'].setValue("");
+    this.empleadoForm.controls['numeroDocumento'].setValue("");
+    this.empleadoForm.controls['tipoDocumento'].setValue("");
+    this.empleadoForm.controls['fechaIngreso'].setValue("");
+    this.empleadoForm.controls['fechaSalida'].setValue("");
+    this.empleadoForm.controls['tipoContrato'].setValue("");
+    this.empleadoForm.controls['terminoContrato'].setValue("");
+    this.empleadoForm.controls['cargo'].setValue("");
+    this.empleadoForm.controls['salario'].setValue("");
+    this.empleadoForm.controls['lugarExpedicion'].setValue("");
+    this.empleadoForm.controls['salarioTexto'].setValue("");
+    this.empleadoForm.controls['area'].setValue("");
+    this.empleadoForm.controls['jefe'].setValue("");
+    this.empleadoForm.controls['direccion'].setValue("");
+    this.empleadoForm.controls['celular'].setValue("");
+    this.empleadoForm.controls['sede'].setValue("");
+    this.empleadoForm.controls['extension'].setValue("");
+    this.empleadoForm.controls['bono'].setValue("");
+    this.empleadoForm.controls['bonoGasolina'].setValue("");
+    this.empleadoForm.controls['afp'].setValue("");
+    this.empleadoForm.controls['universidad'].setValue("");
+    this.empleadoForm.controls['carrera'].setValue("");
+    this.empleadoForm.controls['contactoEmergencia'].setValue("");
+    this.empleadoForm.controls['numeroContactoEmergencia'].setValue("");
+    this.empleadoForm.controls['grupoSanguineo'].setValue("");
   }
 
   cancelar() {
@@ -352,6 +416,12 @@ export class CrearRegistroComponent implements OnInit {
       TipoDocumento: 'Hoja de vida',
       Empleado: nombreEmpleado,
       Title: this.adjuntoHV
+    }
+
+    if(this.tienePerfil === true) {
+      this.MensajeAdvertencia('Recuerde que este usuario ya tiene un perfil. Para ediarlo por favor use el módulo de editar perfil');
+      this.limpiarCampos();
+      return false;
     }
 
     if (this.empleadoForm.invalid) {
