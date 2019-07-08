@@ -345,6 +345,11 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
+        
+        if(respuesta.length === 0) {
+          this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníquese con gestión humana');
+          return false;
+        }
         // let infoEmpleado = this.empleadoEditar.find(x => x.id === idUsuario)
         // if(infoEmpleado === undefined) {
         //   this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníqiuese con el  área de gestión humana.')
