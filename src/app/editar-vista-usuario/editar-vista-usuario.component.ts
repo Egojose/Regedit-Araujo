@@ -341,7 +341,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
 
   
   obtenerInfoEmpleado() {
-    let idUsuario = this.usuarioActual.id;
+    let idUsuario = this.empleadoEditar[0].id;
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
@@ -364,7 +364,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
 
   onSubmit() {
     // let id = this.empleadoEditar[0].id
-    let id = this.usuarioActual.id;
+    let id = this.empleadoEditar[0].id;
     console.log(id); 
     let celular = this.editarEmpleadoFormUsuario.get('celularUsuario').value;
     let direccion = this.editarEmpleadoFormUsuario.get('direccionUsuario').value;
