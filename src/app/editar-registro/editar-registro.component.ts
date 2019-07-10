@@ -32,6 +32,7 @@
   adjuntoHVcorporativa: any;
   adjuntoActa: any;
   adjuntoAfiliacion: any;
+  adjuntoFirma: any;
   sede: Sede[] = [];
   area: Area[] = [];
   cargo: Cargo[] = [];
@@ -106,6 +107,17 @@
       let AdjuntoActa = event.target.files[0];
       if (AdjuntoActa !== null) {
         this.adjuntoActa = AdjuntoActa;
+        this.agregarActa();
+      }
+      else {
+        this.adjuntarActas = null;
+      };
+    };
+
+    adjuntarFirmas(event) {
+      let AdjuntoFirma = event.target.files[0];
+      if (AdjuntoFirma !== null) {
+        this.adjuntoFirma = AdjuntoFirma;
         this.agregarActa();
       }
       else {
@@ -218,6 +230,36 @@
       );
     }
 
+    async agregarFirma() {
+      let nombreFirma = this.GenerarIdentificador() + '-' + this.adjuntoFirma.name;
+      let obj = {
+        TipoDocumento: "Hoja de vida corporativa",
+        EmpleadoId: this.empleadoEditar[0].id
+      }
+      await this.servicio.AgregarActa(nombreFirma, this.adjuntoFirma).then(
+        f => {
+          f.file.getItem().then(item => {
+            let idUsuario = this.empleadoEditar[0].id;
+            let url = f.data.ServerRelativeUrl
+            let objUrl = {
+             UrlFirma: {
+              "__metadata": { "type": "SP.FieldUrlValue" },
+              "Description": "Url hoja de vida corporativa",
+              "Url": url
+             }
+            }
+            let idDocumento = item.Id;
+            // this.actualizarMetadatoFirma(obj, idDocumento);
+            this.servicio.ActualizarUrl(idUsuario, objUrl);               
+          })
+        }
+      ).catch(
+        (error) => {
+          this.MensajeError('No se pudo cargar el archivo. Intente de nuevo')
+        }
+      );
+    }
+
     async agregarActa() {
       let nombreArchivoActa = this.GenerarIdentificador() + '-' + this.adjuntoActa.name;
       let obj = {
@@ -309,6 +351,19 @@
           }
         )
     }
+
+    // actualizarMetadatoFirma(obj, idDocumento) {
+    //   this.servicio.ActualizarMetaDatosFirmas(obj, idDocumento).then(
+    //     (res) => {
+    //       this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+    //     }
+    //   )
+    //     .catch(
+    //       (error) => {
+    //         console.log(error);
+    //       }
+    //     )
+    // }
 
     actualizarMetadatoActas(obj, idDocumento) {
       this.servicio.ActualizarMetaDatosActas(obj, idDocumento).then(
@@ -407,29 +462,33 @@
 
     valoresPorDefecto() {
       let fechaIngreso;
-      if(this.empleadoEditar[0].fechaIngreso === null) {
-        fechaIngreso = null
-      }
-      else {
-      let fechaI = this.empleadoEditar[0].fechaIngreso;
-      let fecha1 = fechaI.split('-').toString();
-      let fecha2 = fecha1.split('T');
-      let fecha3 = fecha2[0].toString();
-      let fecha4 = fecha3.split(',');
-      fechaIngreso = (fecha4[2] + '/' + fecha4[1] + '/' + fecha4[0]);
-      }
       let fechaSalida;
-      if(this.empleadoEditar[0].fechaSalida === null) {
-        fechaSalida = null;
-      }
-      else {
-      let fechaS = this.empleadoEditar[0].fechaSalida;
-      let fechaA = fechaS.split('-').toString();
-      let fechaB = fechaA.split('T');
-      let fechaC = fechaB[0].toString();
-      let fechaD = fechaC.split(',');
-      fechaSalida = (fechaD[2] + '/' + fechaD[1] + '/' + fechaD[0])
-      }
+      // if(this.empleadoEditar[0].fechaIngreso === null) {
+      //   fechaIngreso = null
+      // }
+      // else {
+      // let fechaI = this.empleadoEditar[0].fechaIngreso;
+      // let fecha1 = fechaI.split('-').toString();
+      // let fecha2 = fecha1.split('T');
+      // let fecha3 = fecha2[0].toString();
+      // let fecha4 = fecha3.split(',');
+      // fechaIngreso = (fecha4[0] + '/' + fecha4[1] + '/' + fecha4[2]);
+      // }
+      // let fechaSalida;
+      // if(this.empleadoEditar[0].fechaSalida === null) {
+      //   fechaSalida = null;
+      // }
+      // else {
+      // let fechaS = this.empleadoEditar[0].fechaSalida;
+      // let fechaA = fechaS.split('-').toString();
+      // let fechaB = fechaA.split('T');
+      // let fechaC = fechaB[0].toString();
+      // let fechaD = fechaC.split(',');
+      // fechaSalida = (fechaD[0] + '/' + fechaD[1] + '/' + fechaD[2])
+      // }
+
+      fechaIngreso = this.empleadoEditar[0].fechaIngreso !== null? new Date(this.empleadoEditar[0].fechaIngreso): "";
+      fechaSalida = this.empleadoEditar[0].fechaSalida !== null? new Date(this.empleadoEditar[0].fechaSalida): "";
 
       this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
       this.editarEmpleadoForm.controls['segundoNombre'].setValue(this.empleadoEditar[0].segundoNombre);
@@ -658,6 +717,18 @@
       }
     }
 
+    private AsignarFormatoFecha(FechaActividad: Date) {
+      let diaActividadExtraordinaria = FechaActividad.getDate();
+      let mesActividadExtraordinaria = FechaActividad.getMonth();
+      let anoActividadExtraordinaria = FechaActividad.getFullYear();
+      let hoy = new Date();
+      let horas = FechaActividad.getHours() === 0 ? hoy.getHours() : FechaActividad.getHours();
+      let minutos = FechaActividad.getMinutes() === 0 ? 1 : FechaActividad.getMinutes();
+      let segundos = FechaActividad.getSeconds() === 0 ? 1 : FechaActividad.getSeconds();
+      let fechaRetornar = new Date(anoActividadExtraordinaria, mesActividadExtraordinaria, diaActividadExtraordinaria, horas, minutos, segundos).toISOString();
+      return fechaRetornar;
+    }
+
     onSubmit() {
       this.validarVacios();
       let idUsuarioSeleccionado = this.empleadoEditar[0].id;
@@ -669,8 +740,17 @@
       let segundoApellido = this.editarEmpleadoForm.get('segundoApellido').value;
       let numeroDocumento = this.editarEmpleadoForm.get('numeroDocumento').value;
       let tipoDocumento = this.editarEmpleadoForm.get('tipoDocumento').value;
-      let fechaIngreso = this.editarEmpleadoForm.get('fechaIngreso').value;
+      let fechaIngreso = this.editarEmpleadoForm.get('fechaIngreso').value;      
+      let dateFechaIngreso = new Date(fechaIngreso);
+      fechaIngreso = this.AsignarFormatoFecha(dateFechaIngreso);
       let fechaSalida = this.editarEmpleadoForm.get('fechaSalida').value;
+      if (fechaSalida !== "") {
+        let dateFechaSalida = new Date(fechaSalida);
+        fechaSalida = this.AsignarFormatoFecha(dateFechaSalida);
+      } 
+      else {
+        fechaSalida = null;
+      }     
       let tipoContrato = this.editarEmpleadoForm.get('tipoContrato').value;
       let terminoContrato = this.editarEmpleadoForm.get('terminoContrato').value;
       let cargo = this.editarEmpleadoForm.get('cargo').value;

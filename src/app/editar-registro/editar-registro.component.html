@@ -163,8 +163,7 @@
           </div>
           <div class="col-md-4 form-group">
             <label for="Fecha de ingreso">Fecha de ingreso<span class="req">*</span></label>
-            <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker
-              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker>
           </div>
         </div>
 
@@ -172,8 +171,7 @@
           <div class="row">
             <div class="col-md-4 form-group">
               <label for="Fecha de salida">Fecha de salida</label>
-              <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+              <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker>
             </div>
           </div>
         </ng-container>
@@ -251,6 +249,12 @@
           <div class="col-md-6">
             <label for="Afiliaciones">Afiliaciones</label>
             <input type="file" name="adjuntoAfiliaciones" class="form-control" (change)="adjuntarAfiliaciones($event)">
+          </div>
+        </div>
+        <div class="row text-center form-group">
+          <div class="col-md-6">
+            <label for="Actas">Firmas</label>
+            <input type="file" name="adjuntoActas" class="form-control" (change)="adjuntarActas($event)">
           </div>
         </div>
       </div>
