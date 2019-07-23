@@ -33,6 +33,8 @@ export class Empleado {
         public numeroContactoEmergencia: string,
         public grupoSanguineo: string,
         public urlHojaDeVida: any,
+        public ceco: string,
+        public numeroCeco: string,
 
     ) {}
 
@@ -71,7 +73,9 @@ export class Empleado {
             element.FechaSalida,
             element.NumeroContactoEmergencia,
             element.GrupoSanguineo,
-            element.UrlHojaDeVida
+            element.UrlHojaDeVida,
+            element.NombreCECO,
+            element.NumeroCECO
         )
     }
 

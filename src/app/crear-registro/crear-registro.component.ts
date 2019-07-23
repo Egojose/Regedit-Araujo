@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SPServicio } from '../servicios/sp-servicio';
 import { Empleado } from '../dominio/empleado';
 import { Usuario } from '../dominio/usuario';
-import { ItemAddResult } from 'sp-pnp-js';
-import { FileAddResult } from 'sp-pnp-js';
 import { Router } from '@angular/router';
 import { Sede } from '../dominio/sede';
 import { Area } from '../dominio/area';
 import { Cargo } from '../dominio/cargo';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Grupo } from '../dominio/grupo';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
+import { Ceco } from '../dominio/ceco';
 
 
 
@@ -24,6 +24,7 @@ export class CrearRegistroComponent implements OnInit {
   ObjUsuarios: [];
   usuarios: Usuario[] = [];
   usuarioActual: Usuario;
+  ceco: Ceco[] = []
   emptyManager: boolean;
   adjuntoHV: any;
   adjuntoCertificado: any;
@@ -42,8 +43,11 @@ export class CrearRegistroComponent implements OnInit {
   ];
   counter: number = 0;
   PermisosCrearRegistro: boolean;
-
-
+  dataCeco = [];
+  selectedValue: string;
+  selectedOption: any;
+  guardarCeco: boolean = false;
+ 
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
   ngOnInit() {
@@ -51,6 +55,7 @@ export class CrearRegistroComponent implements OnInit {
     this.registrarControles();
     this.obtenerUsuarios();
     this.ObtenerUsuarioActual();
+    this.obtenerCeco();
   };
 
   private registrarControles() {
@@ -83,9 +88,30 @@ export class CrearRegistroComponent implements OnInit {
       carrera: [''],
       contactoEmergencia: [''],
       numeroContactoEmergencia: [''],
-      grupoSanguineo: ['']
+      grupoSanguineo: [''],
+      ceco: ['']
     });
     this.emptyManager = true;
+  };
+
+  onSelect(event: TypeaheadMatch): void {
+    this.selectedOption = event.item;
+    this.guardarCeco = true;
+  }
+
+  obtenerCeco() {
+    this.servicio.obtenerCeCo().subscribe(
+      (respuesta) => {
+        this.ceco = Ceco.fromJsonList(respuesta);
+        this.DataSourceCecos();
+      }
+    )
+  }
+
+  private DataSourceCecos() {
+    this.ceco.forEach(centroCostos => {
+      this.dataCeco.push({ value: centroCostos.nombre, centro: centroCostos.ceco });
+    });
   };
 
   obtenerUsuarios() {
@@ -154,11 +180,6 @@ export class CrearRegistroComponent implements OnInit {
       }
     )
   }
-
-  // verificarSiUsuarioExiste($event) {
-  //   alert('funciona');
-  //   this.verificarUsuario();
-  // }
 
   adjuntarHojaDeVida(event) {
     let AdjuntoHojaVida = event.target.files[0];
@@ -347,8 +368,17 @@ export class CrearRegistroComponent implements OnInit {
     let bonoString = `${bono}`;
     let afpString = `${afp}`;
     let bonoGasolinaString = `${bonoGasolina}`;
+    let nombreCeco;
+    let numeroCeco
 
-
+    if(this.guardarCeco === true) {
+      nombreCeco = this.selectedOption.value;
+      numeroCeco = this.selectedOption.centro;
+    }
+    else {
+      nombreCeco = "";
+      numeroCeco = "";
+    }
 
     if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
       SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
@@ -357,16 +387,6 @@ export class CrearRegistroComponent implements OnInit {
     else {
       salarioIntegral = "0";
     }
-
-    // if (tipoContrato === 'Integral' && (bono === "" || afp === "")) {
-    //   this.MensajeAdvertencia('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
-    //   return false;
-    // }
-
-    // if (terminoContrato === 'Fijo' && fechaSalida === "") {
-    //   this.MensajeAdvertencia('Debe especificar la fecha de salida para contrato a término fijo');
-    //   return false;
-    // }
 
     if (terminoContrato === 'Fijo') {
       fechaSalida = fechaSalida;
@@ -409,7 +429,9 @@ export class CrearRegistroComponent implements OnInit {
       ContactoEmergencia: contactoEmergencia,
       NumeroContactoEmergencia: numeroContactoEmergencia,
       GrupoSanguineo: grupoSanguineo,
-      IdUsuario: usuario
+      IdUsuario: usuario,
+      NombreCECO: nombreCeco,
+      NumeroCECO: numeroCeco
     }
 
     objHojaDeVida = {
@@ -590,21 +612,4 @@ export class CrearRegistroComponent implements OnInit {
         }
       )
   }
-
-
-  // pruebaArchivo(){
-  //   console.log(this.adjuntoHV);
-  //   this.servicio.AgregarHojaDeVida("Archivo1", this.adjuntoHV).then(
-  //     (res: FileAddResult)=>{
-  //       debugger
-  //         let pp = res;
-  //     }
-  //   ).catch(
-  //     (error)=>{
-  //       debugger
-  //       console.error(error);
-  //     }
-
-  //   )
-  // }
 }

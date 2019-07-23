@@ -12,6 +12,8 @@
   import { Grupo } from '../dominio/grupo';
   import { Documento } from '../dominio/documento';
   import { MatTableDataSource } from '@angular/material';
+  import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
+  import { Ceco } from '../dominio/ceco';
   
 
   @Component({
@@ -25,6 +27,7 @@
   usuarios: Usuario[] = [];
   usuarioActual: Usuario;
   empleadoEditar: Empleado[] = [];
+  ceco: Ceco[] = [];
   emptyManager: boolean;
   adjuntoHV: any;
   adjuntoCertificado: any;
@@ -50,6 +53,10 @@
   idEmpleadoSeleccionado;
   show: boolean = true;
   urlHVCorporativa: any;
+  dataCeco = [];
+  selectedValue: string;
+  selectedOption: any;
+  actualizarCeco: boolean = false;
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -59,8 +66,29 @@
       this.registrarControles();
       this.obtenerUsuarios();
       this.ObtenerUsuarioActual();
+      this.obtenerCeco();
       
     }
+
+    onSelect(event: TypeaheadMatch): void {
+      this.selectedOption = event.item;
+      this.actualizarCeco = true;
+    }
+  
+    obtenerCeco() {
+      this.servicio.obtenerCeCo().subscribe(
+        (respuesta) => {
+          this.ceco = Ceco.fromJsonList(respuesta);
+          this.DataSourceCecos();
+        }
+      )
+    }
+  
+    private DataSourceCecos() {
+      this.ceco.forEach(centroCostos => {
+        this.dataCeco.push({ value: centroCostos.nombre, centro: centroCostos.ceco });
+      });
+    };
 
     adjuntarHojaDeVida(event) {
       let AdjuntoHojaVida = event.target.files[0];
@@ -249,7 +277,7 @@
              }
             }
             let idDocumento = item.Id;
-            // this.actualizarMetadatoFirma(obj, idDocumento);
+            this.actualizarMetadatoFirma(obj, idDocumento);
             this.servicio.ActualizarUrl(idUsuario, objUrl);               
           })
         }
@@ -352,18 +380,18 @@
         )
     }
 
-    // actualizarMetadatoFirma(obj, idDocumento) {
-    //   this.servicio.ActualizarMetaDatosFirmas(obj, idDocumento).then(
-    //     (res) => {
-    //       this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
-    //     }
-    //   )
-    //     .catch(
-    //       (error) => {
-    //         console.log(error);
-    //       }
-    //     )
-    // }
+    actualizarMetadatoFirma(obj, idDocumento) {
+      this.servicio.ActualizarMetaDatosFirmas(obj, idDocumento).then(
+        (res) => {
+          this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+        }
+      )
+        .catch(
+          (error) => {
+            console.log(error);
+          }
+        )
+    }
 
     actualizarMetadatoActas(obj, idDocumento) {
       this.servicio.ActualizarMetaDatosActas(obj, idDocumento).then(
@@ -518,6 +546,7 @@
       this.editarEmpleadoForm.controls['contactoEmergencia'].setValue(this.empleadoEditar[0].contactoEmergencia);
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
+      this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].ceco);
     
     }
 
@@ -550,6 +579,7 @@
       this.editarEmpleadoForm.controls['contactoEmergencia'].setValue("");
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue("");
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue("");
+      this.editarEmpleadoForm.controls['ceco'].setValue("");
     }
 
     private registrarControles() {
@@ -582,7 +612,8 @@
         carrera: [''],
         contactoEmergencia: [''],
         numeroContactoEmergencia: [''],
-        grupoSanguineo: ['']
+        grupoSanguineo: [''],
+        ceco: ['']
       });
     };
 
@@ -782,6 +813,17 @@
       let objEmpleado;
       let SumaSalarioIntegral;
       let salarioIntegral;
+      let nombreCeco;
+      let numeroCeco
+      if (this.actualizarCeco === true) {
+        nombreCeco = this.selectedOption.value;
+        numeroCeco = this.selectedOption.centro;
+      }
+      else {
+        nombreCeco = this.empleadoEditar[0].ceco;
+        numeroCeco = this.empleadoEditar[0].numeroCeco;
+      }
+      
 
       if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
         SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
@@ -821,7 +863,9 @@
         ContactoEmergencia: contactoEmergencia,
         FechaSalida: fechaSalida,
         NumeroContactoEmergencia: numeroContactoEmergencia,
-        GrupoSanguineo: grupoSanguineo
+        GrupoSanguineo: grupoSanguineo,
+        NombreCECO: nombreCeco,
+        NumeroCECO: numeroCeco
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')
