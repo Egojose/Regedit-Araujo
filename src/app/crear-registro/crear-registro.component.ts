@@ -3,8 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SPServicio } from '../servicios/sp-servicio';
 import { Empleado } from '../dominio/empleado';
 import { Usuario } from '../dominio/usuario';
-import { ItemAddResult } from 'sp-pnp-js';
-import { FileAddResult } from 'sp-pnp-js';
 import { Router } from '@angular/router';
 import { Sede } from '../dominio/sede';
 import { Area } from '../dominio/area';
@@ -96,8 +94,8 @@ export class CrearRegistroComponent implements OnInit {
   };
 
   onSelect(event: TypeaheadMatch): void {
-    console.log(event);
-    this.selectedOption = event;
+    console.log(event.item);
+    this.selectedOption = event.item;
   }
 
   obtenerCeco() {
@@ -181,13 +179,6 @@ export class CrearRegistroComponent implements OnInit {
       }
     )
   }
-
-  
-
-  // verificarSiUsuarioExiste($event) {
-  //   alert('funciona');
-  //   this.verificarUsuario();
-  // }
 
   adjuntarHojaDeVida(event) {
     let AdjuntoHojaVida = event.target.files[0];
@@ -388,16 +379,6 @@ export class CrearRegistroComponent implements OnInit {
     else {
       salarioIntegral = "0";
     }
-
-    // if (tipoContrato === 'Integral' && (bono === "" || afp === "")) {
-    //   this.MensajeAdvertencia('El campo Bono y Afp son requeridos cuando el tipo de contrato es Integral');
-    //   return false;
-    // }
-
-    // if (terminoContrato === 'Fijo' && fechaSalida === "") {
-    //   this.MensajeAdvertencia('Debe especificar la fecha de salida para contrato a término fijo');
-    //   return false;
-    // }
 
     if (terminoContrato === 'Fijo') {
       fechaSalida = fechaSalida;
@@ -623,21 +604,4 @@ export class CrearRegistroComponent implements OnInit {
         }
       )
   }
-
-
-  // pruebaArchivo(){
-  //   console.log(this.adjuntoHV);
-  //   this.servicio.AgregarHojaDeVida("Archivo1", this.adjuntoHV).then(
-  //     (res: FileAddResult)=>{
-  //       debugger
-  //         let pp = res;
-  //     }
-  //   ).catch(
-  //     (error)=>{
-  //       debugger
-  //       console.error(error);
-  //     }
-
-  //   )
-  // }
 }
