@@ -94,7 +94,6 @@ export class CrearRegistroComponent implements OnInit {
   };
 
   onSelect(event: TypeaheadMatch): void {
-    console.log(event.item);
     this.selectedOption = event.item;
   }
 

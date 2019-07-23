@@ -10,7 +10,7 @@
         </div>
         <br>
         <div class="form-row">
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
             <label for="Usuario">Usuario<span class="req">*</span></label>
             <select id="usuario" formControlName="usuario" class="form-control" (change)="obtenerInfoEmpleado($event)">
               <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
@@ -18,13 +18,12 @@
               </option>
             </select>
           </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-              <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="value"
-                (typeaheadOnSelect)="onSelect($event)" placeholder="Centro de costos" class="form-control">
-            </div>
+          <div class="form-group col-md-6">
+            <label for="Centro de costos">Centro de costos</label>
+            <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="value"
+              (typeaheadOnSelect)="onSelect($event)" placeholder="Centro de costos" class="form-control">
           </div>
+        </div>
         <div class="form-row">
           <div class="form-group col-md-6"
             [ngClass]="{'has-error': empleadoForm.get('primerNombre').errors && (empleadoForm.get('primerNombre').touched || empleadoForm.get('primerNombre').dirty)}">
