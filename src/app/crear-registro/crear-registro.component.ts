@@ -11,6 +11,7 @@ import { Area } from '../dominio/area';
 import { Cargo } from '../dominio/cargo';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Grupo } from '../dominio/grupo';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
 
 
 
@@ -88,6 +89,10 @@ export class CrearRegistroComponent implements OnInit {
     this.emptyManager = true;
   };
 
+  onSelect(event: TypeaheadMatch): void {
+    // this.selectedOption = event.item;
+  }
+
   obtenerUsuarios() {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
       (respuesta) => {
@@ -154,6 +159,8 @@ export class CrearRegistroComponent implements OnInit {
       }
     )
   }
+
+  
 
   // verificarSiUsuarioExiste($event) {
   //   alert('funciona');
