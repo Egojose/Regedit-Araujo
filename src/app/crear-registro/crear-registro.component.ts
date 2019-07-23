@@ -46,6 +46,7 @@ export class CrearRegistroComponent implements OnInit {
   dataCeco = [];
   selectedValue: string;
   selectedOption: any;
+  guardarCeco: boolean = false;
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
@@ -95,6 +96,7 @@ export class CrearRegistroComponent implements OnInit {
 
   onSelect(event: TypeaheadMatch): void {
     this.selectedOption = event.item;
+    this.guardarCeco = true;
   }
 
   obtenerCeco() {
@@ -366,10 +368,17 @@ export class CrearRegistroComponent implements OnInit {
     let bonoString = `${bono}`;
     let afpString = `${afp}`;
     let bonoGasolinaString = `${bonoGasolina}`;
-    let nombreCeco = this.selectedOption.value;
-    let numeroCeco = this.selectedOption.centro;
+    let nombreCeco;
+    let numeroCeco
 
-
+    if(this.guardarCeco === true) {
+      nombreCeco = this.selectedOption.value;
+      numeroCeco = this.selectedOption.centro;
+    }
+    else {
+      nombreCeco = "";
+      numeroCeco = "";
+    }
 
     if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
       SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
