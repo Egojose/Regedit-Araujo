@@ -15,6 +15,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { NgxCurrencyModule } from "ngx-currency";
 import { EditarVistaUsuarioComponent } from './editar-vista-usuario/editar-vista-usuario.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { MatRadioModule, MatFormFieldModule, MatAutocompleteModule, MatOptionModule, MatInputModule, MatTableModule, MatListModule, MatToolbarModule, MatPaginatorModule, MatExpansionModule, MatDialogModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
 
 
@@ -36,6 +37,7 @@ import { MatRadioModule, MatFormFieldModule, MatAutocompleteModule, MatOptionMod
     BrowserAnimationsModule,ToastrModule.forRoot(),
     NgxCurrencyModule,
     AccordionModule.forRoot(),
+    TypeaheadModule.forRoot(),
     MatFormFieldModule,
     MatAutocompleteModule,
     MatOptionModule,
