@@ -31,6 +31,16 @@ export class SPServicio {
         return configuracionSharepoint;
     }
 
+    public ObtenerConfiguracionServicios() {
+        const configuracionSharepoint = pnp.sp.configure({
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            }
+        }, environment.urlWebServ);
+
+        return configuracionSharepoint;
+    }
+
     public ObtenerConfiguracionConPost() {
         const configuracionSharepoint = pnp.sp.configure({
             headers: {
@@ -72,6 +82,11 @@ export class SPServicio {
 
     AgregarInfoEmpleado(ObjEmpleado){
         return this.ObtenerConfiguracionConPost().web.lists.getByTitle(environment.listaEmpleados).items.add(ObjEmpleado)
+    }
+
+    obtenerCeCo() {
+        let respuesta = from(this.ObtenerConfiguracionServicios().web.lists.getByTitle(environment.listaCentroCostos).items.get());
+        return respuesta;
     }
 
     ActualizarInfoEmpleado(IdUsuario: number, objEmpleado) {
