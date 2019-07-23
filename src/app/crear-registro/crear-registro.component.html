@@ -1,8 +1,8 @@
 <ng-container *ngIf="PermisosCrearRegistro">
 
   <div class="container">
-    <pre class="card card-block card-header mb-3">Model: {{selectedValue | json}}</pre>
-    <pre class="card card-block card-header mb-3">Selected option: {{selectedOption | json}}</pre>
+    <!-- <pre class="card card-block card-header mb-3">Model: {{selectedValue | json}}</pre>
+    <pre class="card card-block card-header mb-3">Selected option: {{selectedOption | json}}</pre> -->
     <form autocomplete="off" class="formulario" [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
       <div>
         <div class="text-center title">
@@ -18,14 +18,13 @@
               </option>
             </select>
           </div>
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <label for="Centro de costos">Centro de costos</label>
-              <input [(ngModel)]="selectedValue" [typeahead]="states" typeaheadOptionField="name"
-                (typeaheadOnSelect)="onSelect($event)" class="form-control">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+              <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="value"
+                (typeaheadOnSelect)="onSelect($event)" placeholder="Centro de costos" class="form-control">
             </div>
           </div>
-        </div>
         <div class="form-row">
           <div class="form-group col-md-6"
             [ngClass]="{'has-error': empleadoForm.get('primerNombre').errors && (empleadoForm.get('primerNombre').touched || empleadoForm.get('primerNombre').dirty)}">

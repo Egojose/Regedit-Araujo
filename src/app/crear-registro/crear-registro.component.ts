@@ -12,6 +12,7 @@ import { Cargo } from '../dominio/cargo';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Grupo } from '../dominio/grupo';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
+import { Ceco } from '../dominio/ceco';
 
 
 
@@ -25,6 +26,7 @@ export class CrearRegistroComponent implements OnInit {
   ObjUsuarios: [];
   usuarios: Usuario[] = [];
   usuarioActual: Usuario;
+  ceco: Ceco[] = []
   emptyManager: boolean;
   adjuntoHV: any;
   adjuntoCertificado: any;
@@ -43,8 +45,10 @@ export class CrearRegistroComponent implements OnInit {
   ];
   counter: number = 0;
   PermisosCrearRegistro: boolean;
-
-
+  dataCeco = [];
+  selectedValue: string;
+  selectedOption: any;
+ 
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
   ngOnInit() {
@@ -52,6 +56,7 @@ export class CrearRegistroComponent implements OnInit {
     this.registrarControles();
     this.obtenerUsuarios();
     this.ObtenerUsuarioActual();
+    this.obtenerCeco();
   };
 
   private registrarControles() {
@@ -84,14 +89,31 @@ export class CrearRegistroComponent implements OnInit {
       carrera: [''],
       contactoEmergencia: [''],
       numeroContactoEmergencia: [''],
-      grupoSanguineo: ['']
+      grupoSanguineo: [''],
+      ceco: ['']
     });
     this.emptyManager = true;
   };
 
   onSelect(event: TypeaheadMatch): void {
-    // this.selectedOption = event.item;
+    console.log(event);
+    this.selectedOption = event;
   }
+
+  obtenerCeco() {
+    this.servicio.obtenerCeCo().subscribe(
+      (respuesta) => {
+        this.ceco = Ceco.fromJsonList(respuesta);
+        this.DataSourceCecos();
+      }
+    )
+  }
+
+  private DataSourceCecos() {
+    this.ceco.forEach(centroCostos => {
+      this.dataCeco.push({ value: centroCostos.nombre, centro: centroCostos.ceco });
+    });
+  };
 
   obtenerUsuarios() {
     this.servicio.ObtenerTodosLosUsuarios().subscribe(
@@ -354,6 +376,8 @@ export class CrearRegistroComponent implements OnInit {
     let bonoString = `${bono}`;
     let afpString = `${afp}`;
     let bonoGasolinaString = `${bonoGasolina}`;
+    let nombreCeco = this.selectedOption.value;
+    let numeroCeco = this.selectedOption.centro;
 
 
 
@@ -416,7 +440,9 @@ export class CrearRegistroComponent implements OnInit {
       ContactoEmergencia: contactoEmergencia,
       NumeroContactoEmergencia: numeroContactoEmergencia,
       GrupoSanguineo: grupoSanguineo,
-      IdUsuario: usuario
+      IdUsuario: usuario,
+      NombreCECO: nombreCeco,
+      NumeroCECO: numeroCeco
     }
 
     objHojaDeVida = {
