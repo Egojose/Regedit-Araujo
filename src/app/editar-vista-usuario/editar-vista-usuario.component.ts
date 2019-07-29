@@ -341,7 +341,8 @@ export class EditarVistaUsuarioComponent implements OnInit {
 
   
   obtenerInfoEmpleado() {
-    let idUsuario = this.empleadoEditar[0].id;
+    let idUsuario = this.usuarioActual.id
+    // let idUsuario = this.empleadoEditar[0].id;
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
