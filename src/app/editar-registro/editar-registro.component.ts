@@ -821,7 +821,7 @@
         salarioIntegralEncrypt = CryptoJS.AES.encrypt(salarioIntegral.trim(), this.encPassword.trim()).toString();
       }
       else {
-        salarioIntegralEncrypt = "0";
+        salarioIntegralEncrypt = CryptoJS.AES.encrypt('0'.trim(), this.encPassword.trim()).toString();
       }
 
       objEmpleado = {

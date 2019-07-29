@@ -406,14 +406,14 @@ export class CrearRegistroComponent implements OnInit {
       numeroCeco = "";
     }
 
-    if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
+    if (bono !== 0 || afp !== 0 || bonoGasolina !== 0) {
       SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
       salarioIntegral = `${SumaSalarioIntegral}`
       this.encriptarSalarioIntegral = CryptoJS.AES.encrypt(salarioIntegral.trim(), this.encPassword.trim()).toString();
       // salariodecript = CryptoJS.AES.decrypt(this.encriptarSalarioIntegral.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
     }
     else {
-      this.encriptarSalarioIntegral  = "0";
+      this.encriptarSalarioIntegral  = CryptoJS.AES.encrypt('0'.trim(), this.encPassword.trim()).toString();
     }
 
     if (terminoContrato === 'Fijo') {
