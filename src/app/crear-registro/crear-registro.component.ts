@@ -11,6 +11,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { Grupo } from '../dominio/grupo';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
 import { Ceco } from '../dominio/ceco';
+import * as CryptoJS from 'crypto-js'; 
 
 
 
@@ -38,15 +39,24 @@ export class CrearRegistroComponent implements OnInit {
   empleadoEditar: Empleado[] = [];
   tienePerfil: boolean;
   // valorUsuarioPorDefecto: string = "Seleccione";
-  dataUsuarios = [
-    { value: 'Seleccione', label: 'Seleccione' }
-  ];
+  dataUsuarios = [];
   counter: number = 0;
   PermisosCrearRegistro: boolean;
   dataCeco = [];
   selectedValue: string;
   selectedOption: any;
   guardarCeco: boolean = false;
+  salarioAEncriptar:string;
+  salarioTextoAEcriptar: string;  
+  encryptText: string;
+  encPassword: string;  
+  decPassword:string;
+  salarioEncriptado: string;
+  salarioTextoEncriptado: string;  
+  conversionDecryptOutput:string;
+  conversionDecryptOutput1: string; 
+  encriptarSalarioIntegral: string;
+  decriptarSalarioIntegral: string; 
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
@@ -148,6 +158,18 @@ export class CrearRegistroComponent implements OnInit {
       }
     )
   };
+
+  
+  encriptar() {
+      this.salarioAEncriptar = `${this.empleadoForm.get('salario').value}`;
+      this.salarioTextoAEcriptar = this.empleadoForm.get('salarioTexto').value;
+      this.encPassword = '12ab'
+      this.decPassword = '12ab'
+      this.salarioEncriptado = CryptoJS.AES.encrypt(this.salarioAEncriptar.trim(), this.encPassword.trim()).toString();
+      this.salarioTextoEncriptado = CryptoJS.AES.encrypt(this.salarioTextoAEcriptar.trim(), this.encPassword.trim()).toString();
+      // this.conversionDecryptOutput = CryptoJS.AES.decrypt(this.salarioEncriptado.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
+      // this.conversionDecryptOutput1 = CryptoJS.AES.decrypt(this.salarioTextoEncriptado.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
+    }
 
   verificarPermisos() {
     let existeGrupoCrearEditarPerfilEmpleado = this.grupos.find(x => x.title === "CrearEditarPerfilEmpleado");
@@ -324,6 +346,7 @@ export class CrearRegistroComponent implements OnInit {
 
   onSubmit() {
     this.validarVacios();
+    this. encriptar();
     console.log(this.empleadoForm)
     let usuario = this.empleadoForm.get('usuario').value;
     console.log(usuario);
@@ -338,8 +361,10 @@ export class CrearRegistroComponent implements OnInit {
     let tipoContrato = this.empleadoForm.get('tipoContrato').value;
     let terminoContrato = this.empleadoForm.get('terminoContrato').value;
     let cargo = this.empleadoForm.get('cargo').value;
+    let salarioCript = this.salarioEncriptado;
     let salario = this.empleadoForm.get('salario').value;
     let luagarExpedicion = this.empleadoForm.get('lugarExpedicion').value;
+    let salarioTextoCript = this.salarioTextoEncriptado;
     let salarioTexto = this.empleadoForm.get('salarioTexto').value;
     let area = this.empleadoForm.get('area').value;
     let jefe = this.empleadoForm.get('jefe').value;
@@ -364,12 +389,13 @@ export class CrearRegistroComponent implements OnInit {
     let bonoGasolinaInteger = parseInt(bonoGasolina, 10);
     let nombreEmpleado;
     let objHojaDeVida;
-    let salarioString = `${salario}`;
+    // let salarioString = `${salario}`;
     let bonoString = `${bono}`;
     let afpString = `${afp}`;
     let bonoGasolinaString = `${bonoGasolina}`;
     let nombreCeco;
     let numeroCeco
+    
 
     if(this.guardarCeco === true) {
       nombreCeco = this.selectedOption.value;
@@ -383,9 +409,11 @@ export class CrearRegistroComponent implements OnInit {
     if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
       SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
       salarioIntegral = `${SumaSalarioIntegral}`
+      this.encriptarSalarioIntegral = CryptoJS.AES.encrypt(salarioIntegral.trim(), this.encPassword.trim()).toString();
+      // salariodecript = CryptoJS.AES.decrypt(this.encriptarSalarioIntegral.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
     }
     else {
-      salarioIntegral = "0";
+      this.encriptarSalarioIntegral  = "0";
     }
 
     if (terminoContrato === 'Fijo') {
@@ -410,9 +438,9 @@ export class CrearRegistroComponent implements OnInit {
       FechaSalida: fechaSalida,
       TipoContrato: tipoContrato,
       Cargo: cargo,
-      Salario: salarioString,
+      Salario: salarioCript,
       lugarExpedicion: luagarExpedicion,
-      salarioTexto: salarioTexto,
+      salarioTexto: salarioTextoCript,
       Area: area,
       JefeId: jefe,
       Direccion: direccion,
@@ -425,7 +453,7 @@ export class CrearRegistroComponent implements OnInit {
       TerminoContrato: terminoContrato,
       Carrera: carrera,
       Universidad: universidad,
-      SalarioIntegral: salarioIntegral,
+      SalarioIntegral: this.encriptarSalarioIntegral,
       ContactoEmergencia: contactoEmergencia,
       NumeroContactoEmergencia: numeroContactoEmergencia,
       GrupoSanguineo: grupoSanguineo,
@@ -566,12 +594,11 @@ export class CrearRegistroComponent implements OnInit {
       (res) => {
         this.MensajeInfo('La hoja de vida se cargó correctamente')
       }
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
     )
-      .catch(
-        (error) => {
-          console.log(error);
-        }
-      )
   };
 
   actualizarMetadatosCert(obj, idDocumento) {
@@ -579,12 +606,11 @@ export class CrearRegistroComponent implements OnInit {
       (res) => {
         this.MensajeInfo('El certificado se cargó correctamente')
       }
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
     )
-      .catch(
-        (error) => {
-          console.log(error);
-        }
-      )
   }
 
   actualizarMetadatoDiploma(obj, idDocumento) {
@@ -592,12 +618,11 @@ export class CrearRegistroComponent implements OnInit {
       (res) => {
         this.MensajeInfo('El Diploma se cargó correctamente')
       }
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
     )
-      .catch(
-        (error) => {
-          console.log(error);
-        }
-      )
   }
 
   actualizarMetadatoHVCorporativa(obj, idDocumento) {
@@ -605,11 +630,10 @@ export class CrearRegistroComponent implements OnInit {
       (res) => {
         this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
       }
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
     )
-      .catch(
-        (error) => {
-          console.log(error);
-        }
-      )
   }
 }

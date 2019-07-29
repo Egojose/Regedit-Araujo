@@ -14,6 +14,7 @@
   import { MatTableDataSource } from '@angular/material';
   import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
   import { Ceco } from '../dominio/ceco';
+  import * as CryptoJS from 'crypto-js'; 
   
 
   @Component({
@@ -41,9 +42,7 @@
   cargo: Cargo[] = [];
   empleado: Empleado;
   grupos: Grupo[] = [];  
-  dataUsuarios = [
-    {value: 'Seleccione', label : 'Seleccione'}
-  ];
+  dataUsuarios = [];
   counter: number = 0;
   PermisosCrearRegistro: boolean;
   fechaFormato;
@@ -57,6 +56,8 @@
   selectedValue: string;
   selectedOption: any;
   actualizarCeco: boolean = false;
+  encPassword: string;  
+  decPassword:string;
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -489,31 +490,15 @@
     }
 
     valoresPorDefecto() {
+      this.encPassword = '12ab'
+      this.decPassword = '12ab'
       let fechaIngreso;
       let fechaSalida;
-      // if(this.empleadoEditar[0].fechaIngreso === null) {
-      //   fechaIngreso = null
-      // }
-      // else {
-      // let fechaI = this.empleadoEditar[0].fechaIngreso;
-      // let fecha1 = fechaI.split('-').toString();
-      // let fecha2 = fecha1.split('T');
-      // let fecha3 = fecha2[0].toString();
-      // let fecha4 = fecha3.split(',');
-      // fechaIngreso = (fecha4[0] + '/' + fecha4[1] + '/' + fecha4[2]);
-      // }
-      // let fechaSalida;
-      // if(this.empleadoEditar[0].fechaSalida === null) {
-      //   fechaSalida = null;
-      // }
-      // else {
-      // let fechaS = this.empleadoEditar[0].fechaSalida;
-      // let fechaA = fechaS.split('-').toString();
-      // let fechaB = fechaA.split('T');
-      // let fechaC = fechaB[0].toString();
-      // let fechaD = fechaC.split(',');
-      // fechaSalida = (fechaD[0] + '/' + fechaD[1] + '/' + fechaD[2])
-      // }
+      let salarioDecrypt;
+      let salarioTextoDecrypt;
+      let salarioIntegralDecrypt;
+      salarioDecrypt = CryptoJS.AES.decrypt(this.empleadoEditar[0].salario.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
+      salarioTextoDecrypt = CryptoJS.AES.decrypt(this.empleadoEditar[0].salarioTexto.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
 
       fechaIngreso = this.empleadoEditar[0].fechaIngreso !== null? new Date(this.empleadoEditar[0].fechaIngreso): "";
       fechaSalida = this.empleadoEditar[0].fechaSalida !== null? new Date(this.empleadoEditar[0].fechaSalida): "";
@@ -529,9 +514,11 @@
       this.editarEmpleadoForm.controls['tipoContrato'].setValue(this.empleadoEditar[0].tipoContrato);
       this.editarEmpleadoForm.controls['terminoContrato'].setValue(this.empleadoEditar[0].terminoContrato);
       this.editarEmpleadoForm.controls['cargo'].setValue(this.empleadoEditar[0].cargo);
-      this.editarEmpleadoForm.controls['salario'].setValue(this.empleadoEditar[0].salario);
+      // this.editarEmpleadoForm.controls['salario'].setValue(this.empleadoEditar[0].salario);
+      this.editarEmpleadoForm.controls['salario'].setValue(salarioDecrypt);
       this.editarEmpleadoForm.controls['lugarExpedicion'].setValue(this.empleadoEditar[0].lugarExpedicion);
-      this.editarEmpleadoForm.controls['salarioTexto'].setValue(this.empleadoEditar[0].salarioTexto);
+      // this.editarEmpleadoForm.controls['salarioTexto'].setValue(this.empleadoEditar[0].salarioTexto);
+      this.editarEmpleadoForm.controls['salarioTexto'].setValue(salarioTextoDecrypt);
       this.editarEmpleadoForm.controls['area'].setValue(this.empleadoEditar[0].area);
       this.editarEmpleadoForm.controls['jefe'].setValue(this.empleadoEditar[0].jefe);
       this.editarEmpleadoForm.controls['direccion'].setValue(this.empleadoEditar[0].direccion);
@@ -807,14 +794,17 @@
       let afpInteger = parseInt(afp, 10);
       let bonoGasolinaInteger = parseInt(bonoGasolina, 10);
       let salarioString = `${salario}`;
+      let salarioEncrypt =  CryptoJS.AES.encrypt(salarioString.trim(), this.encPassword.trim()).toString();
       let bonoString = `${bono}`;
       let afpString = `${afp}`;
       let bonoGasolinaString = `${bonoGasolina}`;
       let objEmpleado;
       let SumaSalarioIntegral;
+      let salarioTextoEncrypt = CryptoJS.AES.encrypt(salarioTexto.trim(), this.encPassword.trim()).toString();
       let salarioIntegral;
       let nombreCeco;
       let numeroCeco
+      let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
         nombreCeco = this.selectedOption.value;
         numeroCeco = this.selectedOption.centro;
@@ -825,12 +815,13 @@
       }
       
 
-      if (tipoContrato === 'Integral' || tipoContrato === 'Ordinario') {
+      if ((tipoContrato === 'Integral' || tipoContrato === 'Ordinario') && (bono !== 0 || afp !== 0 || bonoGasolina !== 0)) {
         SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
         salarioIntegral = `${SumaSalarioIntegral}`
+        salarioIntegralEncrypt = CryptoJS.AES.encrypt(salarioIntegral.trim(), this.encPassword.trim()).toString();
       }
       else {
-        salarioIntegral = "0";
+        salarioIntegralEncrypt = "0";
       }
 
       objEmpleado = {
@@ -844,9 +835,9 @@
         FechaIngreso: fechaIngreso,
         TipoDocumento: tipoDocumento,
         Cargo: cargo,
-        Salario: salarioString,
+        Salario: salarioEncrypt,
         lugarExpedicion: lugarExpedicion,
-        salarioTexto: salarioTexto,
+        salarioTexto: salarioTextoEncrypt,
         Area: area,
         JefeId: jefe,
         Direccion: direccion,
@@ -858,7 +849,7 @@
         AFP: afpString,
         TerminoContrato: terminoContrato,
         Carrera: carrera,
-        SalarioIntegral: salarioIntegral,
+        SalarioIntegral: salarioIntegralEncrypt,
         Universidad: universidad,
         ContactoEmergencia: contactoEmergencia,
         FechaSalida: fechaSalida,
