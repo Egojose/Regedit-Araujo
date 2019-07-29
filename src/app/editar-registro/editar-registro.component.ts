@@ -815,7 +815,7 @@
       }
       
 
-      if ((tipoContrato === 'Integral' || tipoContrato === 'Ordinario') && (bono !== 0 || afp !== 0 || bonoGasolina !== 0)) {
+      if (bono !== 0 || afp !== 0 || bonoGasolina !== 0) {
         SumaSalarioIntegral = salarioInteger + bonoInteger + afpInteger + bonoGasolinaInteger;
         salarioIntegral = `${SumaSalarioIntegral}`
         salarioIntegralEncrypt = CryptoJS.AES.encrypt(salarioIntegral.trim(), this.encPassword.trim()).toString();
