@@ -534,7 +534,7 @@
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
       this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].ceco);
-      this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, ""))
+      this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n"))
     }
 
     limpiarCampos() {
@@ -807,7 +807,7 @@
       let nombreCeco;
       let numeroCeco
       let funcionesAll = this.editarEmpleadoForm.get('funciones').value
-      let funciones = funcionesAll.replace(/\n/g, ";\n")
+      let funciones = funcionesAll.replace(/\n/g, ";")
       console.log(funciones);
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
