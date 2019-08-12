@@ -490,6 +490,7 @@
     }
 
     valoresPorDefecto() {
+      console.log(this.empleadoEditar[0].activo)
       this.encPassword = '12ab'
       this.decPassword = '12ab'
       let fechaIngreso;
@@ -534,7 +535,9 @@
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
       this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].ceco);
-      this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n"))
+      this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n"));
+      this.empleadoEditar[0].activo === true ? this.editarEmpleadoForm.controls['activo'].setValue('true') : this.editarEmpleadoForm.controls['activo'].setValue('false')
+      // this.editarEmpleadoForm.controls['activo'].setValue(this.empleadoEditar[0].activo);
     }
 
     limpiarCampos() {
@@ -685,6 +688,7 @@
       this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
         (respuesta) => {
           this.empleadoEditar = Empleado.fromJsonList(respuesta);
+          console.log(this.empleadoEditar);
           this.obtenerSede();
           
         }
@@ -806,9 +810,9 @@
       let salarioIntegral;
       let nombreCeco;
       let numeroCeco
-      let funcionesAll = this.editarEmpleadoForm.get('funciones').value
-      let funciones = funcionesAll.replace(/\n/g, ";")
-      console.log(funciones);
+      let funcionesAll = this.editarEmpleadoForm.get('funciones').value;
+      let funciones = funcionesAll.replace(/\n/g, ";");
+      let activo = this.editarEmpleadoForm.get('activo').value;
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
         nombreCeco = this.selectedOption.value;
@@ -862,7 +866,8 @@
         GrupoSanguineo: grupoSanguineo,
         NombreCECO: nombreCeco,
         NumeroCECO: numeroCeco,
-        Funciones: funciones
+        Funciones: funciones,
+        Activo: activo
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')

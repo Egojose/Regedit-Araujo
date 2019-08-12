@@ -15,11 +15,21 @@
               </option>
             </select>
           </div>
-          <div class="form-group col-md-6">
+          <div class="col-md-6 text-center">
+          <ng-container>
+              <label for="" class="text-center">El usuario se encuentra activo?</label><br>
+              <mat-radio-group aria-label="Select an option" formControlName="activo">
+                  <mat-radio-button value="true">Sí</mat-radio-button>
+                  <mat-radio-button value="false">No</mat-radio-button>
+                </mat-radio-group>
+          </ng-container>
+        </div>
+          
+          <!-- <div class="form-group col-md-6">
             <label for="Centro de costos">Centro de costos</label>
             <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="value"
               (typeaheadOnSelect)="onSelect($event)" placeholder="Centro de costos" class="form-control">
-          </div>
+          </div> -->
         </div>
         <div class="form-row">
           <div class="form-group col-md-6"

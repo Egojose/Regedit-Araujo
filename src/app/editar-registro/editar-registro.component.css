@@ -64,6 +64,10 @@ form.archivos {
     color: white;
 }
 
+mat-radio-button {
+    margin-right: 10px;
+}
+
 
   /* responsive logo */
 @media (max-width: 600px) {
