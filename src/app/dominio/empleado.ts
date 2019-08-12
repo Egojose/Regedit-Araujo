@@ -35,6 +35,7 @@ export class Empleado {
         public urlHojaDeVida: any,
         public ceco: string,
         public numeroCeco: string,
+        public funciones: string
 
     ) {}
 
@@ -75,7 +76,8 @@ export class Empleado {
             element.GrupoSanguineo,
             element.UrlHojaDeVida,
             element.NombreCECO,
-            element.NumeroCECO
+            element.NumeroCECO,
+            element.Funciones
         )
     }
 
