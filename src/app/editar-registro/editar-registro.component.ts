@@ -534,7 +534,7 @@
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
       this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].ceco);
-    
+      this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, ""))
     }
 
     limpiarCampos() {
@@ -600,7 +600,9 @@
         contactoEmergencia: [''],
         numeroContactoEmergencia: [''],
         grupoSanguineo: [''],
-        ceco: ['']
+        ceco: [''],
+        funciones:[''],
+        activo:['']
       });
     };
 
@@ -804,6 +806,9 @@
       let salarioIntegral;
       let nombreCeco;
       let numeroCeco
+      let funcionesAll = this.editarEmpleadoForm.get('funciones').value
+      let funciones = funcionesAll.replace(/\n/g, ";\n")
+      console.log(funciones);
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
         nombreCeco = this.selectedOption.value;
@@ -856,7 +861,8 @@
         NumeroContactoEmergencia: numeroContactoEmergencia,
         GrupoSanguineo: grupoSanguineo,
         NombreCECO: nombreCeco,
-        NumeroCECO: numeroCeco
+        NumeroCECO: numeroCeco,
+        Funciones: funciones
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')
