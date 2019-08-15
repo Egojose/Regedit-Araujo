@@ -7,7 +7,7 @@
         </div>
         <br>
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="Seleccione el usuario">Seleccione el usuario<span class="req">*</span></label>
             <select id="usuario" formControlName="usuario" class="form-control" (change)="SeleccionarId($event)">
               <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
@@ -15,11 +15,20 @@
               </option>
             </select>
           </div>
-          <div class="form-group col-md-6">
+           <div class="form-group col-md-4">
             <label for="Centro de costos">Centro de costos</label>
-            <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="value"
+            <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="centro"
               (typeaheadOnSelect)="onSelect($event)" placeholder="Centro de costos" class="form-control">
           </div>
+          <div class="col-md-4 text-center">
+          <ng-container>
+              <label for="" class="text-center">El usuario se encuentra activo?</label><br>
+              <mat-radio-group aria-label="Select an option" formControlName="activo">
+                  <mat-radio-button value="true">Sí</mat-radio-button>
+                  <mat-radio-button value="false">No</mat-radio-button>
+                </mat-radio-group>
+          </ng-container>
+        </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6"
@@ -217,6 +226,13 @@
             </div>
           </div>
         </ng-container>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="">Funciones</label>
+            <textarea name="" id="" cols="10" rows="5" class="form-control" formControlName="funciones"></textarea>
+            <span style="color: red;">Por favor separe cada función con un salto de línea (enter)</span>
+          </div>
+        </div>
 
       </div>
       <!-- Documentos Adjuntos -->

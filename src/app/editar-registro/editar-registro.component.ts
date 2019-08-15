@@ -497,8 +497,15 @@
       let salarioDecrypt;
       let salarioTextoDecrypt;
       let salarioIntegralDecrypt;
-      salarioDecrypt = CryptoJS.AES.decrypt(this.empleadoEditar[0].salario.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
-      salarioTextoDecrypt = CryptoJS.AES.decrypt(this.empleadoEditar[0].salarioTexto.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
+      if(this.empleadoEditar[0].salario === null || this.empleadoEditar[0].salarioTexto === null) {
+        salarioDecrypt = ""
+        salarioTextoDecrypt = ""
+      } else {
+        salarioDecrypt = CryptoJS.AES.decrypt(this.empleadoEditar[0].salario.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
+        salarioTextoDecrypt = CryptoJS.AES.decrypt(this.empleadoEditar[0].salarioTexto.trim(), this.decPassword.trim()).toString(CryptoJS.enc.Utf8);
+      }
+      
+      
 
       fechaIngreso = this.empleadoEditar[0].fechaIngreso !== null? new Date(this.empleadoEditar[0].fechaIngreso): "";
       fechaSalida = this.empleadoEditar[0].fechaSalida !== null? new Date(this.empleadoEditar[0].fechaSalida): "";
@@ -533,8 +540,10 @@
       this.editarEmpleadoForm.controls['contactoEmergencia'].setValue(this.empleadoEditar[0].contactoEmergencia);
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue(this.empleadoEditar[0].numeroContactoEmergencia);
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue(this.empleadoEditar[0].grupoSanguineo);
-      this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].ceco);
-    
+      this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].numeroCeco);
+      this.empleadoEditar[0].funciones !== null ? this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n")) : this.editarEmpleadoForm.controls['funciones'].setValue('');
+      this.empleadoEditar[0].activo === true ? this.editarEmpleadoForm.controls['activo'].setValue('true') : this.editarEmpleadoForm.controls['activo'].setValue('false')
+      // this.editarEmpleadoForm.controls['activo'].setValue(this.empleadoEditar[0].activo);
     }
 
     limpiarCampos() {
@@ -567,6 +576,8 @@
       this.editarEmpleadoForm.controls['numeroContactoEmergencia'].setValue("");
       this.editarEmpleadoForm.controls['grupoSanguineo'].setValue("");
       this.editarEmpleadoForm.controls['ceco'].setValue("");
+      this.editarEmpleadoForm.controls['funciones'].setValue("");
+      this.editarEmpleadoForm.controls['activo'].setValue("");
     }
 
     private registrarControles() {
@@ -600,7 +611,9 @@
         contactoEmergencia: [''],
         numeroContactoEmergencia: [''],
         grupoSanguineo: [''],
-        ceco: ['']
+        ceco: [''],
+        funciones:[''],
+        activo:['']
       });
     };
 
@@ -683,6 +696,7 @@
       this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
         (respuesta) => {
           this.empleadoEditar = Empleado.fromJsonList(respuesta);
+          console.log(this.empleadoEditar);
           this.obtenerSede();
           
         }
@@ -804,6 +818,9 @@
       let salarioIntegral;
       let nombreCeco;
       let numeroCeco
+      let funcionesAll = this.editarEmpleadoForm.get('funciones').value;
+      let funciones = funcionesAll.replace(/\n/g, ";");
+      let activo = this.editarEmpleadoForm.get('activo').value;
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
         nombreCeco = this.selectedOption.value;
@@ -856,7 +873,9 @@
         NumeroContactoEmergencia: numeroContactoEmergencia,
         GrupoSanguineo: grupoSanguineo,
         NombreCECO: nombreCeco,
-        NumeroCECO: numeroCeco
+        NumeroCECO: numeroCeco,
+        Funciones: funciones,
+        Activo: activo
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')
