@@ -9,9 +9,7 @@
 
 
 body {
-    background: url('assets/images/background-araujo-app.jpg') no-repeat;
-    background-size: cover;
-    /* background: #D8D8D8; */
+    background: #D8D8D8;
     width: 100%;
     height: 100%;
 }
