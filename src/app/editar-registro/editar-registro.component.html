@@ -176,7 +176,7 @@
             </select>
           </div>
           <div class="col-md-4 form-group">
-            <label for="Fecha de ingreso">Fecha de ingreso<span class="req">*</span></label>
+            <label for="Fecha de ingreso">Fecha de ingreso<span class="req">*</span> (dd/MM/AAAA)</label>
             <input type="text" class="form-control" formControlName="fechaIngreso" bsDatepicker>
           </div>
         </div>
@@ -184,7 +184,7 @@
         <ng-container *ngIf="editarEmpleadoForm.get('terminoContrato').value === 'Fijo'">
           <div class="row">
             <div class="col-md-4 form-group">
-              <label for="Fecha de salida">Fecha de salida</label>
+              <label for="Fecha de salida">Fecha de salida (dd/MM/AAAA)</label>
               <input type="text" class="form-control" formControlName="fechaSalida" bsDatepicker>
             </div>
           </div>

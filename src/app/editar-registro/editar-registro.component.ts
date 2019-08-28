@@ -661,7 +661,7 @@
     obtenerArea() {
       this.servicio.obtenerArea().subscribe(
         (respuesta) => {
-          this.area = Area.fromJsonList(respuesta);
+          this.area = Area.fromJsonList(respuesta).sort((a, b) => (a.nombre > b.nombre) ? 1 : -1);
           this.obtenerCargo();
           
         });
@@ -670,7 +670,7 @@
     obtenerCargo() {
       this.servicio.obtenerCargo().subscribe(
         (respuesta) => {
-          this.cargo = Cargo.fromJsonList(respuesta);
+          this.cargo = Cargo.fromJsonList(respuesta).sort((a, b) => (a.nombre > b.nombre) ? 1 : -1);
         });
     };
 
