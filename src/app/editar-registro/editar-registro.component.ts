@@ -333,6 +333,7 @@
       this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('La hoja de vida se cargó correctamente')
+          this.obtenerDocumentos();
         }
       )
         .catch(
@@ -346,6 +347,7 @@
       this.servicio.ActualizarMetaDatosCertificado(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('El certificado se cargó correctamente')
+          this.obtenerDocumentos();
         }
       )
         .catch(
@@ -359,6 +361,7 @@
       this.servicio.ActualizarMetaDatosDiploma(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('El Diploma se cargó correctamente')
+          this.obtenerDocumentos();
         }
       )
         .catch(
@@ -372,6 +375,7 @@
       this.servicio.ActualizarMetaDatosHVCorporativa(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+          this.obtenerDocumentos();
         }
       )
         .catch(
@@ -385,6 +389,7 @@
       this.servicio.ActualizarMetaDatosFirmas(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+          this.obtenerDocumentos();
         }
       )
         .catch(
@@ -398,6 +403,8 @@
       this.servicio.ActualizarMetaDatosActas(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('El acta se cargó correctamente')
+          this.obtenerDocumentos();
+
         }
       )
         .catch(
@@ -411,6 +418,7 @@
       this.servicio.ActualizarMetaDatosAfiliaciones(obj, idDocumento).then(
         (res) => {
           this.MensajeInfo('La afiliación se cargó correctamente')
+          this.obtenerDocumentos();
         }
       )
         .catch(
@@ -466,6 +474,8 @@
     }
 
     obtenerDocumentos() {
+      let algo = this.empleadoEditar[0]
+      console.log(algo)
       let id = this.empleadoEditar[0].id;
       this.servicio.obtenerDocumentos(id).then(
         (respuesta) => {

@@ -38,6 +38,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
   documentos: Documento[] = [];
   empty: boolean;
   dataSource;
+  idDocumentos;
 
 
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -45,7 +46,6 @@ export class EditarVistaUsuarioComponent implements OnInit {
   ngOnInit() {
     this.registrarControlesUsuario();
     this.obtenerUsuarios();
-    console.log(this.editarEmpleadoFormUsuario.value);
     // this.ObtenerUsuarioActual();
     // this.obtenerInfoEmpleado();
     // this.verificarPermisos();
@@ -90,7 +90,6 @@ export class EditarVistaUsuarioComponent implements OnInit {
         this.usuarioActual = new Usuario(Response.Title, Response.email, Response.Id);
         this.obtenerGrupos();
         this.obtenerInfoEmpleado();
-        this.obtenerDocumentos();
       }, err => {
         console.log('Error obteniendo usuario: ' + err);
       }
@@ -128,12 +127,10 @@ export class EditarVistaUsuarioComponent implements OnInit {
   }
 
   obtenerDocumentos() {
-    let id = this.empleadoEditar[0].id;
-   console.log(id);
+    let id = this.idDocumentos
     this.servicio.obtenerDocumentos(id).then(
       (respuesta) => {
         this.documentos = Documento.fromJsonList(respuesta);
-        console.log(this.documentos);
         if(this.documentos.length > 0) {
           this.empty = false;
           this.dataSource = new MatTableDataSource(this.documentos)
@@ -291,6 +288,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
       (res) => {
         this.MensajeInfo('La hoja de vida se cargó correctamente')
+        this. obtenerDocumentos();
       }
     )
       .catch(
@@ -304,6 +302,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.ActualizarMetaDatosCertificado(obj, idDocumento).then(
       (res) => {
         this.MensajeInfo('El certificado se cargó correctamente')
+        this. obtenerDocumentos();
       }
     )
       .catch(
@@ -317,6 +316,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.ActualizarMetaDatosDiploma(obj, idDocumento).then(
       (res) => {
         this.MensajeInfo('El Diploma se cargó correctamente')
+        this. obtenerDocumentos();
       }
     )
       .catch(
@@ -330,6 +330,7 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.ActualizarMetaDatosHVCorporativa(obj, idDocumento).then(
       (res) => {
         this.MensajeInfo('La hoja de vida corporativa se cargó correctamente')
+        this. obtenerDocumentos();
       }
     )
       .catch(
@@ -346,23 +347,30 @@ export class EditarVistaUsuarioComponent implements OnInit {
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
+        this.idDocumentos = this.empleadoEditar[0].id;
         
         if(respuesta.length === 0) {
           this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníquese con gestión humana');
           return false;
         }
-        // let infoEmpleado = this.empleadoEditar.find(x => x.id === idUsuario)
-        // if(infoEmpleado === undefined) {
-        //   this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Comuníqiuese con el  área de gestión humana.')
-        //  setTimeout(() => {
-        //   this.router.navigate(['/']);
-        //  }, 2000);
-        // }
         this.valoresPorDefecto();
+        this.obtenerDocumentos();
         console.log(this.empleadoEditar)
       }
     )
   };
+
+  eliminarArchivos(element) {
+    this.servicio.borrarArchivo(element.id).then(
+      (respuesta) => {
+        this.documentos = this.documentos.filter(x => x.id !== element.id);
+        this.dataSource = this.documentos;
+        this.MensajeExitoso('El archivo se ha eliminado')
+      }, err => {
+        console.log('Error al eliminar el archivo: ' + err);
+      } 
+    )
+  }
 
   cancelar() {
     this.router.navigate(['/'])
