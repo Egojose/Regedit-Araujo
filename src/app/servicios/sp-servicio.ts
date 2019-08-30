@@ -230,6 +230,11 @@ export class SPServicio {
         return respuesta;
     }
 
+    obtenerTodosLosDocumentos() {
+        let respuesta = this.ObtenerConfiguracion().web.lists.getByTitle("DocumentosEmpleados").items.select("ID", "Title", "TipoDocumento", "Empleado/Title", "Empleado/ID", "File").expand("File", "Empleado").getAll();
+        return respuesta;
+    }
+
     borrarArchivo(IdArchivo: number){
         return this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(IdArchivo).delete();
     }

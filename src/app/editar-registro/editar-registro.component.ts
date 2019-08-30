@@ -474,6 +474,8 @@
     }
 
     obtenerDocumentos() {
+      let algo = this.empleadoEditar[0]
+      console.log(algo)
       let id = this.empleadoEditar[0].id;
       this.servicio.obtenerDocumentos(id).then(
         (respuesta) => {
