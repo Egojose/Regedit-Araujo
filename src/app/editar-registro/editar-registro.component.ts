@@ -485,7 +485,8 @@
             this.dataSource = new MatTableDataSource(this.documentos)
           }
           else {
-            this.empty = true;
+            // this.empty = true;
+            this.dataSource = [];
           }
         }
       ).catch(
