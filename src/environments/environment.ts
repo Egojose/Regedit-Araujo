@@ -15,7 +15,8 @@ export const environment = {
   listaCargo: 'Cargo',
   listaDocumentosEmpleados: 'DocumentosEmpleados',
   listaFirmas: 'Firmas',
-  listaCentroCostos: 'CentroCostos'
+  listaCentroCostos: 'CentroCostos',
+  listaUnidadNegocios: 'UnidadNegocios'
 };
 
 /*

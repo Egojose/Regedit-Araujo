@@ -57,6 +57,7 @@ export class CrearRegistroComponent implements OnInit {
   conversionDecryptOutput1: string; 
   encriptarSalarioIntegral: string;
   decriptarSalarioIntegral: string; 
+  unidadNegocios: any;
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
@@ -99,7 +100,9 @@ export class CrearRegistroComponent implements OnInit {
       contactoEmergencia: [''],
       numeroContactoEmergencia: [''],
       grupoSanguineo: [''],
-      ceco: ['']
+      ceco: [''],
+      unidadNegocio:['']
+
     });
     this.emptyManager = true;
   };
@@ -153,12 +156,28 @@ export class CrearRegistroComponent implements OnInit {
         this.verificarPermisos();
         this.obtenerSede();
         this.obtenerCargo();
+        this.obtenerUnidadNegocio();
       }, err => {
         console.log('Error obteniendo grupos de usuario: ' + err);
       }
     )
   };
 
+  obtenerUnidadNegocio() {
+    this.servicio.obtenerUnidadNegocio().then(
+      (respuesta) => {
+        this.unidadNegocios = respuesta;
+        console.log(respuesta);
+      }
+    ),error => {
+      console.log(error)
+    }
+  }
+
+  changeUnidad($event) {
+    console.log($event);
+    console.log(this.empleadoForm.get('unidadNegocio').value);
+  }
   
   encriptar() {
       this.salarioAEncriptar = `${this.empleadoForm.get('salario').value}`;
@@ -303,6 +322,11 @@ export class CrearRegistroComponent implements OnInit {
       this.counter++;
     }
 
+    if(this.empleadoForm.get('unidadNegocio').value === '') {
+      this.MensajeAdvertencia('Por favor diligencie el campo Unidad de negocio');
+      this.counter++;
+    }
+
     if (this.counter > 0) {
       this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
       return false;
@@ -394,7 +418,8 @@ export class CrearRegistroComponent implements OnInit {
     let afpString = `${afp}`;
     let bonoGasolinaString = `${bonoGasolina}`;
     let nombreCeco;
-    let numeroCeco
+    let numeroCeco;
+    let unidadNegocio = this.empleadoForm.get('unidadNegocio').value;
     
 
     if(this.guardarCeco === true) {
@@ -459,7 +484,8 @@ export class CrearRegistroComponent implements OnInit {
       GrupoSanguineo: grupoSanguineo,
       IdUsuario: usuario,
       NombreCECO: nombreCeco,
-      NumeroCECO: numeroCeco
+      NumeroCECO: numeroCeco,
+      UnidadNegocio: unidadNegocio
     }
 
     objHojaDeVida = {
