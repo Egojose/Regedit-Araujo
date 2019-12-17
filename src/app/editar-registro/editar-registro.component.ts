@@ -84,7 +84,7 @@
         }
       )
     }
-  
+
     private DataSourceCecos() {
       this.ceco.forEach(centroCostos => {
         this.dataCeco.push({ value: centroCostos.nombre, centro: centroCostos.ceco });
