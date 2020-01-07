@@ -15,6 +15,7 @@ import * as CryptoJS from 'crypto-js';
 
 
 
+
 @Component({
   selector: 'app-crear-registro',
   templateUrl: './crear-registro.component.html',
@@ -58,6 +59,7 @@ export class CrearRegistroComponent implements OnInit {
   encriptarSalarioIntegral: string;
   decriptarSalarioIntegral: string; 
   unidadNegocios: any;
+  ObjResponsable: any[] = [];
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
@@ -271,6 +273,13 @@ export class CrearRegistroComponent implements OnInit {
     }
   }
 
+  SeleccionarUsuariosResp(Obj: Usuario){
+    this.ObjResponsable.push(Obj); 
+    // this.cantidadResp = this.ObjResponsable.length;
+    // this.CrearPropuestaForm.controls["Asesor"].setValue("");
+    // this.CrearPropuestaForm.controls["Asesor"].updateValueAndValidity();
+  }
+
   private DataSourceUsuarios() {
     this.usuarios.forEach(usuario => {
       this.dataUsuarios.push({ value: usuario.id.toString(), label: usuario.nombre });
@@ -420,7 +429,12 @@ export class CrearRegistroComponent implements OnInit {
     let nombreCeco;
     let numeroCeco;
     let unidadNegocio = this.empleadoForm.get('unidadNegocio').value;
-    
+
+    let jefes = [];
+
+    this.ObjResponsable.map((x)=> {
+      jefes.push(x.value);
+    })
 
     if(this.guardarCeco === true) {
       nombreCeco = this.selectedOption.value;
@@ -467,7 +481,7 @@ export class CrearRegistroComponent implements OnInit {
       lugarExpedicion: luagarExpedicion,
       salarioTexto: salarioTextoCript,
       Area: area,
-      JefeId: jefe,
+      JefeId: {results: jefes},
       Direccion: direccion,
       Celular: celular,
       Sede: sede,
@@ -485,7 +499,8 @@ export class CrearRegistroComponent implements OnInit {
       IdUsuario: usuario,
       NombreCECO: nombreCeco,
       NumeroCECO: numeroCeco,
-      UnidadNegocio: unidadNegocio
+      UnidadNegocio: unidadNegocio,
+      Activo: true
     }
 
     objHojaDeVida = {
