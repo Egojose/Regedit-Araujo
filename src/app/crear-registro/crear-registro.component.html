@@ -129,7 +129,7 @@
             <mat-form-field id="jefe">
               <mat-label>Jefe<span class="req">*</span></mat-label>
               <mat-select formControlName="jefe" multiple>
-                <mat-option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" (onSelectionChange)="SeleccionarUsuariosResp(option)">{{usuario.label}}</mat-option>
+                <mat-option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" (onSelectionChange)="SeleccionarUsuariosResp(usuario)">{{usuario.label}}</mat-option>
               </mat-select>
             </mat-form-field>
             <!-- <select id="usuario" formControlName="jefe" class="form-control">
