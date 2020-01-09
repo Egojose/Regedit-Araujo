@@ -90,6 +90,7 @@ export class CrearRegistroComponent implements OnInit {
       salarioTexto: [''],
       area: [''],
       jefe: [''],
+      jefeAdicional: [''],
       direccion: [''],
       celular: [''],
       sede: [''],
@@ -359,6 +360,7 @@ export class CrearRegistroComponent implements OnInit {
     this.empleadoForm.controls['salarioTexto'].setValue("");
     this.empleadoForm.controls['area'].setValue("");
     this.empleadoForm.controls['jefe'].setValue("");
+    this.empleadoForm.controls['jefeAdicional'].setValue("");
     this.empleadoForm.controls['direccion'].setValue("");
     this.empleadoForm.controls['celular'].setValue("");
     this.empleadoForm.controls['sede'].setValue("");
@@ -401,6 +403,13 @@ export class CrearRegistroComponent implements OnInit {
     let salarioTexto = this.empleadoForm.get('salarioTexto').value;
     let area = this.empleadoForm.get('area').value;
     let jefe = this.empleadoForm.get('jefe').value;
+    let jefeAdicional;
+    if( this.empleadoForm.get('jefeAdicional').value !== '' &&  this.empleadoForm.get('jefeAdicional').value !== 'null') {
+      jefeAdicional = this.empleadoForm.get('jefeAdicional').value;
+    }
+    else {
+      jefeAdicional = null;
+    }
     let direccion = this.empleadoForm.get('direccion').value;
     let celular = this.empleadoForm.get('celular').value;
     let sede = this.empleadoForm.get('sede').value;
@@ -482,6 +491,7 @@ export class CrearRegistroComponent implements OnInit {
       salarioTexto: salarioTextoCript,
       Area: area,
       JefeId: jefe,
+      SegundoJefe: jefeAdicional,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,

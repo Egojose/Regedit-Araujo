@@ -72,6 +72,44 @@
       
     }
 
+    private registrarControles() {
+      this.editarEmpleadoForm = this.fB.group({
+        usuario: ['', Validators.required],
+        Nombre: ['', Validators.required],
+        segundoNombre: [''],
+        primerApellido: ['', Validators.required],
+        segundoApellido: [''],
+        numeroDocumento: ['', Validators.required],
+        tipoDocumento: [''],
+        fechaIngreso: ['', Validators.required],
+        fechaSalida: [''],
+        tipoContrato: [''],
+        terminoContrato: [''],
+        cargo: [''],
+        salario: [''],
+        lugarExpedicion: [''],
+        salarioTexto: [''],
+        area: [''],
+        jefe: [''],
+        jefeAdicional: [''],
+        direccion: [''],
+        celular: [''],
+        sede: [''],
+        extension: [''],
+        bono: [''],
+        bonoGasolina: [''],
+        afp: [''],
+        universidad: [''],
+        carrera: [''],
+        contactoEmergencia: [''],
+        numeroContactoEmergencia: [''],
+        grupoSanguineo: [''],
+        ceco: [''],
+        funciones:[''],
+        activo:['']
+      });
+    };
+
     onSelect(event: TypeaheadMatch): void {
       this.selectedOption = event.item;
       this.actualizarCeco = true;
@@ -552,6 +590,7 @@
       this.editarEmpleadoForm.controls['salarioTexto'].setValue(salarioTextoDecrypt);
       this.editarEmpleadoForm.controls['area'].setValue(this.empleadoEditar[0].area);
       this.editarEmpleadoForm.controls['jefe'].setValue(this.empleadoEditar[0].jefe);
+      this.editarEmpleadoForm.controls['jefeAdicional'].setValue(this.empleadoEditar[0].jefeAdicional);
       this.editarEmpleadoForm.controls['direccion'].setValue(this.empleadoEditar[0].direccion);
       this.editarEmpleadoForm.controls['celular'].setValue(this.empleadoEditar[0].celular);
       this.editarEmpleadoForm.controls['sede'].setValue(this.empleadoEditar[0].sede);
@@ -587,6 +626,7 @@
       this.editarEmpleadoForm.controls['salarioTexto'].setValue("");
       this.editarEmpleadoForm.controls['area'].setValue("");
       this.editarEmpleadoForm.controls['jefe'].setValue("");
+      this.editarEmpleadoForm.controls['jefeAdicional'].setValue("");
       this.editarEmpleadoForm.controls['direccion'].setValue("");
       this.editarEmpleadoForm.controls['celular'].setValue("");
       this.editarEmpleadoForm.controls['sede'].setValue("");
@@ -603,43 +643,6 @@
       this.editarEmpleadoForm.controls['funciones'].setValue("");
       this.editarEmpleadoForm.controls['activo'].setValue("");
     }
-
-    private registrarControles() {
-      this.editarEmpleadoForm = this.fB.group({
-        usuario: ['', Validators.required],
-        Nombre: ['', Validators.required],
-        segundoNombre: [''],
-        primerApellido: ['', Validators.required],
-        segundoApellido: [''],
-        numeroDocumento: ['', Validators.required],
-        tipoDocumento: [''],
-        fechaIngreso: ['', Validators.required],
-        fechaSalida: [''],
-        tipoContrato: [''],
-        terminoContrato: [''],
-        cargo: [''],
-        salario: [''],
-        lugarExpedicion: [''],
-        salarioTexto: [''],
-        area: [''],
-        jefe: [''],
-        direccion: [''],
-        celular: [''],
-        sede: [''],
-        extension: [''],
-        bono: [''],
-        bonoGasolina: [''],
-        afp: [''],
-        universidad: [''],
-        carrera: [''],
-        contactoEmergencia: [''],
-        numeroContactoEmergencia: [''],
-        grupoSanguineo: [''],
-        ceco: [''],
-        funciones:[''],
-        activo:['']
-      });
-    };
 
     obtenerUsuarios() {
       this.servicio.ObtenerTodosLosUsuarios().subscribe(
@@ -815,6 +818,13 @@
       let salarioTexto = this.editarEmpleadoForm.get('salarioTexto').value;
       let area = this.editarEmpleadoForm.get('area').value;
       let jefe = this.editarEmpleadoForm.get('jefe').value;
+      let jefeAdicional; 
+      if(this.editarEmpleadoForm.get('jefeAdicional').value !== undefined && this.editarEmpleadoForm.get('jefeAdicional').value !== 'null') {
+        jefeAdicional = this.editarEmpleadoForm.get('jefeAdicional').value
+      }
+      else {
+        jefeAdicional = null
+      }
       let direccion = this.editarEmpleadoForm.get('direccion').value;
       let celular = this.editarEmpleadoForm.get('celular').value;
       let sede = this.editarEmpleadoForm.get('sede').value;
@@ -888,6 +898,7 @@
         salarioTexto: salarioTextoEncrypt,
         Area: area,
         JefeId: jefe,
+        SegundoJefeId: jefeAdicional,
         // JefeId: {results: jefes},
         Direccion: direccion,
         Celular: celular,
