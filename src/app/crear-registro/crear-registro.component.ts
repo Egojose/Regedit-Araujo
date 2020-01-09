@@ -59,7 +59,7 @@ export class CrearRegistroComponent implements OnInit {
   encriptarSalarioIntegral: string;
   decriptarSalarioIntegral: string; 
   unidadNegocios: any;
-  ObjResponsable: any[] = [];
+  // ObjResponsable: any[] = [];
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
@@ -273,12 +273,12 @@ export class CrearRegistroComponent implements OnInit {
     }
   }
 
-  SeleccionarUsuariosResp(Obj: Usuario){
-    this.ObjResponsable.push(Obj); 
-    // this.cantidadResp = this.ObjResponsable.length;
-    // this.CrearPropuestaForm.controls["Asesor"].setValue("");
-    // this.CrearPropuestaForm.controls["Asesor"].updateValueAndValidity();
-  }
+  // SeleccionarUsuariosResp(Obj: Usuario){
+  //   this.ObjResponsable.push(Obj); 
+  //   // this.cantidadResp = this.ObjResponsable.length;
+  //   // this.CrearPropuestaForm.controls["Asesor"].setValue("");
+  //   // this.CrearPropuestaForm.controls["Asesor"].updateValueAndValidity();
+  // }
 
   private DataSourceUsuarios() {
     this.usuarios.forEach(usuario => {
@@ -432,9 +432,9 @@ export class CrearRegistroComponent implements OnInit {
 
     let jefes = [];
 
-    this.ObjResponsable.map((x)=> {
-      jefes.push(x.value);
-    })
+    // this.ObjResponsable.map((x)=> {
+    //   jefes.push(x.value);
+    // })
 
     if(this.guardarCeco === true) {
       nombreCeco = this.selectedOption.value;
@@ -481,7 +481,7 @@ export class CrearRegistroComponent implements OnInit {
       lugarExpedicion: luagarExpedicion,
       salarioTexto: salarioTextoCript,
       Area: area,
-      JefeId: {results: jefes},
+      JefeId: jefe,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,

@@ -58,7 +58,7 @@
   actualizarCeco: boolean = false;
   encPassword: string;  
   decPassword:string;
-  ObjResponsable: any[] = [];
+  // ObjResponsable: any[] = [];
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -454,17 +454,17 @@
       }
     }
 
-    SeleccionarUsuariosResp(Obj: Usuario){
-      this.ObjResponsable.push(Obj); 
-      // this.cantidadResp = this.ObjResponsable.length;
-      // this.editarEmpleadoForm.controls["jefe"].setValue("");
-      // this.editarEmpleadoForm.controls["jefe"].updateValueAndValidity();
-    }
+    // SeleccionarUsuariosResp(Obj: Usuario){
+    //   this.ObjResponsable.push(Obj); 
+    //   // this.cantidadResp = this.ObjResponsable.length;
+    //   // this.editarEmpleadoForm.controls["jefe"].setValue("");
+    //   // this.editarEmpleadoForm.controls["jefe"].updateValueAndValidity();
+    // }
 
-    EliminarResp(item){
-      let index = this.ObjResponsable.findIndex((x)=> x.value === item.value);
-      this.ObjResponsable.splice(index,1);
-    }
+    // EliminarResp(item){
+    //   let index = this.ObjResponsable.findIndex((x)=> x.value === item.value);
+    //   this.ObjResponsable.splice(index,1);
+    // }
 
     SeleccionarId(event) {
      this.idEmpleadoSeleccionado = event.target.value;
@@ -848,9 +848,9 @@
       this.editarEmpleadoForm.get('activo').value === '' ? activo = false : activo = true;
       let jefes = [];
 
-      this.ObjResponsable.map((x)=> {
-        jefes.push(x.value);
-      })
+      // this.ObjResponsable.map((x)=> {
+      //   jefes.push(x.value);
+      // })
 
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
@@ -887,8 +887,8 @@
         lugarExpedicion: lugarExpedicion,
         salarioTexto: salarioTextoEncrypt,
         Area: area,
-        // JefeId: jefe,
-        JefeId: {results: jefes},
+        JefeId: jefe,
+        // JefeId: {results: jefes},
         Direccion: direccion,
         Celular: celular,
         Sede: sede,
