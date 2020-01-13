@@ -58,6 +58,7 @@
   actualizarCeco: boolean = false;
   encPassword: string;  
   decPassword:string;
+  // ObjResponsable: any[] = [];
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -70,6 +71,44 @@
       this.obtenerCeco();
       
     }
+
+    private registrarControles() {
+      this.editarEmpleadoForm = this.fB.group({
+        usuario: ['', Validators.required],
+        Nombre: ['', Validators.required],
+        segundoNombre: [''],
+        primerApellido: ['', Validators.required],
+        segundoApellido: [''],
+        numeroDocumento: ['', Validators.required],
+        tipoDocumento: [''],
+        fechaIngreso: ['', Validators.required],
+        fechaSalida: [''],
+        tipoContrato: [''],
+        terminoContrato: [''],
+        cargo: [''],
+        salario: [''],
+        lugarExpedicion: [''],
+        salarioTexto: [''],
+        area: [''],
+        jefe: [''],
+        jefeAdicional: [''],
+        direccion: [''],
+        celular: [''],
+        sede: [''],
+        extension: [''],
+        bono: [''],
+        bonoGasolina: [''],
+        afp: [''],
+        universidad: [''],
+        carrera: [''],
+        contactoEmergencia: [''],
+        numeroContactoEmergencia: [''],
+        grupoSanguineo: [''],
+        ceco: [''],
+        funciones:[''],
+        activo:['']
+      });
+    };
 
     onSelect(event: TypeaheadMatch): void {
       this.selectedOption = event.item;
@@ -453,6 +492,18 @@
       }
     }
 
+    // SeleccionarUsuariosResp(Obj: Usuario){
+    //   this.ObjResponsable.push(Obj); 
+    //   // this.cantidadResp = this.ObjResponsable.length;
+    //   // this.editarEmpleadoForm.controls["jefe"].setValue("");
+    //   // this.editarEmpleadoForm.controls["jefe"].updateValueAndValidity();
+    // }
+
+    // EliminarResp(item){
+    //   let index = this.ObjResponsable.findIndex((x)=> x.value === item.value);
+    //   this.ObjResponsable.splice(index,1);
+    // }
+
     SeleccionarId(event) {
      this.idEmpleadoSeleccionado = event.target.value;
       this.servicio.obtenerInfoEmpleadoSeleccionado(this.idEmpleadoSeleccionado).subscribe(
@@ -539,6 +590,7 @@
       this.editarEmpleadoForm.controls['salarioTexto'].setValue(salarioTextoDecrypt);
       this.editarEmpleadoForm.controls['area'].setValue(this.empleadoEditar[0].area);
       this.editarEmpleadoForm.controls['jefe'].setValue(this.empleadoEditar[0].jefe);
+      this.editarEmpleadoForm.controls['jefeAdicional'].setValue(this.empleadoEditar[0].jefeAdicional);
       this.editarEmpleadoForm.controls['direccion'].setValue(this.empleadoEditar[0].direccion);
       this.editarEmpleadoForm.controls['celular'].setValue(this.empleadoEditar[0].celular);
       this.editarEmpleadoForm.controls['sede'].setValue(this.empleadoEditar[0].sede);
@@ -574,6 +626,7 @@
       this.editarEmpleadoForm.controls['salarioTexto'].setValue("");
       this.editarEmpleadoForm.controls['area'].setValue("");
       this.editarEmpleadoForm.controls['jefe'].setValue("");
+      this.editarEmpleadoForm.controls['jefeAdicional'].setValue("");
       this.editarEmpleadoForm.controls['direccion'].setValue("");
       this.editarEmpleadoForm.controls['celular'].setValue("");
       this.editarEmpleadoForm.controls['sede'].setValue("");
@@ -590,43 +643,6 @@
       this.editarEmpleadoForm.controls['funciones'].setValue("");
       this.editarEmpleadoForm.controls['activo'].setValue("");
     }
-
-    private registrarControles() {
-      this.editarEmpleadoForm = this.fB.group({
-        usuario: ['', Validators.required],
-        Nombre: ['', Validators.required],
-        segundoNombre: [''],
-        primerApellido: ['', Validators.required],
-        segundoApellido: [''],
-        numeroDocumento: ['', Validators.required],
-        tipoDocumento: [''],
-        fechaIngreso: ['', Validators.required],
-        fechaSalida: [''],
-        tipoContrato: [''],
-        terminoContrato: [''],
-        cargo: [''],
-        salario: [''],
-        lugarExpedicion: [''],
-        salarioTexto: [''],
-        area: [''],
-        jefe: [''],
-        direccion: [''],
-        celular: [''],
-        sede: [''],
-        extension: [''],
-        bono: [''],
-        bonoGasolina: [''],
-        afp: [''],
-        universidad: [''],
-        carrera: [''],
-        contactoEmergencia: [''],
-        numeroContactoEmergencia: [''],
-        grupoSanguineo: [''],
-        ceco: [''],
-        funciones:[''],
-        activo:['']
-      });
-    };
 
     obtenerUsuarios() {
       this.servicio.ObtenerTodosLosUsuarios().subscribe(
@@ -802,6 +818,13 @@
       let salarioTexto = this.editarEmpleadoForm.get('salarioTexto').value;
       let area = this.editarEmpleadoForm.get('area').value;
       let jefe = this.editarEmpleadoForm.get('jefe').value;
+      let jefeAdicional; 
+      if(this.editarEmpleadoForm.get('jefeAdicional').value !== undefined && this.editarEmpleadoForm.get('jefeAdicional').value !== 'null') {
+        jefeAdicional = this.editarEmpleadoForm.get('jefeAdicional').value
+      }
+      else {
+        jefeAdicional = null
+      }
       let direccion = this.editarEmpleadoForm.get('direccion').value;
       let celular = this.editarEmpleadoForm.get('celular').value;
       let sede = this.editarEmpleadoForm.get('sede').value;
@@ -831,7 +854,14 @@
       let numeroCeco
       let funcionesAll = this.editarEmpleadoForm.get('funciones').value;
       let funciones = funcionesAll.replace(/\n/g, ";");
-      let activo = this.editarEmpleadoForm.get('activo').value;
+      let activo; 
+      this.editarEmpleadoForm.get('activo').value === '' ? activo = false : activo = true;
+      let jefes = [];
+
+      // this.ObjResponsable.map((x)=> {
+      //   jefes.push(x.value);
+      // })
+
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
         nombreCeco = this.selectedOption.value;
@@ -868,6 +898,8 @@
         salarioTexto: salarioTextoEncrypt,
         Area: area,
         JefeId: jefe,
+        SegundoJefeId: jefeAdicional,
+        // JefeId: {results: jefes},
         Direccion: direccion,
         Celular: celular,
         Sede: sede,
