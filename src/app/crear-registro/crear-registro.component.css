@@ -80,6 +80,12 @@ form.archivos {
       color: red;
   }
 
+  #jefe {
+    margin-top: 20px;
+    width: 300px;
+    /* background: white;  */
+  }
+
 
 /* .m-top {
     margin-top: 30px;

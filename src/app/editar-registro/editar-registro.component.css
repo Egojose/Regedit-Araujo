@@ -64,6 +64,12 @@ form.archivos {
     color: white;
 }
 
+#jefe {
+    margin-top: 20px;
+    width: 300px;
+    /* background: white;  */
+  }
+
 mat-radio-button {
     margin-right: 10px;
 }
