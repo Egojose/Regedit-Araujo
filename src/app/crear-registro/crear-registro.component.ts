@@ -491,7 +491,7 @@ export class CrearRegistroComponent implements OnInit {
       salarioTexto: salarioTextoCript,
       Area: area,
       JefeId: jefe,
-      SegundoJefe: jefeAdicional,
+      SegundoJefeId: jefeAdicional,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,
