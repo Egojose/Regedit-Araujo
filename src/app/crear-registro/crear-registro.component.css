@@ -86,6 +86,17 @@ form.archivos {
     /* background: white;  */
   }
 
+  .boton {
+    padding-top: 31px;
+  }
+
+  table {
+      margin-top: 15px;
+      background-color: whitesmoke;
+      width: 100%;
+      padding: 0, 0;
+  }
+
 
 /* .m-top {
     margin-top: 30px;
