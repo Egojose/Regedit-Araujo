@@ -749,16 +749,22 @@
       let perfil; 
       JSON.parse(this.empleadoEditar[0].perfilRol) !== '' ? perfil = JSON.parse(this.empleadoEditar[0].perfilRol) : perfil = [];
       console.log(perfil);
-      if(perfil.length > 0) {
+      if((perfil !== null) && perfil.length > 0) {
         this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
       }
-      estudios.map((x) => {
-        this.arrayEstudios.push(x);
-      });
-      capacitar.map((x) => {
-        this.arrayCapacitar.push(x);
-      });
-
+      else {
+        this.editarEmpleadoForm.controls['perfil'].setValue('');
+      }
+      if(estudios !== null) {
+        estudios.map((x) => {
+          this.arrayEstudios.push(x);
+        });
+      }
+      if(capacitar !== null) {
+        capacitar.map((x) => {
+          this.arrayCapacitar.push(x);
+        });
+      }
       this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
       this.editarEmpleadoForm.controls['segundoNombre'].setValue(this.empleadoEditar[0].segundoNombre);
       this.editarEmpleadoForm.controls['primerApellido'].setValue(this.empleadoEditar[0].primerApellido);
@@ -830,6 +836,8 @@
       this.editarEmpleadoForm.controls['ceco'].setValue("");
       this.editarEmpleadoForm.controls['funciones'].setValue("");
       this.editarEmpleadoForm.controls['activo'].setValue("");
+      this.editarEmpleadoForm.controls['gustos'].setValue("");
+      this.editarEmpleadoForm.controls['perfil'].setValue('');
     }
 
     obtenerUsuarios() {
