@@ -728,6 +728,7 @@
       this.decPassword = '12ab'
       let fechaIngreso;
       let fechaSalida;
+      let fechaCumpleanios;
       let salarioDecrypt;
       let salarioTextoDecrypt;
       let salarioIntegralDecrypt;
@@ -743,6 +744,7 @@
 
       fechaIngreso = this.empleadoEditar[0].fechaIngreso !== null? new Date(this.empleadoEditar[0].fechaIngreso): "";
       fechaSalida = this.empleadoEditar[0].fechaSalida !== null? new Date(this.empleadoEditar[0].fechaSalida): "";
+      fechaCumpleanios = this.empleadoEditar[0].fechaNacimiento !== null ? new Date(this.empleadoEditar[0].fechaNacimiento): "";
 
       let estudios = JSON.parse(this.empleadoEditar[0].estudiosRealizados);
       let capacitar = JSON.parse(this.empleadoEditar[0].capacitar);
@@ -773,6 +775,7 @@
       this.editarEmpleadoForm.controls['tipoDocumento'].setValue(this.empleadoEditar[0].tipoDocumento);
       this.editarEmpleadoForm.controls['fechaIngreso'].setValue(fechaIngreso);
       this.editarEmpleadoForm.controls['fechaSalida'].setValue(fechaSalida);
+      this.editarEmpleadoForm.controls['fechaNacimiento'].setValue(fechaCumpleanios);
       this.editarEmpleadoForm.controls['tipoContrato'].setValue(this.empleadoEditar[0].tipoContrato);
       this.editarEmpleadoForm.controls['terminoContrato'].setValue(this.empleadoEditar[0].terminoContrato);
       this.editarEmpleadoForm.controls['cargo'].setValue(this.empleadoEditar[0].cargo);
