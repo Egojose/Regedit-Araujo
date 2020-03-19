@@ -687,19 +687,8 @@
           }
           else {
             this.empleadoEditar = Empleado.fromJsonList(respuesta);
-            let estudios = JSON.parse(this.empleadoEditar[0].estudiosRealizados);
-            let capacitar = JSON.parse(this.empleadoEditar[0].capacitar);
-            let perfil = JSON.parse(this.empleadoEditar[0].perfilRol);
-            estudios.map((x) => {
-              this.arrayEstudios.push(x);
-            });
-            capacitar.map((x) => {
-              this.arrayCapacitar.push(x);
-            });
-            this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
-            // this.arrayEstudios.push(JSON.parse(this.empleadoEditar[0].estudiosRealizados));
-            console.log(perfil);
-            console.log(this.empleadoEditar);
+            this.arrayCapacitar = [];
+            this.arrayEstudios = [];
             this.valoresPorDefecto();
             this.obtenerDocumentos();
           }
@@ -754,6 +743,17 @@
 
       fechaIngreso = this.empleadoEditar[0].fechaIngreso !== null? new Date(this.empleadoEditar[0].fechaIngreso): "";
       fechaSalida = this.empleadoEditar[0].fechaSalida !== null? new Date(this.empleadoEditar[0].fechaSalida): "";
+
+      let estudios = JSON.parse(this.empleadoEditar[0].estudiosRealizados);
+      let capacitar = JSON.parse(this.empleadoEditar[0].capacitar);
+      let perfil = JSON.parse(this.empleadoEditar[0].perfilRol);
+      estudios.map((x) => {
+        this.arrayEstudios.push(x);
+      });
+      capacitar.map((x) => {
+        this.arrayCapacitar.push(x);
+      });
+      this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
 
       this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
       this.editarEmpleadoForm.controls['segundoNombre'].setValue(this.empleadoEditar[0].segundoNombre);
