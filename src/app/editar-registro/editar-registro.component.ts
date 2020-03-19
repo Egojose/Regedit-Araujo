@@ -131,7 +131,7 @@
         estudiosDoc: [''],
         gustos: [''],
         capacitar: [''],
-        fechaNacimiento: ['']
+        fechaNacimiento: [null]
       });
     };
 
@@ -746,14 +746,18 @@
 
       let estudios = JSON.parse(this.empleadoEditar[0].estudiosRealizados);
       let capacitar = JSON.parse(this.empleadoEditar[0].capacitar);
-      let perfil = JSON.parse(this.empleadoEditar[0].perfilRol);
+      let perfil; 
+      JSON.parse(this.empleadoEditar[0].perfilRol) !== '' ? perfil = JSON.parse(this.empleadoEditar[0].perfilRol) : perfil = [];
+      console.log(perfil);
+      if(perfil.length > 0) {
+        this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
+      }
       estudios.map((x) => {
         this.arrayEstudios.push(x);
       });
       capacitar.map((x) => {
         this.arrayCapacitar.push(x);
       });
-      this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
 
       this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
       this.editarEmpleadoForm.controls['segundoNombre'].setValue(this.empleadoEditar[0].segundoNombre);
@@ -789,6 +793,7 @@
       this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].numeroCeco);
       this.empleadoEditar[0].funciones !== null ? this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n")) : this.editarEmpleadoForm.controls['funciones'].setValue('');
       this.empleadoEditar[0].activo === true ? this.editarEmpleadoForm.controls['activo'].setValue('true') : this.editarEmpleadoForm.controls['activo'].setValue('false')
+      this.editarEmpleadoForm.controls['gustos'].setValue(this.empleadoEditar[0].gustos);
       // this.editarEmpleadoForm.controls['activo'].setValue(this.empleadoEditar[0].activo);
     }
 
