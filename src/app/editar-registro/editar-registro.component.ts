@@ -58,6 +58,20 @@
   actualizarCeco: boolean = false;
   encPassword: string;  
   decPassword:string;
+  arrayIdiomas: any = [];
+  arrayHerramientas: any = [];
+  arrayCapacitar: any = [];
+  fotoEmpleado: any;
+  urlFotoEmpleado: any;
+  docPerfil: any;
+  urlDocPerfil: string = '';
+  arrayPerfil: any = [];
+  arrayEstudios: any = [];
+  urlCertificados: string = '';
+  docCertificados: any;
+  disable: boolean = false;
+  contrato: File;
+  urlContrato: any;
   // ObjResponsable: any[] = [];
 
  
@@ -106,7 +120,18 @@
         grupoSanguineo: [''],
         ceco: [''],
         funciones:[''],
-        activo:['']
+        activo:[''],
+        idioma: [''],
+        porcentajeIdioma: [''],
+        herramienta: [''],
+        porcentajeHerramienta: [''],
+        estudios: [''],
+        perfil: [''],
+        perfilDoc: [''],
+        estudiosDoc: [''],
+        gustos: [''],
+        capacitar: [''],
+        fechaNacimiento: ['']
       });
     };
 
@@ -201,6 +226,103 @@
       }
       else {
         this.adjuntarAfiliaciones = null;
+      };
+    };
+
+    agregarIdiomas() {
+      if(this.editarEmpleadoForm.controls['idioma'].value === '' || this.editarEmpleadoForm.controls['porcentajeIdioma'].value === '') {
+        this.MensajeAdvertencia('Debe especificar el idioma y el porcentaje de dominio');
+        return false;
+      }
+      else {
+        this.arrayIdiomas.push({idioma: this.editarEmpleadoForm.controls['idioma'].value, porcentaje: this.editarEmpleadoForm.controls['porcentajeIdioma'].value});
+        this.editarEmpleadoForm.controls['idioma'].setValue('');
+        this.editarEmpleadoForm.controls['porcentajeIdioma'].setValue('');
+        console.log(JSON.stringify(this.arrayIdiomas));
+      }
+    };
+  
+    agregarHerramientas() {
+      if(this.editarEmpleadoForm.controls['herramienta'].value === '' || this.editarEmpleadoForm.controls['porcentajeHerramienta'].value === '') {
+        this.MensajeAdvertencia('Debe especificar la herramienta ofimática y el porcentaje de dominio');
+        return false;
+      }
+      else {
+        this.arrayHerramientas.push({herramienta: this.editarEmpleadoForm.controls['herramienta'].value, porcentaje: this.editarEmpleadoForm.controls['porcentajeHerramienta'].value});
+        this.editarEmpleadoForm.controls['herramienta'].setValue('');
+        this.editarEmpleadoForm.controls['porcentajeHerramienta'].setValue('');
+        console.log(JSON.stringify(this.arrayHerramientas));
+      }
+    };
+  
+    borrar(element, index) {
+      element.splice(index, 1)
+    };
+  
+    adjuntarFoto($event) {
+      let foto = $event.target.files[0];
+      console.log(foto);
+      if(foto !== null) {
+        this.fotoEmpleado = foto;
+        this.agragarFoto();
+      }
+      else {
+        this.fotoEmpleado = null;
+      }
+    };
+  
+    adjuntarContrato($event) {
+      let contrato = $event.target.files[0];
+      if(contrato !== null) {
+        this.contrato = contrato;
+        this.agregarContrato();
+      };
+    };
+  
+   async cargarDocPerfil($event) {
+      let documento = $event.target.files[0];
+      if(documento !== null) {
+        this.docPerfil = documento;
+        await this.agregarDocPerfil();
+      }
+    };
+  
+    async cargarDocCertificado($event) {
+      let documento = $event.target.files[0];
+      this.docCertificados = documento;
+      await this.agregarDocCertificado();
+    }
+  
+    cargarDocTablaPerfil() {
+      this.arrayPerfil.push({rol: this.editarEmpleadoForm.controls['perfil'].value, urlDocumento: this.urlDocPerfil});
+      console.log(JSON.stringify(this.arrayPerfil));
+    };
+  
+    corregir() {
+      this.arrayPerfil = [];
+      this.editarEmpleadoForm.controls['perfilDoc'].setValue('');
+      this.urlDocPerfil = '';
+      this.editarEmpleadoForm.controls['perfil'].setValue('');
+      this.disable = false;
+    }
+  
+    cargarDocTablaEstudios() {
+      this.arrayEstudios.push({estudio: this.editarEmpleadoForm.controls['estudios'].value, urlCertificados: this.urlCertificados});
+      this.editarEmpleadoForm.controls['estudiosDoc'].setValue('');
+      this.urlCertificados = '';
+      this.editarEmpleadoForm.controls['estudios'].setValue('');
+      console.log(JSON.stringify(this.arrayEstudios))
+    };
+  
+    cargarTablaCapacitar() {
+      if(this.editarEmpleadoForm.controls['capacitar'].value === '') {
+        this.MensajeAdvertencia('Debe agregar un topic en el que pueda capacitar');
+        return false;
+      }
+      else {
+        this.arrayCapacitar.push({ puedeCapacitar: this.editarEmpleadoForm.controls['capacitar'].value });
+        this.editarEmpleadoForm.controls['capacitar'].setValue('');
+        console.log(JSON.stringify(this.arrayCapacitar));
       };
     };
 
@@ -367,6 +489,54 @@
         }
       );
     }
+
+    async agragarFoto() {
+      //  let nombre = this.empleadoEditar[0].nombreCompleto;
+        this.servicio.AgregarFoto(this.fotoEmpleado.name, this.fotoEmpleado).then(
+          f => {
+            f.file.getItem().then(item => {
+              this.urlFotoEmpleado = f.data.ServerRelativeUrl
+            })
+          }
+        )
+      };
+
+      async agregarContrato() {
+        this.servicio.AgregarContrato(this.contrato.name, this.contrato).then(
+          f=> {
+            f.file.getItem().then(item => {
+              this.urlContrato = f.data.ServerRelativeUrl;
+              console.log(this.urlContrato);
+            })
+          }
+        )
+      }
+
+      async agregarDocPerfil() {
+        await this.servicio.AgregarDocPerfil(this.docPerfil.name, this.docPerfil).then(
+          f => {
+            f.file.getItem().then(item => {
+              this.urlDocPerfil = f.data.ServerRelativeUrl;
+              this.disable = true;
+              this.editarEmpleadoForm.controls['perfilDoc'].disable;
+            })
+          }
+        )
+        setTimeout(()=> {
+          this.cargarDocTablaPerfil();
+        }, 2000)
+      };
+
+      async agregarDocCertificado() {
+        await this.servicio.AgregarEstudios(this.docCertificados.name, this.docCertificados).then(
+          f => {
+            f.file.getItem().then(item => {
+              this.urlCertificados = f.data.ServerRelativeUrl
+            })
+          }
+        )
+      }
+    
   
     actualizarMetadatosHV(obj, idDocumento) {
       this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
@@ -517,6 +687,19 @@
           }
           else {
             this.empleadoEditar = Empleado.fromJsonList(respuesta);
+            let estudios = JSON.parse(this.empleadoEditar[0].estudiosRealizados);
+            let capacitar = JSON.parse(this.empleadoEditar[0].capacitar);
+            let perfil = JSON.parse(this.empleadoEditar[0].perfilRol);
+            estudios.map((x) => {
+              this.arrayEstudios.push(x);
+            });
+            capacitar.map((x) => {
+              this.arrayCapacitar.push(x);
+            });
+            this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
+            // this.arrayEstudios.push(JSON.parse(this.empleadoEditar[0].estudiosRealizados));
+            console.log(perfil);
+            console.log(this.empleadoEditar);
             this.valoresPorDefecto();
             this.obtenerDocumentos();
           }
@@ -857,6 +1040,14 @@
       let activo; 
       this.editarEmpleadoForm.get('activo').value === '' ? activo = false : activo = true;
       let jefes = [];
+      // let herramientas = JSON.stringify(this.arrayHerramientas);
+      // let idiomas = JSON.stringify(this.arrayIdiomas);
+      let estudios = JSON.stringify(this.arrayEstudios);
+      let perfil = JSON.stringify(this.arrayPerfil);
+      let gustos = this.editarEmpleadoForm.controls['gustos'].value;
+      let capacitar = JSON.stringify(this.arrayCapacitar);
+      let contrato = this.urlContrato;
+      let fechaNacimiento = this.editarEmpleadoForm.controls['fechaNacimiento'].value;
 
       // this.ObjResponsable.map((x)=> {
       //   jefes.push(x.value);
@@ -918,7 +1109,15 @@
         NombreCECO: nombreCeco,
         NumeroCECO: numeroCeco,
         Funciones: funciones,
-        Activo: activo
+        Activo: activo,FotoEmpleado: this.urlFotoEmpleado,
+        EstudiosRealizados: estudios,
+        // Idiomas: idiomas,
+        GustosIntereses: gustos,
+        // HerramientasOfimaticas: herramientas,
+        PuedeCapacitar: capacitar,
+        PerfilRol: perfil,
+        UrlContrato: contrato,
+        FechaNacimiento: fechaNacimiento
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')
