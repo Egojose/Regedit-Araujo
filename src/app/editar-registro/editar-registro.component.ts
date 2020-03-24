@@ -131,7 +131,8 @@
         estudiosDoc: [''],
         gustos: [''],
         capacitar: [''],
-        fechaNacimiento: [null]
+        fechaNacimiento: [null],
+        campoContrato: ['']
       });
     };
 
@@ -270,10 +271,16 @@
         this.fotoEmpleado = null;
       }
     };
-  
+
     adjuntarContrato($event) {
       let contrato = $event.target.files[0];
-      if(contrato !== null) {
+      let extension = $event.target.files[0].type;
+      if(extension !== 'application/pdf') {
+        this.MensajeAdvertencia('El contrato debe ser de tipo .pdf');
+        this.editarEmpleadoForm.controls['campoContrato'].setValue('');
+        return false;
+      }
+      else if(contrato !== null && extension === 'application/pdf') {
         this.contrato = contrato;
         this.agregarContrato();
       };
