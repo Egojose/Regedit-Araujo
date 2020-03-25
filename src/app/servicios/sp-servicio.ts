@@ -180,22 +180,22 @@ export class SPServicio {
     }
 
     async AgregarFoto(nombre, archivo: File): Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('FotoEmpleado').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('FotoEmpleado').files.add(nombre, archivo);
         return respuesta;
     };
 
     async AgregarContrato(nombre, archivo: File) : Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('Contratos').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('Contratos').files.add(nombre, archivo);
         return respuesta;
     };
 
     async AgregarDocPerfil(nombre, archivo: File): Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('DocumentosPerfil').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('DocumentosPerfil').files.add(nombre, archivo);
         return respuesta;
     };
 
     async AgregarEstudios(nombre, archivo: File): Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('CertificadosEstudios').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('CertificadosEstudios').files.add(nombre, archivo);
         return respuesta;
     }
     
