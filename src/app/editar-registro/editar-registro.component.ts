@@ -685,6 +685,7 @@
      this.idEmpleadoSeleccionado = event.target.value;
       this.servicio.obtenerInfoEmpleadoSeleccionado(this.idEmpleadoSeleccionado).subscribe(
         (respuesta) => {
+          console.log(respuesta);
           if(respuesta.length === 0) {
             this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Debe crear el perfil antes de poder editar');
             this.limpiarCampos();
@@ -810,6 +811,8 @@
       this.empleadoEditar[0].funciones !== null ? this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n")) : this.editarEmpleadoForm.controls['funciones'].setValue('');
       this.empleadoEditar[0].activo === true ? this.editarEmpleadoForm.controls['activo'].setValue('true') : this.editarEmpleadoForm.controls['activo'].setValue('false')
       this.editarEmpleadoForm.controls['gustos'].setValue(this.empleadoEditar[0].gustos);
+      this.urlContrato = this.empleadoEditar[0].contrato;
+
       // this.editarEmpleadoForm.controls['activo'].setValue(this.empleadoEditar[0].activo);
     }
 
