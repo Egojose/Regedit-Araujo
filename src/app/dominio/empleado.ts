@@ -17,6 +17,7 @@ export class Empleado {
         public salarioTexto: string,
         public area: string,
         public jefe: any,
+        public jefeAdicional: any,
         public direccion: string,
         public celular: string,
         public sede: string,
@@ -36,8 +37,17 @@ export class Empleado {
         public ceco: string,
         public numeroCeco: string,
         public funciones: string,
-        public activo: boolean
-
+        public activo: boolean,
+        public segundoJefe: any,
+        public fechaNacimiento: any,
+        public estudiosRealizados: string,
+        public idiomas: string,
+        public gustos: string,
+        public herramientas: string,
+        public capacitar: string,
+        public perfilRol: string,
+        public foto: string,
+        public contrato: string,
     ) {}
 
 
@@ -60,6 +70,7 @@ export class Empleado {
             element.salarioTexto,
             element.Area,
             element.JefeId,
+            element.SegundoJefeId,
             element.Direccion,
             element.Celular,
             element.Sede,
@@ -79,8 +90,17 @@ export class Empleado {
             element.NombreCECO,
             element.NumeroCECO,
             element.Funciones,
-            element.Activo
-
+            element.Activo,
+            element.SegundoJefeId,
+            element.FechaNacimiento,
+            element.EstudiosRealizados,
+            element.Idiomas,
+            element.GustosIntereses,
+            element.HerramientasOfimaticas,
+            element.PuedeCapacitar,
+            element.PerfilRol,
+            element.FotoEmpleado,
+            element.UrlContrato
         )
     }
 

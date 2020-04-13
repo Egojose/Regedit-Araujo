@@ -58,7 +58,7 @@ export class SPServicio {
             headers: {
                 "Accept": "application/json; odata=verbose",
                 'Content-Type': 'application/json;odata=verbose',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyIsImtpZCI6IkN0ZlFDOExlLThOc0M3b0MyelFrWnBjcmZPYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2MDI5MDY0OSwibmJmIjoxNTYwMjkwNjQ5LCJleHAiOjE1NjAzMTk3NDksImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.QdVxUC4Pq6vi1QrW-dpYs-8dR0xsU0QTjO5yxhntgVnIWeZthZItMXirSplSX5Z0NfSSV7-phZQmw90Fza7Gd9bO-A4ZMmto7xHfKglbybldcQJit9tRONxAY7a5JkOV-fceGUFV5G1UqSXqFdntLytbK9rGvx-cD95yIFcvjwGlBYnEeeqaLJZ_UoyG76pT4uqXjS-ubmKd6jH34Ht85UTioR97ymc4xWAVt0Tql6ct7F8XuN8_GVfxAW5TfC3Cf1O3kYPz2UvOeNNbz7se2EfXrfILUS7TCwsOjQ_1R1x6UdOPItzeAuUgHj4RiFShSvwKfRVdWivy6pzb5kxFWA'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkJCOENlRlZxeWFHckdOdWVoSklpTDRkZmp6dyIsImtpZCI6IkJCOENlRlZxeWFHckdOdWVoSklpTDRkZmp6dyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZW5vdmVsc29sdWNpb25lcy5zaGFyZXBvaW50LmNvbUA5MjAwNDBiMy1jMjIwLTQ4YTItYTczZi0xMTc3ZmEyYzA5OGUiLCJpc3MiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAOTIwMDQwYjMtYzIyMC00OGEyLWE3M2YtMTE3N2ZhMmMwOThlIiwiaWF0IjoxNTc2MDgzOTYxLCJuYmYiOjE1NzYwODM5NjEsImV4cCI6MTU3NjExMzA2MSwiaWRlbnRpdHlwcm92aWRlciI6IjAwMDAwMDAxLTAwMDAtMDAwMC1jMDAwLTAwMDAwMDAwMDAwMEA5MjAwNDBiMy1jMjIwLTQ4YTItYTczZi0xMTc3ZmEyYzA5OGUiLCJuYW1laWQiOiI5YzBhNTEyNS0zMDhhLTRiOTAtOWY2Mi00YzM3MWI2NDdlNDNAOTIwMDQwYjMtYzIyMC00OGEyLWE3M2YtMTE3N2ZhMmMwOThlIiwib2lkIjoiNGVhYjVlMDAtNzA2MS00OGVjLTg3ODItOGVhZmQzY2Y0MjJlIiwic3ViIjoiNGVhYjVlMDAtNzA2MS00OGVjLTg3ODItOGVhZmQzY2Y0MjJlIiwidHJ1c3RlZGZvcmRlbGVnYXRpb24iOiJmYWxzZSJ9.iXGK8Bo4kuKoBhZoeTb69CCB0Bb3RnmWoQLWWFoa9U4U4ymDzt6nc3sXLx2mAS7WSWi-r7-DAHvCHhPmh2Ne8T6CBc8DmB8T0MpcxDGNl_Za5Lb3RNdWD5FWs4QWk2L5cF0_q1xatalkqC65U0tWUKc3lL_ayaSvDGSqHzek4p9Hh0L1X5w5MKoVADPkoO1Gi7R1Rgra_1NCm-hnliQjRa7gHSsUn8AUaOHASTtgR1N7xFS4gay9ka-2stS9QZ10g97yfPdjNJdlQb4a5574gJzuXCooKdkHvef9aezJwxUy421MA45YrKMWPwfXuZPGj_k0opcH6ko86FOkx1BKQg'
             }
         }, environment.urlRaiz);
 
@@ -125,6 +125,10 @@ export class SPServicio {
         return respuesta;
     }
 
+    obtenerUnidadNegocio() {
+        let respuesta = this.ObtenerConfiguracionServicios().web.lists.getByTitle(environment.listaUnidadNegocios).items.get();
+        return respuesta;
+    }
 
     async AgregarHojaDeVida(nombre, archivo: File): Promise<any> {
         let mensaje = ""
@@ -173,6 +177,26 @@ export class SPServicio {
         let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl("Firmas").files.add(nombre, archivo);
         return respuesta;
         
+    }
+
+    async AgregarFoto(nombre, archivo: File): Promise<any> {
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('FotoEmpleado').files.add(nombre, archivo);
+        return respuesta;
+    };
+
+    async AgregarContrato(nombre, archivo: File) : Promise<any> {
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('Contratos').files.add(nombre, archivo);
+        return respuesta;
+    };
+
+    async AgregarDocPerfil(nombre, archivo: File): Promise<any> {
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('DocumentosPerfil').files.add(nombre, archivo);
+        return respuesta;
+    };
+
+    async AgregarEstudios(nombre, archivo: File): Promise<any> {
+        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('CertificadosEstudios').files.add(nombre, archivo);
+        return respuesta;
     }
     
     ActualizarMetaDatosHV(obj, idDocumento){

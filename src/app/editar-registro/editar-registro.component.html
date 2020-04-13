@@ -42,13 +42,18 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="inputApellido1">Primer Apellido<span class="req">*</span></label>
             <input type="text" class="form-control" id="inputApellido1" formControlName="primerApellido">
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="inputApellido2">Segundo Apellido</label>
             <input type="text" class="form-control" id="inputApellido2" formControlName="segundoApellido">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="Fecha de ingreso">Fecha de nacimiento<span class="req">*</span> (dd/MM/AAAA)</label>
+            <input type="text" class="form-control" formControlName="fechaNacimiento" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
           </div>
         </div>
         <div class="form-row">
@@ -106,12 +111,191 @@
             </select>
           </div>
         </div>
+        <!-- <div class="form-row">
+          <div class="col-md-3">
+            <label for="Idiomas">Idiomas</label>
+            <input type="text" class="form-control" formControlName="idioma">
+          </div>
+          <div class="col-md-1">
+            <label for="Porcentaje">Porcentaje</label>
+            <input type="text" class="form-control" formControlName="porcentajeIdioma">
+          </div>
+          <div class="col-md-1 boton">
+            <button type="button" class="btn btn-primary" (click)="agregarIdiomas()">Confirmar</button>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-1"></div>
+          <div class="col-md-3">
+            <label for="Idiomas">Herramientas ofimáticas</label>
+            <input type="text" class="form-control" formControlName="herramienta">
+          </div>
+          <div class="col-md-1">
+            <label for="Porcentaje">Porcentaje</label>
+            <input type="text" class="form-control" formControlName="porcentajeHerramienta">
+          </div>
+          <div class="col-md-1 boton">
+            <button type="button" class="btn btn-primary" (click)="agregarHerramientas()">Confirmar</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-5">
+            <table class="table table-bordered" *ngIf="arrayIdiomas.length > 0">
+              <thead>
+                <tr>
+                  <th scope="col">Idioma</th>
+                  <th scope="col">% dominio</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let idioma of arrayIdiomas; let i = index">
+                  <td>{{idioma.idioma}}</td>
+                  <td>{{idioma.porcentaje}}</td>
+                  <td><button type="button" class="btn btn-danger" (click)="borrar(arrayIdiomas, i)">Borrar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <table class="table table-bordered" *ngIf="arrayHerramientas.length > 0">
+              <thead>
+                <tr>
+                  <th scope="col">Herramienta</th>
+                  <th scope="col">% dominio</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let herramienta of arrayHerramientas; let i = index">
+                  <td>{{herramienta.herramienta}}</td>
+                  <td>{{herramienta.porcentaje}}</td>
+                  <td><button type="button" class="btn btn-danger" (click)="borrar(arrayHerramientas,i)">Borrar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br> -->
+        <div class="form-row">
+          <div class="col-md-4 form-group">
+            <label for="estudios">Estudios realizados</label>
+            <input type="text" class="form-control" formControlName="estudios">
+          </div>
+          <div class="col-md-6">
+            <label for="certificados">Cargar certificado</label>
+            <input type="file" name="certificado" class="form-control" formControlName="estudiosDoc" (change)="cargarDocCertificado($event)">
+          </div>
+          <div class="col-md-1 boton" *ngIf="urlCertificados.length > 1">
+            <button type="button" class="btn btn-primary" (click)="cargarDocTablaEstudios()">Confirmar</button>
+          </div>
+        </div>
+        <br>
+        <div class="form-row" >
+          <div class="col-md-12">
+            <table class="table table-bordered" *ngIf="arrayEstudios.length > 0">
+              <thead>
+                <tr>
+                  <th scope="col">Estudio</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let estudio of arrayEstudios; let i = index">
+                  <td>{{estudio.estudio}}</td>
+                  <td><button type="button" class="btn btn-danger" (click)="borrar(arrayEstudios, i)">Borrar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-5 form-group">
+            <label for="estudios">Perfil de rol</label>
+            <input type="text" class="form-control" formControlName="perfil" [readonly]="disable">
+          </div>
+          <div class="col-md-6">
+            <label for="certificados">Cargar documento</label>
+            <input type="file" name="certificado" class="form-control" formControlName="perfilDoc" (change)="cargarDocPerfil($event)">
+          </div>
+          <div class="col-md-1 boton" *ngIf="urlDocPerfil.length > 1">
+            <button type="button" class="btn btn-warning" (click)="corregir()">¿Corregir?</button>
+          </div>
+        </div>
+        <br>
+        <div class="form-row" >
+          <div class="col-md-6 form-group">
+            <label for="gustos">Gustos e intereses</label>
+            <input type="text" class="form-control" formControlName="gustos">
+          </div>
+          <div class="col-md-5 form-group">
+            <label for="capacitar">Puede ofrecer capacitación en:</label>
+            <input type="text" class="form-control" formControlName="capacitar">
+          </div>
+          <div class="col-md-1  boton">
+            <button type="button" class="btn btn-primary" (click)="cargarTablaCapacitar()">Confirmar</button>
+          </div>
+        </div>
+        <div class="for-row">
+          <div class="col-md-6 offset-6">
+            <table class="table table-bordered" *ngIf="arrayCapacitar.length > 0">
+              <thead>
+                <tr>
+                  <th scope="col">Area de capacitación</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let capacitacion of arrayCapacitar; let i = index">
+                  <td>{{capacitacion.puedeCapacitar}}</td>
+                  <td><button type="button" class="btn btn-danger" (click)="borrar(arrayCapacitar, i)">Borrar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="foto">Foto de perfil</label>
+            <input type="file" name="fotoPerfil" class="form-control" (change)="adjuntarFoto($event)">
+          </div>
+          <div class="col-md-6">
+            <label for="contrato">Cargar contrato</label>
+            <input type="file" name="fotoPerfil" formControlName="campoContrato" class="form-control" (change)="adjuntarContrato($event)">
+          </div>
+        </div>
       </div>
       <hr>
       <!-- Form2 -->
       <div class="formulario">
         <div class="form-row">
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
+            <label for="Jefe">Jefe<span class="req">*</span></label>
+             <select id="usuario" formControlName="jefe" class="form-control">
+              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                {{usuario.label}}
+              </option>
+            </select>
+            <!-- <mat-form-field id="jefe">
+              <mat-label>Jefe<span class="req">*</span></mat-label>
+              <mat-select formControlName="jefe" multiple>
+                <mat-option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" (onSelectionChange)="SeleccionarUsuariosResp(usuario)">{{usuario.label}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Jefe">Jefe adicional</label>
+             <select id="usuario" formControlName="jefeAdicional" class="form-control">
+               <option [value]="null">Ninguno</option>
+              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
+                {{usuario.label}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label for="Sede">Sede</label>
             <select type="text" class="form-control" formControlName="sede">
               <option *ngFor="let sede of sede" [value]="sede.nombre" [text]="sede.nombre">{{sede.nombre}}
@@ -119,16 +303,7 @@
             </select>
             <!-- <input type="text" class="form-control" id="inputnombre2" formControlName="sede"> -->
           </div>
-          <div class="form-group col-md-4">
-            <label for="Jefe">Jefe<span class="req">*</span></label>
-            <select id="usuario" formControlName="jefe" class="form-control">
-              <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
-                {{usuario.label}}
-              </option>
-            </select>
-            <!-- <input type="text" class="form-control" id="inputuser" formControlName="jefe"> -->
-          </div>
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
             <label for="Area">Área</label>
             <select type="text" class="form-control" formControlName="area">
               <option *ngFor="let area of area" [value]="area.nombre" [text]="area.nombre">{{area.nombre}}

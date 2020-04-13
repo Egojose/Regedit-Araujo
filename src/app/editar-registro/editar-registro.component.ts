@@ -58,6 +58,21 @@
   actualizarCeco: boolean = false;
   encPassword: string;  
   decPassword:string;
+  arrayIdiomas: any = [];
+  arrayHerramientas: any = [];
+  arrayCapacitar: any = [];
+  fotoEmpleado: any;
+  urlFotoEmpleado: any;
+  docPerfil: any;
+  urlDocPerfil: string = '';
+  arrayPerfil: any = [];
+  arrayEstudios: any = [];
+  urlCertificados: string = '';
+  docCertificados: any;
+  disable: boolean = false;
+  contrato: File;
+  urlContrato: any;
+  // ObjResponsable: any[] = [];
 
  
     constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -70,6 +85,56 @@
       this.obtenerCeco();
       
     }
+
+    private registrarControles() {
+      this.editarEmpleadoForm = this.fB.group({
+        usuario: ['', Validators.required],
+        Nombre: ['', Validators.required],
+        segundoNombre: [''],
+        primerApellido: ['', Validators.required],
+        segundoApellido: [''],
+        numeroDocumento: ['', Validators.required],
+        tipoDocumento: [''],
+        fechaIngreso: ['', Validators.required],
+        fechaSalida: [''],
+        tipoContrato: [''],
+        terminoContrato: [''],
+        cargo: [''],
+        salario: [''],
+        lugarExpedicion: [''],
+        salarioTexto: [''],
+        area: [''],
+        jefe: [''],
+        jefeAdicional: [''],
+        direccion: [''],
+        celular: [''],
+        sede: [''],
+        extension: [''],
+        bono: [''],
+        bonoGasolina: [''],
+        afp: [''],
+        universidad: [''],
+        carrera: [''],
+        contactoEmergencia: [''],
+        numeroContactoEmergencia: [''],
+        grupoSanguineo: [''],
+        ceco: [''],
+        funciones:[''],
+        activo:[''],
+        idioma: [''],
+        porcentajeIdioma: [''],
+        herramienta: [''],
+        porcentajeHerramienta: [''],
+        estudios: [''],
+        perfil: [''],
+        perfilDoc: [''],
+        estudiosDoc: [''],
+        gustos: [''],
+        capacitar: [''],
+        fechaNacimiento: [null],
+        campoContrato: ['']
+      });
+    };
 
     onSelect(event: TypeaheadMatch): void {
       this.selectedOption = event.item;
@@ -84,7 +149,7 @@
         }
       )
     }
-  
+
     private DataSourceCecos() {
       this.ceco.forEach(centroCostos => {
         this.dataCeco.push({ value: centroCostos.nombre, centro: centroCostos.ceco });
@@ -162,6 +227,109 @@
       }
       else {
         this.adjuntarAfiliaciones = null;
+      };
+    };
+
+    agregarIdiomas() {
+      if(this.editarEmpleadoForm.controls['idioma'].value === '' || this.editarEmpleadoForm.controls['porcentajeIdioma'].value === '') {
+        this.MensajeAdvertencia('Debe especificar el idioma y el porcentaje de dominio');
+        return false;
+      }
+      else {
+        this.arrayIdiomas.push({idioma: this.editarEmpleadoForm.controls['idioma'].value, porcentaje: this.editarEmpleadoForm.controls['porcentajeIdioma'].value});
+        this.editarEmpleadoForm.controls['idioma'].setValue('');
+        this.editarEmpleadoForm.controls['porcentajeIdioma'].setValue('');
+        console.log(JSON.stringify(this.arrayIdiomas));
+      }
+    };
+  
+    agregarHerramientas() {
+      if(this.editarEmpleadoForm.controls['herramienta'].value === '' || this.editarEmpleadoForm.controls['porcentajeHerramienta'].value === '') {
+        this.MensajeAdvertencia('Debe especificar la herramienta ofimática y el porcentaje de dominio');
+        return false;
+      }
+      else {
+        this.arrayHerramientas.push({herramienta: this.editarEmpleadoForm.controls['herramienta'].value, porcentaje: this.editarEmpleadoForm.controls['porcentajeHerramienta'].value});
+        this.editarEmpleadoForm.controls['herramienta'].setValue('');
+        this.editarEmpleadoForm.controls['porcentajeHerramienta'].setValue('');
+        console.log(JSON.stringify(this.arrayHerramientas));
+      }
+    };
+  
+    borrar(element, index) {
+      element.splice(index, 1)
+    };
+  
+    adjuntarFoto($event) {
+      let foto = $event.target.files[0];
+      console.log(foto);
+      if(foto !== null) {
+        this.fotoEmpleado = foto;
+        this.agragarFoto();
+      }
+      else {
+        this.fotoEmpleado = null;
+      }
+    };
+
+    adjuntarContrato($event) {
+      let contrato = $event.target.files[0];
+      let extension = $event.target.files[0].type;
+      if(extension !== 'application/pdf') {
+        this.MensajeAdvertencia('El contrato debe ser de tipo .pdf');
+        this.editarEmpleadoForm.controls['campoContrato'].setValue('');
+        return false;
+      }
+      else if(contrato !== null && extension === 'application/pdf') {
+        this.contrato = contrato;
+        this.agregarContrato();
+      };
+    };
+  
+   async cargarDocPerfil($event) {
+      let documento = $event.target.files[0];
+      if(documento !== null) {
+        this.docPerfil = documento;
+        await this.agregarDocPerfil();
+      }
+    };
+  
+    async cargarDocCertificado($event) {
+      let documento = $event.target.files[0];
+      this.docCertificados = documento;
+      await this.agregarDocCertificado();
+    }
+  
+    cargarDocTablaPerfil() {
+      this.arrayPerfil.push({rol: this.editarEmpleadoForm.controls['perfil'].value, urlDocumento: this.urlDocPerfil});
+      console.log(JSON.stringify(this.arrayPerfil));
+    };
+  
+    corregir() {
+      this.arrayPerfil = [];
+      this.editarEmpleadoForm.controls['perfilDoc'].setValue('');
+      this.urlDocPerfil = '';
+      this.editarEmpleadoForm.controls['perfil'].setValue('');
+      this.disable = false;
+    }
+  
+    cargarDocTablaEstudios() {
+      this.arrayEstudios.push({estudio: this.editarEmpleadoForm.controls['estudios'].value, urlCertificados: this.urlCertificados});
+      this.editarEmpleadoForm.controls['estudiosDoc'].setValue('');
+      this.urlCertificados = '';
+      this.editarEmpleadoForm.controls['estudios'].setValue('');
+      console.log(JSON.stringify(this.arrayEstudios))
+    };
+  
+    cargarTablaCapacitar() {
+      if(this.editarEmpleadoForm.controls['capacitar'].value === '') {
+        this.MensajeAdvertencia('Debe agregar un topic en el que pueda capacitar');
+        return false;
+      }
+      else {
+        this.arrayCapacitar.push({ puedeCapacitar: this.editarEmpleadoForm.controls['capacitar'].value });
+        this.editarEmpleadoForm.controls['capacitar'].setValue('');
+        console.log(JSON.stringify(this.arrayCapacitar));
       };
     };
 
@@ -328,6 +496,54 @@
         }
       );
     }
+
+    async agragarFoto() {
+      //  let nombre = this.empleadoEditar[0].nombreCompleto;
+        this.servicio.AgregarFoto(this.fotoEmpleado.name, this.fotoEmpleado).then(
+          f => {
+            f.file.getItem().then(item => {
+              this.urlFotoEmpleado = f.data.ServerRelativeUrl
+            })
+          }
+        )
+      };
+
+      async agregarContrato() {
+        this.servicio.AgregarContrato(this.contrato.name, this.contrato).then(
+          f=> {
+            f.file.getItem().then(item => {
+              this.urlContrato = f.data.ServerRelativeUrl;
+              console.log(this.urlContrato);
+            })
+          }
+        )
+      }
+
+      async agregarDocPerfil() {
+        await this.servicio.AgregarDocPerfil(this.docPerfil.name, this.docPerfil).then(
+          f => {
+            f.file.getItem().then(item => {
+              this.urlDocPerfil = f.data.ServerRelativeUrl;
+              this.disable = true;
+              this.editarEmpleadoForm.controls['perfilDoc'].disable;
+            })
+          }
+        )
+        setTimeout(()=> {
+          this.cargarDocTablaPerfil();
+        }, 2000)
+      };
+
+      async agregarDocCertificado() {
+        await this.servicio.AgregarEstudios(this.docCertificados.name, this.docCertificados).then(
+          f => {
+            f.file.getItem().then(item => {
+              this.urlCertificados = f.data.ServerRelativeUrl
+            })
+          }
+        )
+      }
+    
   
     actualizarMetadatosHV(obj, idDocumento) {
       this.servicio.ActualizarMetaDatosHV(obj, idDocumento).then(
@@ -453,10 +669,23 @@
       }
     }
 
+    // SeleccionarUsuariosResp(Obj: Usuario){
+    //   this.ObjResponsable.push(Obj); 
+    //   // this.cantidadResp = this.ObjResponsable.length;
+    //   // this.editarEmpleadoForm.controls["jefe"].setValue("");
+    //   // this.editarEmpleadoForm.controls["jefe"].updateValueAndValidity();
+    // }
+
+    // EliminarResp(item){
+    //   let index = this.ObjResponsable.findIndex((x)=> x.value === item.value);
+    //   this.ObjResponsable.splice(index,1);
+    // }
+
     SeleccionarId(event) {
      this.idEmpleadoSeleccionado = event.target.value;
       this.servicio.obtenerInfoEmpleadoSeleccionado(this.idEmpleadoSeleccionado).subscribe(
         (respuesta) => {
+          console.log(respuesta);
           if(respuesta.length === 0) {
             this.MensajeAdvertencia('Este usuario aún no tiene un perfil creado. Debe crear el perfil antes de poder editar');
             this.limpiarCampos();
@@ -466,6 +695,8 @@
           }
           else {
             this.empleadoEditar = Empleado.fromJsonList(respuesta);
+            this.arrayCapacitar = [];
+            this.arrayEstudios = [];
             this.valoresPorDefecto();
             this.obtenerDocumentos();
           }
@@ -505,6 +736,7 @@
       this.decPassword = '12ab'
       let fechaIngreso;
       let fechaSalida;
+      let fechaCumpleanios;
       let salarioDecrypt;
       let salarioTextoDecrypt;
       let salarioIntegralDecrypt;
@@ -520,7 +752,29 @@
 
       fechaIngreso = this.empleadoEditar[0].fechaIngreso !== null? new Date(this.empleadoEditar[0].fechaIngreso): "";
       fechaSalida = this.empleadoEditar[0].fechaSalida !== null? new Date(this.empleadoEditar[0].fechaSalida): "";
+      fechaCumpleanios = this.empleadoEditar[0].fechaNacimiento !== null ? new Date(this.empleadoEditar[0].fechaNacimiento): "";
 
+      let estudios = JSON.parse(this.empleadoEditar[0].estudiosRealizados);
+      let capacitar = JSON.parse(this.empleadoEditar[0].capacitar);
+      let perfil; 
+      JSON.parse(this.empleadoEditar[0].perfilRol) !== '' ? perfil = JSON.parse(this.empleadoEditar[0].perfilRol) : perfil = [];
+      console.log(perfil);
+      if((perfil !== null) && perfil.length > 0) {
+        this.editarEmpleadoForm.controls['perfil'].setValue(perfil[0].rol);
+      }
+      else {
+        this.editarEmpleadoForm.controls['perfil'].setValue('');
+      }
+      if(estudios !== null) {
+        estudios.map((x) => {
+          this.arrayEstudios.push(x);
+        });
+      }
+      if(capacitar !== null) {
+        capacitar.map((x) => {
+          this.arrayCapacitar.push(x);
+        });
+      }
       this.editarEmpleadoForm.controls['Nombre'].setValue(this.empleadoEditar[0].primerNombre);
       this.editarEmpleadoForm.controls['segundoNombre'].setValue(this.empleadoEditar[0].segundoNombre);
       this.editarEmpleadoForm.controls['primerApellido'].setValue(this.empleadoEditar[0].primerApellido);
@@ -529,6 +783,7 @@
       this.editarEmpleadoForm.controls['tipoDocumento'].setValue(this.empleadoEditar[0].tipoDocumento);
       this.editarEmpleadoForm.controls['fechaIngreso'].setValue(fechaIngreso);
       this.editarEmpleadoForm.controls['fechaSalida'].setValue(fechaSalida);
+      this.editarEmpleadoForm.controls['fechaNacimiento'].setValue(fechaCumpleanios);
       this.editarEmpleadoForm.controls['tipoContrato'].setValue(this.empleadoEditar[0].tipoContrato);
       this.editarEmpleadoForm.controls['terminoContrato'].setValue(this.empleadoEditar[0].terminoContrato);
       this.editarEmpleadoForm.controls['cargo'].setValue(this.empleadoEditar[0].cargo);
@@ -539,6 +794,7 @@
       this.editarEmpleadoForm.controls['salarioTexto'].setValue(salarioTextoDecrypt);
       this.editarEmpleadoForm.controls['area'].setValue(this.empleadoEditar[0].area);
       this.editarEmpleadoForm.controls['jefe'].setValue(this.empleadoEditar[0].jefe);
+      this.editarEmpleadoForm.controls['jefeAdicional'].setValue(this.empleadoEditar[0].jefeAdicional);
       this.editarEmpleadoForm.controls['direccion'].setValue(this.empleadoEditar[0].direccion);
       this.editarEmpleadoForm.controls['celular'].setValue(this.empleadoEditar[0].celular);
       this.editarEmpleadoForm.controls['sede'].setValue(this.empleadoEditar[0].sede);
@@ -554,6 +810,9 @@
       this.editarEmpleadoForm.controls['ceco'].setValue(this.empleadoEditar[0].numeroCeco);
       this.empleadoEditar[0].funciones !== null ? this.editarEmpleadoForm.controls['funciones'].setValue(this.empleadoEditar[0].funciones.replace(/;/g, "\n")) : this.editarEmpleadoForm.controls['funciones'].setValue('');
       this.empleadoEditar[0].activo === true ? this.editarEmpleadoForm.controls['activo'].setValue('true') : this.editarEmpleadoForm.controls['activo'].setValue('false')
+      this.editarEmpleadoForm.controls['gustos'].setValue(this.empleadoEditar[0].gustos);
+      this.urlContrato = this.empleadoEditar[0].contrato;
+
       // this.editarEmpleadoForm.controls['activo'].setValue(this.empleadoEditar[0].activo);
     }
 
@@ -574,6 +833,7 @@
       this.editarEmpleadoForm.controls['salarioTexto'].setValue("");
       this.editarEmpleadoForm.controls['area'].setValue("");
       this.editarEmpleadoForm.controls['jefe'].setValue("");
+      this.editarEmpleadoForm.controls['jefeAdicional'].setValue("");
       this.editarEmpleadoForm.controls['direccion'].setValue("");
       this.editarEmpleadoForm.controls['celular'].setValue("");
       this.editarEmpleadoForm.controls['sede'].setValue("");
@@ -589,44 +849,9 @@
       this.editarEmpleadoForm.controls['ceco'].setValue("");
       this.editarEmpleadoForm.controls['funciones'].setValue("");
       this.editarEmpleadoForm.controls['activo'].setValue("");
+      this.editarEmpleadoForm.controls['gustos'].setValue("");
+      this.editarEmpleadoForm.controls['perfil'].setValue('');
     }
-
-    private registrarControles() {
-      this.editarEmpleadoForm = this.fB.group({
-        usuario: ['', Validators.required],
-        Nombre: ['', Validators.required],
-        segundoNombre: [''],
-        primerApellido: ['', Validators.required],
-        segundoApellido: [''],
-        numeroDocumento: ['', Validators.required],
-        tipoDocumento: [''],
-        fechaIngreso: ['', Validators.required],
-        fechaSalida: [''],
-        tipoContrato: [''],
-        terminoContrato: [''],
-        cargo: [''],
-        salario: [''],
-        lugarExpedicion: [''],
-        salarioTexto: [''],
-        area: [''],
-        jefe: [''],
-        direccion: [''],
-        celular: [''],
-        sede: [''],
-        extension: [''],
-        bono: [''],
-        bonoGasolina: [''],
-        afp: [''],
-        universidad: [''],
-        carrera: [''],
-        contactoEmergencia: [''],
-        numeroContactoEmergencia: [''],
-        grupoSanguineo: [''],
-        ceco: [''],
-        funciones:[''],
-        activo:['']
-      });
-    };
 
     obtenerUsuarios() {
       this.servicio.ObtenerTodosLosUsuarios().subscribe(
@@ -802,6 +1027,13 @@
       let salarioTexto = this.editarEmpleadoForm.get('salarioTexto').value;
       let area = this.editarEmpleadoForm.get('area').value;
       let jefe = this.editarEmpleadoForm.get('jefe').value;
+      let jefeAdicional; 
+      if(this.editarEmpleadoForm.get('jefeAdicional').value !== undefined && this.editarEmpleadoForm.get('jefeAdicional').value !== 'null') {
+        jefeAdicional = this.editarEmpleadoForm.get('jefeAdicional').value
+      }
+      else {
+        jefeAdicional = null
+      }
       let direccion = this.editarEmpleadoForm.get('direccion').value;
       let celular = this.editarEmpleadoForm.get('celular').value;
       let sede = this.editarEmpleadoForm.get('sede').value;
@@ -831,7 +1063,22 @@
       let numeroCeco
       let funcionesAll = this.editarEmpleadoForm.get('funciones').value;
       let funciones = funcionesAll.replace(/\n/g, ";");
-      let activo = this.editarEmpleadoForm.get('activo').value;
+      let activo; 
+      this.editarEmpleadoForm.get('activo').value === '' ? activo = false : activo = true;
+      let jefes = [];
+      // let herramientas = JSON.stringify(this.arrayHerramientas);
+      // let idiomas = JSON.stringify(this.arrayIdiomas);
+      let estudios = JSON.stringify(this.arrayEstudios);
+      let perfil = JSON.stringify(this.arrayPerfil);
+      let gustos = this.editarEmpleadoForm.controls['gustos'].value;
+      let capacitar = JSON.stringify(this.arrayCapacitar);
+      let contrato = this.urlContrato;
+      let fechaNacimiento = this.editarEmpleadoForm.controls['fechaNacimiento'].value;
+
+      // this.ObjResponsable.map((x)=> {
+      //   jefes.push(x.value);
+      // })
+
       let salarioIntegralEncrypt;
       if (this.actualizarCeco === true) {
         nombreCeco = this.selectedOption.value;
@@ -868,6 +1115,8 @@
         salarioTexto: salarioTextoEncrypt,
         Area: area,
         JefeId: jefe,
+        SegundoJefeId: jefeAdicional,
+        // JefeId: {results: jefes},
         Direccion: direccion,
         Celular: celular,
         Sede: sede,
@@ -886,7 +1135,15 @@
         NombreCECO: nombreCeco,
         NumeroCECO: numeroCeco,
         Funciones: funciones,
-        Activo: activo
+        Activo: activo,FotoEmpleado: this.urlFotoEmpleado,
+        EstudiosRealizados: estudios,
+        // Idiomas: idiomas,
+        GustosIntereses: gustos,
+        // HerramientasOfimaticas: herramientas,
+        PuedeCapacitar: capacitar,
+        PerfilRol: perfil,
+        UrlContrato: contrato,
+        FechaNacimiento: fechaNacimiento
       }
       if (this.editarEmpleadoForm.invalid) {
         this.MensajeAdvertencia('hay campos vacíos')

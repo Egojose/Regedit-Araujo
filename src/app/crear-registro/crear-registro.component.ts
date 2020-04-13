@@ -15,6 +15,7 @@ import * as CryptoJS from 'crypto-js';
 
 
 
+
 @Component({
   selector: 'app-crear-registro',
   templateUrl: './crear-registro.component.html',
@@ -57,6 +58,22 @@ export class CrearRegistroComponent implements OnInit {
   conversionDecryptOutput1: string; 
   encriptarSalarioIntegral: string;
   decriptarSalarioIntegral: string; 
+  unidadNegocios: any;
+  arrayIdiomas: any = [];
+  arrayHerramientas: any = [];
+  arrayCapacitar: any = [];
+  fotoEmpleado: any;
+  urlFotoEmpleado: any;
+  docPerfil: any;
+  urlDocPerfil: string = '';
+  arrayPerfil: any = [];
+  arrayEstudios: any = [];
+  urlCertificados: string = '';
+  docCertificados: any;
+  disable: boolean = false;
+  contrato: File;
+  urlContrato: any;
+  // ObjResponsable: any[] = [];
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
 
@@ -87,6 +104,7 @@ export class CrearRegistroComponent implements OnInit {
       salarioTexto: [''],
       area: [''],
       jefe: [''],
+      jefeAdicional: [''],
       direccion: [''],
       celular: [''],
       sede: [''],
@@ -99,7 +117,21 @@ export class CrearRegistroComponent implements OnInit {
       contactoEmergencia: [''],
       numeroContactoEmergencia: [''],
       grupoSanguineo: [''],
-      ceco: ['']
+      ceco: [''],
+      unidadNegocio:[''],
+      idioma: [''],
+      porcentajeIdioma: [''],
+      herramienta: [''],
+      porcentajeHerramienta: [''],
+      estudios: [''],
+      perfil: [''],
+      perfilDoc: [''],
+      estudiosDoc: [''],
+      gustos: [''],
+      capacitar: [''],
+      fechaNacimiento: [''],
+      campoContrato: ['']
+
     });
     this.emptyManager = true;
   };
@@ -153,12 +185,28 @@ export class CrearRegistroComponent implements OnInit {
         this.verificarPermisos();
         this.obtenerSede();
         this.obtenerCargo();
+        this.obtenerUnidadNegocio();
       }, err => {
         console.log('Error obteniendo grupos de usuario: ' + err);
       }
     )
   };
 
+  obtenerUnidadNegocio() {
+    this.servicio.obtenerUnidadNegocio().then(
+      (respuesta) => {
+        this.unidadNegocios = respuesta;
+        console.log(respuesta);
+      }
+    ),error => {
+      console.log(error)
+    }
+  }
+
+  changeUnidad($event) {
+    console.log($event);
+    console.log(this.empleadoForm.get('unidadNegocio').value);
+  }
   
   encriptar() {
       this.salarioAEncriptar = `${this.empleadoForm.get('salario').value}`;
@@ -194,6 +242,7 @@ export class CrearRegistroComponent implements OnInit {
     this.servicio.obtenerInfoEmpleadoSeleccionado(idUsuario).subscribe(
       (respuesta) => {
         this.empleadoEditar = Empleado.fromJsonList(respuesta);
+        console.log()
         if(respuesta.length > 0) {
           this.tienePerfil = true;
           this.MensajeAdvertencia('Este usuario ya tiene un perfil creado. Si necesita cambiar algo debe hacerlo por el módulo de editar perfil')
@@ -201,7 +250,38 @@ export class CrearRegistroComponent implements OnInit {
         }
       }
     )
-  }
+  };
+
+  agregarIdiomas() {
+    if(this.empleadoForm.controls['idioma'].value === '' || this.empleadoForm.controls['porcentajeIdioma'].value === '') {
+      this.MensajeAdvertencia('Debe especificar el idioma y el porcentaje de dominio');
+      return false;
+    }
+    else {
+      this.arrayIdiomas.push({idioma: this.empleadoForm.controls['idioma'].value, porcentaje: this.empleadoForm.controls['porcentajeIdioma'].value});
+      this.empleadoForm.controls['idioma'].setValue('');
+      this.empleadoForm.controls['porcentajeIdioma'].setValue('');
+      console.log(JSON.stringify(this.arrayIdiomas));
+    }
+  };
+
+  agregarHerramientas() {
+    if(this.empleadoForm.controls['herramienta'].value === '' || this.empleadoForm.controls['porcentajeHerramienta'].value === '') {
+      this.MensajeAdvertencia('Debe especificar la herramienta ofimática y el porcentaje de dominio');
+      return false;
+    }
+    else {
+      this.arrayHerramientas.push({herramienta: this.empleadoForm.controls['herramienta'].value, porcentaje: this.empleadoForm.controls['porcentajeHerramienta'].value});
+      this.empleadoForm.controls['herramienta'].setValue('');
+      this.empleadoForm.controls['porcentajeHerramienta'].setValue('');
+      console.log(JSON.stringify(this.arrayHerramientas));
+    }
+  };
+
+  borrar(element, index) {
+    element.splice(index, 1)
+  };
+
 
   adjuntarHojaDeVida(event) {
     let AdjuntoHojaVida = event.target.files[0];
@@ -210,6 +290,79 @@ export class CrearRegistroComponent implements OnInit {
       this.agregarHV();
     } else {
       this.adjuntoHV = null;
+    };
+  };
+
+  adjuntarFoto($event) {
+    let foto = $event.target.files[0];
+    console.log(foto);
+    if(foto !== null) {
+      this.fotoEmpleado = foto;
+      this.agragarFoto();
+    }
+    else {
+      this.fotoEmpleado = null;
+    }
+  };
+
+  adjuntarContrato($event) {
+    let contrato = $event.target.files[0];
+    let extension = $event.target.files[0].type;
+    if(extension !== 'application/pdf') {
+      this.MensajeAdvertencia('El contrato debe ser de tipo .pdf');
+      this.empleadoForm.controls['campoContrato'].setValue('');
+      return false;
+    }
+    else if(contrato !== null && extension === 'application/pdf') {
+      this.contrato = contrato;
+      this.agregarContrato();
+    };
+  };
+
+ async cargarDocPerfil($event) {
+    let documento = $event.target.files[0];
+    if(documento !== null) {
+      this.docPerfil = documento;
+      await this.agregarDocPerfil();
+    }
+  };
+
+  async cargarDocCertificado($event) {
+    let documento = $event.target.files[0];
+    this.docCertificados = documento;
+    await this.agregarDocCertificado();
+  }
+
+  cargarDocTablaPerfil() {
+    this.arrayPerfil.push({rol: this.empleadoForm.controls['perfil'].value, urlDocumento: this.urlDocPerfil});
+    console.log(JSON.stringify(this.arrayPerfil));
+  };
+
+  corregir() {
+    this.arrayPerfil = [];
+    this.empleadoForm.controls['perfilDoc'].setValue('');
+    this.urlDocPerfil = '';
+    this.empleadoForm.controls['perfil'].setValue('');
+    this.disable = false;
+  }
+
+  cargarDocTablaEstudios() {
+    this.arrayEstudios.push({estudio: this.empleadoForm.controls['estudios'].value, urlCertificados: this.urlCertificados});
+    this.empleadoForm.controls['estudiosDoc'].setValue('');
+    this.urlCertificados = '';
+    this.empleadoForm.controls['estudios'].setValue('');
+    console.log(JSON.stringify(this.arrayEstudios))
+  };
+
+  cargarTablaCapacitar() {
+    if(this.empleadoForm.controls['capacitar'].value === '') {
+      this.MensajeAdvertencia('Debe agregar un topic en el que pueda capacitar');
+      return false;
+    }
+    else {
+      this.arrayCapacitar.push({ puedeCapacitar: this.empleadoForm.controls['capacitar'].value });
+      this.empleadoForm.controls['capacitar'].setValue('');
+      console.log(JSON.stringify(this.arrayCapacitar));
     };
   };
 
@@ -251,6 +404,13 @@ export class CrearRegistroComponent implements OnInit {
       this.emptyManager = true;
     }
   }
+
+  // SeleccionarUsuariosResp(Obj: Usuario){
+  //   this.ObjResponsable.push(Obj); 
+  //   // this.cantidadResp = this.ObjResponsable.length;
+  //   // this.CrearPropuestaForm.controls["Asesor"].setValue("");
+  //   // this.CrearPropuestaForm.controls["Asesor"].updateValueAndValidity();
+  // }
 
   private DataSourceUsuarios() {
     this.usuarios.forEach(usuario => {
@@ -303,6 +463,11 @@ export class CrearRegistroComponent implements OnInit {
       this.counter++;
     }
 
+    if(this.empleadoForm.get('unidadNegocio').value === '') {
+      this.MensajeAdvertencia('Por favor diligencie el campo Unidad de negocio');
+      this.counter++;
+    }
+
     if (this.counter > 0) {
       this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
       return false;
@@ -326,6 +491,7 @@ export class CrearRegistroComponent implements OnInit {
     this.empleadoForm.controls['salarioTexto'].setValue("");
     this.empleadoForm.controls['area'].setValue("");
     this.empleadoForm.controls['jefe'].setValue("");
+    this.empleadoForm.controls['jefeAdicional'].setValue("");
     this.empleadoForm.controls['direccion'].setValue("");
     this.empleadoForm.controls['celular'].setValue("");
     this.empleadoForm.controls['sede'].setValue("");
@@ -368,6 +534,13 @@ export class CrearRegistroComponent implements OnInit {
     let salarioTexto = this.empleadoForm.get('salarioTexto').value;
     let area = this.empleadoForm.get('area').value;
     let jefe = this.empleadoForm.get('jefe').value;
+    let jefeAdicional;
+    if( this.empleadoForm.get('jefeAdicional').value !== '' &&  this.empleadoForm.get('jefeAdicional').value !== 'null') {
+      jefeAdicional = this.empleadoForm.get('jefeAdicional').value;
+    }
+    else {
+      jefeAdicional = null;
+    }
     let direccion = this.empleadoForm.get('direccion').value;
     let celular = this.empleadoForm.get('celular').value;
     let sede = this.empleadoForm.get('sede').value;
@@ -394,8 +567,29 @@ export class CrearRegistroComponent implements OnInit {
     let afpString = `${afp}`;
     let bonoGasolinaString = `${bonoGasolina}`;
     let nombreCeco;
-    let numeroCeco
-    
+    let numeroCeco;
+    let unidadNegocio = this.empleadoForm.get('unidadNegocio').value;
+    // let objUrlFoto = {
+    //   UrlField: {
+    //     "__metadata": { "type": "SP.FieldUrlValue" },
+    //     "Description": "foto de perfil",
+    //     "Url": this.urlFotoEmpleado
+    //    }
+    // };
+    // let herramientas = JSON.stringify(this.arrayHerramientas);
+    // let idiomas = JSON.stringify(this.arrayIdiomas);
+    let estudios = JSON.stringify(this.arrayEstudios);
+    let perfil = JSON.stringify(this.arrayPerfil);
+    let gustos = this.empleadoForm.controls['gustos'].value;
+    let capacitar = JSON.stringify(this.arrayCapacitar);
+    let contrato = this.urlContrato;
+    let fechaNacimiento = this.empleadoForm.controls['fechaNacimiento'].value;
+
+    let jefes = [];
+
+    // this.ObjResponsable.map((x)=> {
+    //   jefes.push(x.value);
+    // })
 
     if(this.guardarCeco === true) {
       nombreCeco = this.selectedOption.value;
@@ -443,6 +637,7 @@ export class CrearRegistroComponent implements OnInit {
       salarioTexto: salarioTextoCript,
       Area: area,
       JefeId: jefe,
+      SegundoJefeId: jefeAdicional,
       Direccion: direccion,
       Celular: celular,
       Sede: sede,
@@ -459,7 +654,18 @@ export class CrearRegistroComponent implements OnInit {
       GrupoSanguineo: grupoSanguineo,
       IdUsuario: usuario,
       NombreCECO: nombreCeco,
-      NumeroCECO: numeroCeco
+      NumeroCECO: numeroCeco,
+      UnidadNegocio: unidadNegocio,
+      Activo: true,
+      FotoEmpleado: this.urlFotoEmpleado,
+      EstudiosRealizados: estudios,
+      // Idiomas: idiomas,
+      GustosIntereses: gustos,
+      // HerramientasOfimaticas: herramientas,
+      PuedeCapacitar: capacitar,
+      PerfilRol: perfil,
+      UrlContrato: contrato,
+      FechaNacimiento: fechaNacimiento
     }
 
     objHojaDeVida = {
@@ -528,6 +734,53 @@ export class CrearRegistroComponent implements OnInit {
       }
     );
   };
+
+ async agragarFoto() {
+  //  let nombre = this.empleadoEditar[0].nombreCompleto;
+    this.servicio.AgregarFoto(this.fotoEmpleado.name, this.fotoEmpleado).then(
+      f => {
+        f.file.getItem().then(item => {
+          this.urlFotoEmpleado = f.data.ServerRelativeUrl
+        })
+      }
+    )
+  };
+
+  async agregarContrato() {
+    this.servicio.AgregarContrato(this.contrato.name, this.contrato).then(
+      f=> {
+        f.file.getItem().then(item => {
+          this.urlContrato = f.data.ServerRelativeUrl;
+          console.log(this.urlContrato);
+        })
+      }
+    )
+  }
+
+  async agregarDocPerfil() {
+    await this.servicio.AgregarDocPerfil(this.docPerfil.name, this.docPerfil).then(
+      f => {
+        f.file.getItem().then(item => {
+          this.urlDocPerfil = f.data.ServerRelativeUrl;
+          this.disable = true;
+          this.empleadoForm.controls['perfilDoc'].disable;
+        })
+      }
+    )
+    setTimeout(()=> {
+      this.cargarDocTablaPerfil();
+    }, 2000)
+  };
+
+  async agregarDocCertificado() {
+    await this.servicio.AgregarEstudios(this.docCertificados.name, this.docCertificados).then(
+      f => {
+        f.file.getItem().then(item => {
+          this.urlCertificados = f.data.ServerRelativeUrl
+        })
+      }
+    )
+  }
 
   async agregarCertificados() {
     let obj = {

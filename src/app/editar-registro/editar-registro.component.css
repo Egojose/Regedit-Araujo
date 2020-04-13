@@ -64,6 +64,17 @@ form.archivos {
     color: white;
 }
 
+#jefe {
+    margin-top: 20px;
+    width: 300px;
+    /* background: white;  */
+  }
+
+  .boton {
+    padding-top: 31px;
+  }
+
+
 mat-radio-button {
     margin-right: 10px;
 }
