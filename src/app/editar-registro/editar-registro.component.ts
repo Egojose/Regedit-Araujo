@@ -131,7 +131,7 @@
         estudiosDoc: [''],
         gustos: [''],
         capacitar: [''],
-        fechaNacimiento: [null],
+        fechaNacimiento: ['', Validators.required],
         campoContrato: ['']
       });
     };
@@ -976,6 +976,11 @@
 
       if(this.editarEmpleadoForm.get('fechaIngreso').value === "") {
         this.MensajeAdvertencia('El campo Fecha de ingreso es requerido');
+        this.counter++;
+      }
+
+      if(this.editarEmpleadoForm.get('fechaNacimiento').value === "") {
+        this.MensajeAdvertencia('El campo Fecha de nacimiento es requerido');
         this.counter++;
       }
   
