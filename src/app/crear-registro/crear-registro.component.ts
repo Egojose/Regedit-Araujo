@@ -129,7 +129,7 @@ export class CrearRegistroComponent implements OnInit {
       estudiosDoc: [''],
       gustos: [''],
       capacitar: [''],
-      fechaNacimiento: [''],
+      fechaNacimiento: ['', Validators.required],
       campoContrato: ['']
 
     });
@@ -465,6 +465,11 @@ export class CrearRegistroComponent implements OnInit {
 
     if(this.empleadoForm.get('unidadNegocio').value === '') {
       this.MensajeAdvertencia('Por favor diligencie el campo Unidad de negocio');
+      this.counter++;
+    }
+
+    if(this.empleadoForm.get('fechaNacimiento').value === '') {
+      this.MensajeAdvertencia('Por favor diligencie el campo Fecha de nacimiento');
       this.counter++;
     }
 
