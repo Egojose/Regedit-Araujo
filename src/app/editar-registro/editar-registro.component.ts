@@ -131,7 +131,7 @@
         estudiosDoc: [''],
         gustos: [''],
         capacitar: [''],
-        fechaNacimiento: [null],
+        fechaNacimiento: ['', Validators.required],
         campoContrato: ['']
       });
     };
@@ -1004,9 +1004,9 @@
 
     onSubmit() {
       this.validarVacios();
-      if (!this.validarVacios()) {
-        return false;
-      }
+      // if (!this.validarVacios()) {
+      //   return false;
+      // }
       let idUsuarioSeleccionado = this.empleadoEditar[0].id;
       console.log(idUsuarioSeleccionado);
       let usuario = this.editarEmpleadoForm.get('usuario').value;

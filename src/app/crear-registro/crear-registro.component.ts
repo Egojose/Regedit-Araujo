@@ -129,7 +129,7 @@ export class CrearRegistroComponent implements OnInit {
       estudiosDoc: [''],
       gustos: [''],
       capacitar: [''],
-      fechaNacimiento: [''],
+      fechaNacimiento: ['', Validators.required],
       campoContrato: ['']
 
     });
