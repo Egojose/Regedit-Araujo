@@ -1004,6 +1004,9 @@
 
     onSubmit() {
       this.validarVacios();
+      if (!this.validarVacios()) {
+        return false;
+      }
       let idUsuarioSeleccionado = this.empleadoEditar[0].id;
       console.log(idUsuarioSeleccionado);
       let usuario = this.editarEmpleadoForm.get('usuario').value;

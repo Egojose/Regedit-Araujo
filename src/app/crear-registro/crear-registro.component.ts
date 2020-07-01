@@ -468,6 +468,11 @@ export class CrearRegistroComponent implements OnInit {
       this.counter++;
     }
 
+    if(this.empleadoForm.get('fechaNacimiento').value === '') {
+      this.MensajeAdvertencia('Por favor diligencie el campo Fecha de nacimiento');
+      this.counter++;
+    }
+
     if (this.counter > 0) {
       this.MensajeAdvertencia('Por favor diligencie los campos requeridos');
       return false;
