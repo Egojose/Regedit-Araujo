@@ -41,17 +41,17 @@ export class SPServicio {
         return configuracionSharepoint;
     }
 
-    public ObtenerConfiguracionConPost() {
-        const configuracionSharepoint = pnp.sp.configure({
-            headers: {
-                "Accept": "application/json; odata=verbose",
-                'Content-Type': 'application/json;odata=verbose',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImllX3FXQ1hoWHh0MXpJRXN1NGM3YWNRVkduNCIsImtpZCI6ImllX3FXQ1hoWHh0MXpJRXN1NGM3YWNRVkduNCJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2NTg4NjQxMywibmJmIjoxNTY1ODg2NDEzLCJleHAiOjE1NjU5MTU1MTMsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.D39Wxyglgf082tNrmf17NnT_Lua8zqUXnBUNpXpxHdsnjyCFeKGOU9-61C-IL8MZwNeU3wxgKvpzaq9gpp_NtYI5TPn_-gtlzajUER7LCMgCld4H9Qio3MA2LyasSE5LLy6wNa39kEFyVBvOp8FNXFo7v9ZPPliILNHiDa6j-r_-C_jrYC-fdxKc9pMt8lX1SD11NHsTHesJcjr9_Qc08vgNUcc97xQnPGmybJICrhmUtaCev0cSuSrtgpF1wUy8nx5J0vUaG_D0FlKRmRDBmvuJlkUuF4P0CC9FRQ8SMhiwnqf03seYQaTZFYfgl2HtipPJNw-Jb7dFhIJIZZvDFg'
-            }
-        }, environment.urlWeb);
+    // public ObtenerConfiguracionConPost() {
+    //     const configuracionSharepoint = pnp.sp.configure({
+    //         headers: {
+    //             "Accept": "application/json; odata=verbose",
+    //             'Content-Type': 'application/json;odata=verbose',
+    //             'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImllX3FXQ1hoWHh0MXpJRXN1NGM3YWNRVkduNCIsImtpZCI6ImllX3FXQ1hoWHh0MXpJRXN1NGM3YWNRVkduNCJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYXJpYmFzYXMuc2hhcmVwb2ludC5jb21AM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwiaXNzIjoiMDAwMDAwMDEtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDAwQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsImlhdCI6MTU2NTg4NjQxMywibmJmIjoxNTY1ODg2NDEzLCJleHAiOjE1NjU5MTU1MTMsImlkZW50aXR5cHJvdmlkZXIiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAM2FjZDI5NDUtNDdlOC00YTVjLTljNjgtMjkzOTY5MTA5ZTRkIiwibmFtZWlkIjoiNDc1OWI1NjctMTk0ZC00MTlhLWE2MTctMmE4NzgzY2NjMmQxQDNhY2QyOTQ1LTQ3ZTgtNGE1Yy05YzY4LTI5Mzk2OTEwOWU0ZCIsIm9pZCI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInN1YiI6ImJkN2YxM2MzLTEwMTQtNGY4ZC05ZTA4LWNmODJjNjFiY2Q0ZSIsInRydXN0ZWRmb3JkZWxlZ2F0aW9uIjoiZmFsc2UifQ.D39Wxyglgf082tNrmf17NnT_Lua8zqUXnBUNpXpxHdsnjyCFeKGOU9-61C-IL8MZwNeU3wxgKvpzaq9gpp_NtYI5TPn_-gtlzajUER7LCMgCld4H9Qio3MA2LyasSE5LLy6wNa39kEFyVBvOp8FNXFo7v9ZPPliILNHiDa6j-r_-C_jrYC-fdxKc9pMt8lX1SD11NHsTHesJcjr9_Qc08vgNUcc97xQnPGmybJICrhmUtaCev0cSuSrtgpF1wUy8nx5J0vUaG_D0FlKRmRDBmvuJlkUuF4P0CC9FRQ8SMhiwnqf03seYQaTZFYfgl2HtipPJNw-Jb7dFhIJIZZvDFg'
+    //         }
+    //     }, environment.urlWeb);
 
-        return configuracionSharepoint;
-    }
+    //     return configuracionSharepoint;
+    // }
 
     public ObtenerConfiguracionConPost2() {
         const configuracionSharepoint = pnp.sp.configure({
@@ -180,22 +180,22 @@ export class SPServicio {
     }
 
     async AgregarFoto(nombre, archivo: File): Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('FotoEmpleado').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('FotoEmpleado').files.add(nombre, archivo);
         return respuesta;
     };
 
     async AgregarContrato(nombre, archivo: File) : Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('Contratos').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('Contratos').files.add(nombre, archivo);
         return respuesta;
     };
 
     async AgregarDocPerfil(nombre, archivo: File): Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('DocumentosPerfil').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('DocumentosPerfil').files.add(nombre, archivo);
         return respuesta;
     };
 
     async AgregarEstudios(nombre, archivo: File): Promise<any> {
-        let respuesta = await this.ObtenerConfiguracionConPost().web.getFolderByServerRelativeUrl('CertificadosEstudios').files.add(nombre, archivo);
+        let respuesta = await this.ObtenerConfiguracion().web.getFolderByServerRelativeUrl('CertificadosEstudios').files.add(nombre, archivo);
         return respuesta;
     }
     
