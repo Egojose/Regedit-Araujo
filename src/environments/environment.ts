@@ -8,7 +8,7 @@ export const environment = {
   urlWeb: 'https://enovelsoluciones.sharepoint.com/sites/IntranetAraujo/Gestion-humana',
   urlRelativa: '/sites/IntranetAraujo/Gestion-humana',
   urlWebServ: 'https://enovelsoluciones.sharepoint.com/sites/IntranetAraujo/servicios',
-  listaEmpleados: 'empleados',
+  listaEmpleados: 'EmpleadosNueva',
   listaDocumentos: 'Documentos',
   listaSede: 'Sede',
   listaArea: 'Area',
