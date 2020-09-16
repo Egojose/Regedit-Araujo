@@ -1068,8 +1068,7 @@
       let numeroCeco
       let funcionesAll = this.editarEmpleadoForm.get('funciones').value;
       let funciones = funcionesAll.replace(/\n/g, ";");
-      let activo; 
-      this.editarEmpleadoForm.get('activo').value === '' ? activo = false : activo = true;
+      let activo = this.editarEmpleadoForm.get('activo').value 
       let jefes = [];
       // let herramientas = JSON.stringify(this.arrayHerramientas);
       // let idiomas = JSON.stringify(this.arrayIdiomas);
