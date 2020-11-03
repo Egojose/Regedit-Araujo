@@ -73,6 +73,7 @@ export class CrearRegistroComponent implements OnInit {
   disable: boolean = false;
   contrato: File;
   urlContrato: any;
+  empresas = [];
   // ObjResponsable: any[] = [];
  
   constructor(private fB: FormBuilder, private servicio: SPServicio, private router: Router, public toastr: ToastrManager) { }
@@ -83,6 +84,7 @@ export class CrearRegistroComponent implements OnInit {
     this.obtenerUsuarios();
     this.ObtenerUsuarioActual();
     this.obtenerCeco();
+    this.ObtenerEmpresas();
   };
 
   private registrarControles() {
@@ -130,7 +132,8 @@ export class CrearRegistroComponent implements OnInit {
       gustos: [''],
       capacitar: [''],
       fechaNacimiento: ['', Validators.required],
-      campoContrato: ['']
+      campoContrato: [''],
+      empresa: ['', Validators.required]
 
     });
     this.emptyManager = true;
@@ -146,6 +149,15 @@ export class CrearRegistroComponent implements OnInit {
       (respuesta) => {
         this.ceco = Ceco.fromJsonList(respuesta);
         this.DataSourceCecos();
+      }
+    )
+  }
+
+  ObtenerEmpresas() {
+    this.servicio.ConsultarEmpresas().then(
+      (respuesta) => {
+        this.empresas = respuesta;
+        console.log(this.empresas)
       }
     )
   }
@@ -447,6 +459,11 @@ export class CrearRegistroComponent implements OnInit {
       this.counter++;
     }
 
+    if(this.empleadoForm.get('empresa').value === '') {
+      this.MensajeAdvertencia('El campo "Empresa" es requerido');
+      this.counter++;
+    }
+
     if (this.empleadoForm.get('primerNombre').value === "") {
       this.MensajeAdvertencia('El campo "Primer Nombre" es requerido');
       this.counter++;
@@ -574,6 +591,7 @@ export class CrearRegistroComponent implements OnInit {
     let nombreCeco;
     let numeroCeco;
     let unidadNegocio = this.empleadoForm.get('unidadNegocio').value;
+    let Empresa = this.empleadoForm.get('empresa').value;
     // let objUrlFoto = {
     //   UrlField: {
     //     "__metadata": { "type": "SP.FieldUrlValue" },
@@ -626,6 +644,7 @@ export class CrearRegistroComponent implements OnInit {
 
     objEmpleado = {
       usuarioId: usuario,
+      Empresa,
       Title: nombreEmpleado.toUpperCase(),
       PrimerNombre: primerNombre,
       SegundoNombre: segundoNombre,

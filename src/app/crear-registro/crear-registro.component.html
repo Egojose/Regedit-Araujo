@@ -10,7 +10,7 @@
         </div>
         <br>
         <div class="form-row">
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
             <label for="Usuario">Usuario<span class="req">*</span></label>
             <select id="usuario" formControlName="usuario" class="form-control" (change)="obtenerInfoEmpleado($event)">
               <option *ngFor="let usuario of dataUsuarios" [value]="usuario.value" [text]="usuario.label">
@@ -18,12 +18,22 @@
               </option>
             </select>
           </div>
-          <div class="form-group col-md-4">
+          <div class="col-md-6">
+            <label for="Usuario">Empresa<span class="req">*</span></label>
+            <select id="empresa" formControlName="empresa" class="form-control">
+              <option *ngFor="let empresa of empresas" [value]="empresa.RazonSocial" [text]="empresa.RazonSocial">
+                {{empresa.RazonSocial}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label for="Centro de costos">Centro de costos</label>
             <input formControlName="ceco" [typeahead]="dataCeco" typeaheadOptionField="value"
               (typeaheadOnSelect)="onSelect($event)" placeholder="Centro de costos" class="form-control">
           </div>
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-6">
               <label for="Unidad de negocio">Unidad de negocio</label><span class="req">*</span>
               <select class="form-control" formControlName="unidadNegocio" (change)="changeUnidad($event)">
                 <option *ngFor="let unidad of unidadNegocios" [value]="unidad.Id" [text]="unidad.Title">{{unidad.Title}}</option>
