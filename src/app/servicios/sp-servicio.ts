@@ -1,4 +1,4 @@
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { default as pnp, Web } from 'sp-pnp-js';
 import { Injectable } from "@angular/core";
 import { from } from 'rxjs'; 
@@ -261,6 +261,11 @@ export class SPServicio {
 
     borrarArchivo(IdArchivo: number){
         return this.ObtenerConfiguracionConPost().web.lists.getByTitle("DocumentosEmpleados").items.getById(IdArchivo).delete();
+    }
+
+    ConsultarEmpresas() {
+        let respuesta = this.ObtenerConfiguracionServicios().web.lists.getByTitle(environment.listaEmpresas).items.select('*').getAll();
+        return respuesta;
     }
 
 }
